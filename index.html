@@ -86,6 +86,42 @@ body {
   margin-bottom: 2rem;
   line-height: 1.6;
 }
+  
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 0.5rem;
+        }
 .cta-buttons {
   display: flex;
   gap: 1rem;
