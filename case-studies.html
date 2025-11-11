@@ -6,6 +6,9 @@
   <title>Case Studies – Athar UX/UI Design</title>
   <link rel="stylesheet" href="assets/css/style.css" />
   <style>
+    /* ==============================
+       BODY & GENERAL STYLING
+       ============================== */
     body {
       background: radial-gradient(circle at top, #0b0c1a 0%, #090a12 100%);
       color: white;
@@ -15,6 +18,9 @@
       overflow-x: hidden;
     }
 
+    /* ==============================
+       NAVIGATION BAR
+       ============================== */
     nav {
       display: flex;
       justify-content: space-between;
@@ -37,6 +43,9 @@
       color: #00ffff;
     }
 
+    /* ==============================
+       SECTION HEADER
+       ============================== */
     .section-header {
       text-align: center;
       margin: 4rem 0 2rem 0;
@@ -46,6 +55,9 @@
       color: #00ffff;
     }
 
+    /* ==============================
+       TABS
+       ============================== */
     .tabs {
       display: flex;
       justify-content: center;
@@ -71,6 +83,9 @@
       transform: translateY(-2px);
     }
 
+    /* ==============================
+       TAB CONTENT
+       ============================== */
     .tab-content {
       display: none;
       max-width: 900px;
@@ -86,21 +101,21 @@
     .tab-content.active {
       display: block;
     }
-
     .tab-content h2 {
       color: #00ffff;
       margin-top: 0;
     }
-
     .tab-content p, .tab-content li {
       color: rgba(255,255,255,0.75);
       line-height: 1.7;
     }
-
     .tab-content ul {
       padding-left: 1.2rem;
     }
 
+    /* ==============================
+       STATS GRID
+       ============================== */
     .stats-grid {
       display: flex;
       flex-wrap: wrap;
@@ -124,6 +139,9 @@
       color: rgba(255,255,255,0.7);
     }
 
+    /* ==============================
+       BACK BUTTON
+       ============================== */
     .back-button {
       display: block;
       text-align: center;
@@ -156,6 +174,9 @@
 </head>
 
 <body>
+  <!-- ==============================
+       NAVIGATION
+       ============================== -->
   <nav>
     <div class="logo"><a href="index.html">ATHAR</a></div>
     <div class="links">
@@ -163,14 +184,22 @@
       <a href="index.html#skills">Skills</a>
       <a href="index.html#timeline">Experience</a>
       <a href="index.html#contact">Contact</a>
+      <!-- NEW: Link to merged case studies page -->
+      <a href="case-studies.html">Case Studies</a>
     </div>
   </nav>
 
+  <!-- ==============================
+       PAGE HEADER
+       ============================== -->
   <section class="section-header">
     <h1>Case Studies</h1>
     <p>Exploring UX design, research, and product innovation</p>
   </section>
 
+  <!-- ==============================
+       TABS BUTTONS
+       ============================== -->
   <div class="tabs">
     <button class="tab-button active" data-tab="vinder">Vinder</button>
     <button class="tab-button" data-tab="apple">Apple</button>
@@ -178,18 +207,19 @@
     <button class="tab-button" data-tab="crm">110 Hours CRM</button>
   </div>
 
+  <!-- ==============================
+       TAB CONTENTS
+       ============================== -->
   <!-- Vinder -->
   <div id="vinder" class="tab-content active">
     <h2>Vinder – Peer-to-Peer Farmers Market</h2>
     <p>UX case study of a peer-to-peer marketplace enabling local producers to deliver fresh food directly to consumers. Complete design system including personas, journey maps, and blueprints.</p>
-
     <h3>UX Process</h3>
     <ul>
       <li>Conducted interviews with farmers and consumers to map trust and delivery pain points.</li>
       <li>Created 9 personas representing local producers, logistics partners, and customers.</li>
       <li>Prototyped marketplace listing and checkout flows in Figma.</li>
     </ul>
-
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-number">+40%</div><div class="stat-label">Faster Onboarding</div></div>
       <div class="stat-card"><div class="stat-number">+25%</div><div class="stat-label">Repeat Orders</div></div>
@@ -229,21 +259,43 @@
     </ul>
   </div>
 
+  <!-- ==============================
+       BACK TO PORTFOLIO BUTTON
+       ============================== -->
   <a href="index.html#projects" class="back-button">← Back to Portfolio</a>
 
+  <!-- ==============================
+       TAB FUNCTIONALITY SCRIPT
+       ============================== -->
   <script>
     const buttons = document.querySelectorAll('.tab-button');
     const tabs = document.querySelectorAll('.tab-content');
 
+    // Tab click event: switch active tab and content
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
+        // Remove active from all buttons and tabs
         buttons.forEach(b => b.classList.remove('active'));
         tabs.forEach(t => t.classList.remove('active'));
+
+        // Activate clicked button and corresponding tab content
         btn.classList.add('active');
         document.getElementById(btn.dataset.tab).classList.add('active');
+
+        // Smooth scroll to top of content
         window.scrollTo({ top: 200, behavior: 'smooth' });
       });
     });
+
+    /* ==============================
+       FUTURE EXPANSION NOTES:
+       - To add a new case study:
+         1. Add a new <button> in the .tabs div with unique data-tab.
+         2. Add a new <div> with class .tab-content and matching id.
+         3. Style and add stats/content as needed.
+       - All tab functionality and smooth scroll already handled here.
+       - Styling follows neon-glow, dark aesthetic of portfolio.
+       ============================== */
   </script>
 </body>
 </html>
