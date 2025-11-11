@@ -695,54 +695,124 @@
         </div>
     </section>
 
-    <section id="timeline">
+<section id="timeline" style="padding:6rem 2rem;">
   <div class="section-header">
     <h2>Experience Timeline</h2>
-    <p>My professional journey across design, technology, and innovation</p>
+    <p>Visualizing my design and leadership journey</p>
   </div>
 
-  <div class="timeline">
-    <div class="timeline-item">
-      <div class="timeline-content left">
-        <h3>2025 – Present</h3>
-        <h4>Freelance UX/UI Designer • Berlin</h4>
-        <p>Leading end-to-end UX projects for startups and creative tech ventures across Europe, blending design systems with emerging AI tools.</p>
-      </div>
+  <div class="gantt-container">
+    <div class="gantt-years">
+      <div>2012</div>
+      <div>2015</div>
+      <div>2018</div>
+      <div>2021</div>
+      <div>2023</div>
+      <div>2025</div>
     </div>
 
-    <div class="timeline-item">
-      <div class="timeline-content right">
-        <h3>2023 – 2024</h3>
-        <h4>Director of UX Design • DealerTek</h4>
-        <p>Directed CRM redesign for enterprise automotive systems, managing cross-functional design and engineering teams.</p>
+    <div class="gantt-chart">
+      <div class="gantt-bar" style="--start:1; --end:2;">
+        <span class="role">UX Designer – Apple Inc</span>
       </div>
-    </div>
 
-    <div class="timeline-item">
-      <div class="timeline-content left">
-        <h3>2018 – 2023</h3>
-        <h4>Marketing Developer • Chef Works</h4>
-        <p>Developed marketing automation, analytics dashboards, and user journeys to optimize multi-region campaigns.</p>
+      <div class="gantt-bar" style="--start:2; --end:3;">
+        <span class="role">Co-founder – Rising Tide Berlin</span>
       </div>
-    </div>
 
-    <div class="timeline-item">
-      <div class="timeline-content right">
-        <h3>2015 – 2018</h3>
-        <h4>Co-founder • Rising Tide Berlin</h4>
-        <p>Launched a sustainable leather goods brand focused on reusing cast-off automotive materials through UX storytelling and design.</p>
+      <div class="gantt-bar" style="--start:3; --end:5;">
+        <span class="role">Marketing Developer – Chef Works</span>
       </div>
-    </div>
 
-    <div class="timeline-item">
-      <div class="timeline-content left">
-        <h3>2012 – 2015</h3>
-        <h4>UX Designer • Apple Inc</h4>
-        <p>Worked on internal app review UX, data visualization, and process automation using Sketch, Tableau, and custom CMS tools.</p>
+      <div class="gantt-bar" style="--start:5; --end:5.6;">
+        <span class="role">Director of UX Design – DealerTek</span>
+      </div>
+
+      <div class="gantt-bar" style="--start:5.6; --end:6;">
+        <span class="role">Freelance UX/UI Designer – Berlin</span>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+.gantt-container {
+  position: relative;
+  max-width: 1000px;
+  margin: 4rem auto;
+  color: white;
+}
+.gantt-years {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 1rem;
+}
+.gantt-chart {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+.gantt-bar {
+  position: absolute;
+  top: calc(var(--start) * 40px);
+  left: calc((var(--start) - 1) * 16.6%);
+  width: calc((var(--end) - var(--start)) * 16.6%);
+  height: 28px;
+  background: linear-gradient(90deg, #6a5acd, #00ffff);
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(102,126,234,0.6);
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  font-size: 0.9rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+}
+.gantt-bar.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.gantt-bar:hover {
+  box-shadow: 0 0 20px rgba(102,126,234,1);
+  transform: scale(1.03);
+}
+.gantt-bar .role {
+  white-space: nowrap;
+}
+@media (max-width: 768px) {
+  .gantt-years {
+    font-size: 0.8rem;
+  }
+  .gantt-bar {
+    font-size: 0.8rem;
+  }
+}
+</style>
+
+<script>
+// Scroll-triggered bar animation
+document.addEventListener('DOMContentLoaded', () => {
+  const bars = document.querySelectorAll('.gantt-bar');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  bars.forEach(bar => observer.observe(bar));
+});
+</script>
+
 
 <style>
 .timeline {
