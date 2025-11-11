@@ -1156,6 +1156,23 @@ body {
     </footer>
 
     <script>
+            // Timeline toggle functionality
+        const timelineToggle = document.getElementById('timelineToggle');
+        const careerTimeline = document.getElementById('careerTimeline');
+        let isTimelineVisible = true;
+
+        timelineToggle.addEventListener('click', () => {
+            isTimelineVisible = !isTimelineVisible;
+            if (isTimelineVisible) {
+                careerTimeline.style.display = 'block';
+                timelineToggle.classList.add('active');
+            } else {
+                careerTimeline.style.display = 'none';
+                timelineToggle.classList.remove('active');
+            }
+        });
+
+        
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
