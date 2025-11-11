@@ -1,132 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Case Studies – Athar UX/UI Design</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Athar - UX/UI Designer Portfolio</title>
 <style>
-body {margin:0; font-family:'Inter',sans-serif; background: radial-gradient(circle at top,#0b0c1a,#090a12); color:#fff; overflow-x:hidden;}
-nav{display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; background: rgba(255,255,255,0.03); backdrop-filter:blur(10px); position: sticky; top:0; z-index:50;}
-nav .logo a {color:#00ffff; text-decoration:none; font-weight:700;}
-nav a {color:#fff; text-decoration:none; margin-left:1rem; transition:color 0.3s;}
-nav a:hover {color:#00ffff;}
-.section-header{text-align:center; margin:4rem 0 2rem;}
-.section-header h1{font-size:2rem; color:#00ffff;}
-.tabs{display:flex; justify-content:center; flex-wrap:wrap; gap:1rem; margin-bottom:3rem;}
-.tab-button{background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:0.8rem 1.4rem; cursor:pointer; color: rgba(255,255,255,0.8); transition: all 0.3s ease;}
-.tab-button.active{background: linear-gradient(90deg,#6a5acd,#00ffff); color:#fff; box-shadow:0 0 15px rgba(0,255,255,0.3);}
-.tab-button:hover{transform: translateY(-2px);}
-.tab-content{display:none; max-width:900px; margin:auto; padding:2rem; background: rgba(255,255,255,0.04); border-radius:20px; border:1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);}
-.tab-content.active{display:block;}
-.tab-content h2{color:#00ffff; margin-top:0;}
-.tab-content p, .tab-content li{color: rgba(255,255,255,0.75); line-height:1.7;}
-.tab-content ul{padding-left:1.2rem;}
-.stats-grid{display:flex; flex-wrap:wrap; justify-content:center; gap:2rem; margin-top:2rem;}
-.stat-card{background: rgba(255,255,255,0.06); border-radius:12px; padding:1rem 2rem; text-align:center; border:1px solid rgba(255,255,255,0.08);}
-.stat-number{font-size:1.5rem; color:#00ffff;}
-.stat-label{font-size:0.9rem; color: rgba(255,255,255,0.7);}
-.back-button{display:block; text-align:center; margin:3rem auto; padding:0.8rem 2rem; border-radius:25px; background: linear-gradient(90deg,#6a5acd,#00ffff); color:#fff; text-decoration:none; font-weight:500; width:fit-content; transition: all 0.3s ease;}
-.back-button:hover{transform:scale(1.05); box-shadow:0 0 20px rgba(0,255,255,0.4);}
-.timeline{margin:3rem auto; max-width:900px;}
-.timeline-bar{position:relative; height:30px; background: rgba(0,255,255,0.2); border-radius:15px; margin-bottom:1rem; transition:0.3s;}
-.timeline-bar span{position:absolute; left:0; top:0; height:100%; background:#00ffff; border-radius:15px; display:block; transition:0.3s;}
-.timeline-bar:hover::after{opacity:1;}
-.timeline-label{margin-bottom:0.3rem; font-size:0.9rem; color:#00ffff;}
-.tooltip{position:absolute; top:-30px; left:0; background:rgba(0,0,0,0.8); color:#fff; padding:0.3rem 0.6rem; font-size:0.75rem; border-radius:6px; opacity:0; pointer-events:none; transition:0.3s;}
-.timeline-bar:hover .tooltip{opacity:1;}
-@media(max-width:768px){.tab-content{padding:1.5rem;} .tabs{gap:0.5rem;} .tab-button{padding:0.6rem 1rem; font-size:0.9rem;}}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0f0f1e 100%);
+  color: #fff;
+  overflow-x: hidden;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(15,15,30,0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  z-index: 1000;
+  padding: 1rem 2rem;
+}
+.nav-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  opacity: 0.8;
+}
+.nav-links a:hover {
+  opacity: 1;
+  color: #667eea;
+}
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem 2rem;
+}
+.hero-content {
+  max-width: 1400px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+.hero-text h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #fff 0%, #667eea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-text p {
+  font-size: 1.25rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+}
+.btn-primary {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+}
+.btn-secondary {
+  padding: 1rem 2rem;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+}
+.project-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(102,126,234,0.3);
+}
+.project-image {
+  width: 100%;
+  height: 250px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #fff;
+}
+.project-content {
+  padding: 1.5rem;
+}
+.project-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.project-desc {
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.tag {
+  padding: 0.3rem 0.7rem;
+  background: rgba(102,126,234,0.2);
+  border: 1px solid rgba(102,126,234,0.3);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: #667eea;
+}
+@media (max-width: 768px) {
+  .hero-content { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
-
-<nav>
-  <div class="logo"><a href="index.html">ATHAR</a></div>
-  <div class="links">
-    <a href="index.html#projects">Projects</a>
-    <a href="index.html#skills">Skills</a>
-    <a href="case-studies.html">Case Studies</a>
-    <a href="index.html#contact">Contact</a>
+<nav class="navbar">
+  <div class="nav-content">
+    <div class="logo">ATHAR</div>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+    </ul>
   </div>
 </nav>
 
-<section class="section-header">
-  <h1>Case Studies</h1>
-  <p>Exploring UX design, research, and product innovation</p>
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1>Athar - UX/UI Product Designer</h1>
+      <p>Data-driven UX designer and Lean Six Sigma Greenbelt with expertise in B2B/B2C lifecycles, service blueprints, and design systems. Based in San Francisco Bay Area & Berlin.</p>
+      <div class="cta-buttons">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact" class="btn-secondary">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <!-- Placeholder for hero visual or dashboard preview -->
+    </div>
+  </div>
 </section>
 
-<div class="tabs">
-  <button class="tab-button active" data-tab="vinder">Vinder</button>
-  <button class="tab-button" data-tab="volt480">Volt480</button>
-  <button class="tab-button" data-tab="chefworks">Persona Chef Works</button>
-  <button class="tab-button" data-tab="crm">Auto Dealer CRM</button>
-</div>
+<section id="projects">
+  <div class="projects-grid">
+    <!-- Featured Projects -->
+    <div class="project-card">
+      <div class="project-image">📦 Placeholder</div>
+      <div class="project-content">
+        <h3 class="project-title">Vinder – Peer-to-Peer Farmers Market</h3>
+        <p class="project-desc">UX design, personas, service blueprints for B2B/B2C marketplace.</p>
+        <div class="project-tags">
+          <span class="tag">UX Design</span>
+          <span class="tag">Service Design</span>
+        </div>
+      </div>
+    </div>
 
-<!-- Tab contents -->
-<div id="vinder" class="tab-content active">
-  <h2>Vinder – Peer-to-Peer Farmers Market</h2>
-  <p>UX case study of a peer-to-peer marketplace enabling local producers to deliver fresh food directly to consumers.</p>
-</div>
-<div id="volt480" class="tab-content">
-  <h2>Volt480 – Service Design Mobile App</h2>
-  <p>UX/UI design for Volt480 mobile app with improved service flows and user journeys.</p>
-</div>
-<div id="chefworks" class="tab-content">
-  <h2>Persona from Chef Works – UX Case Study</h2>
-  <p>Creating marketing automation and customer personas for global campaigns.</p>
-</div>
-<div id="crm" class="tab-content">
-  <h2>Auto Dealer CRM – Enterprise Platform</h2>
-  <p>Redesign of multi-tenant automotive CRM system with dashboards and analytics.</p>
-</div>
+    <div class="project-card">
+      <div class="project-image">⚡ Placeholder</div>
+      <div class="project-content">
+        <h3 class="project-title">Volt480 – Service Design Mobile App</h3>
+        <p class="project-desc">Mobile app UX case study with complete user flows and wireframes.</p>
+        <div class="project-tags">
+          <span class="tag">UX</span>
+          <span class="tag">Mobile Design</span>
+        </div>
+      </div>
+    </div>
 
-<section class="timeline">
-  <h2 style="color:#00ffff;text-align:center;margin-bottom:1rem;">Experience Timeline</h2>
+    <div class="project-card">
+      <div class="project-image">👔 Placeholder</div>
+      <div class="project-content">
+        <h3 class="project-title">Persona from Chef Works – UX Case Study</h3>
+        <p class="project-desc">Customer personas and lifecycle analysis for global marketing campaigns.</p>
+        <div class="project-tags">
+          <span class="tag">UX</span>
+          <span class="tag">Persona Mapping</span>
+        </div>
+      </div>
+    </div>
 
-  <!-- Example timeline bars -->
-  <div class="timeline-label">Apple Inc – UX Designer/App Review (Sep 2010 – Jan 2016)</div>
-  <div class="timeline-bar"><span style="width:100%"><div class="tooltip">Sketch, Keynote, HTML, CSS, Tableau, CMS</div></span></div>
+    <div class="project-card">
+      <div class="project-image">🏎️ Placeholder</div>
+      <div class="project-content">
+        <h3 class="project-title">Auto Dealer CRM</h3>
+        <p class="project-desc">Enterprise CRM UX for automotive dealerships, with analytics dashboards.</p>
+        <div class="project-tags">
+          <span class="tag">Enterprise UX</span>
+          <span class="tag">CRM</span>
+        </div>
+      </div>
+    </div>
 
-  <div class="timeline-label">Tandon Group – UX Architect (Jan 2016 – Oct 2016)</div>
-  <div class="timeline-bar"><span style="width:10%"><div class="tooltip">Sketch, Wordpress, Mailchimp, Hubspot, Photoshop, Zoom, Asana</div></span></div>
+    <!-- Prototype Apps -->
+    <div class="project-card">
+      <div class="project-image">📊 Placeholder</div>
+      <div class="project-content">
+        <h3 class="project-title">110 Hours CRM</h3>
+        <p>Enterprise automotive CRM prototype, built with AI, hosted on GitHub.</p>
+        <div class="project-tags"><span class="tag">Prototype</span></div>
+      </div>
+    </div>
 
-  <div class="timeline-label">Virtual Fantasy League – Technical PM/Designer (Nov 2016 – Sep 2017)</div>
-  <div class="timeline-bar"><span style="width:11%"><div class="tooltip">HTML, CSS, Trello, Photoshop, Slack, Zoom, Sketch</div></span></div>
+    <div class="project-card">
+      <div class="project-image">🎉 Placeholder</div>
+      <div class="project-content">
+        <h3 class="project-title">Event Planner CRM</h3>
+        <p>Event management dashboard prototype, real-time analytics, AI workflows.</p>
+        <div class="project-tags"><span class="tag">Prototype</span></div>
+      </div>
+    </div>
 
-  <div class="timeline-label">Vinder – Product Designer (Sep 2017 – May 2018)</div>
-  <div class="timeline-bar"><span style="width:9%"><div class="tooltip">Asana, Zeplin, Marvel, Sketch, Slack, Trello</div></span></div>
+    <div class="project-card">
+      <div class="project-image">🌍 Placeholder</div>
+      <div class="project-content">
+        <h3 class="project-title">Travel AI Assistant</h3>
+        <p><a href="https://athar-travel-ai-app.pages.dev/" target="_blank" style="color:#00ffff;text-decoration:underline;">View App →</a></p>
+        <div class="project-tags"><span class="tag">Prototype</span></div>
+      </div>
+    </div>
 
-  <div class="timeline-label">Epik Token – Marketing Project Manager (Nov 2017 – Oct 2018)</div>
-  <div class="timeline-bar"><span style="width:12%"><div class="tooltip">HTML, CSS, Trello, Photoshop, Slack, Zoom, Sketch</div></span></div>
-
-  <div class="timeline-label">Volt480 – UX/UI Designer (Sep 2018)</div>
-  <div class="timeline-bar"><span style="width:2%"><div class="tooltip">Sketch, Figma</div></span></div>
-
-  <div class="timeline-label">Chef Works Inc – Marketing Developer (Oct 2018 – Jan 2024)</div>
-  <div class="timeline-bar"><span style="width:35%"><div class="tooltip">HTML, CSS, Liquid Script, Figma, Dotdigital, Mapp, Asana, Workforce, Photoshop, Slack, Zoom, Atom, Tableau, Lean, Six Sigma</div></span></div>
-
-  <div class="timeline-label">Fractional Director UX Design – NDA Client (May 2024)</div>
-  <div class="timeline-bar"><span style="width:2%"><div class="tooltip">Figma, Sketch</div></span></div>
-
-  <div class="timeline-label">Co-founder Rising Tide Berlin (Dec 2023 – Present)</div>
-  <div class="timeline-bar"><span style="width:15%"><div class="tooltip">Figma, Sketch, Adobe</div></span></div>
+    <div class="project-card">
+      <div class="project-image">⏱️ Placeholder</div>
+      <div class="project-content">
+        <h3 class="project-title">Timer Edit</h3>
+        <p><a href="https://ios-timer-athar-edit.pages.dev/" target="_blank" style="color:#00ffff;text-decoration:underline;">View App →</a></p>
+        <div class="project-tags"><span class="tag">Prototype</span></div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<a href="index.html#projects" class="back-button">← Back to Portfolio</a>
-
-<script>
-  // Tab functionality
-  const buttons = document.querySelectorAll('.tab-button');
-  const tabs = document.querySelectorAll('.tab-content');
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      buttons.forEach(b => b.classList.remove('active'));
-      tabs.forEach(t => t.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(btn.dataset.tab).classList.add('active');
-      window.scrollTo({ top: 200, behavior: 'smooth' });
-    });
-  });
-</script>
+<section id="contact">
+  <div style="text-align:center;margin:4rem 0;">
+    <a href="mailto:athar.hafiz@gmail.com" class="btn-primary">Send Email</a>
+  </div>
+</section>
 
 </body>
 </html>
