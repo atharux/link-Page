@@ -480,7 +480,7 @@
             position: fixed;
             top: 100px;
             right: 20px;
-            width: 450px;
+            width: 380px;
             background: rgba(15, 15, 30, 0.95);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -525,12 +525,38 @@
             border-radius: 4px;
             cursor: pointer;
             transition: all 0.3s ease;
+            z-index: 1;
         }
 
         .timeline-bar:hover {
             height: 12px;
             top: -2px;
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+            z-index: 2;
+        }
+
+        .company-labels {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding: 0 0.25rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .company-label {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: default;
+            white-space: nowrap;
+        }
+
+        .company-label.active {
+            color: #667eea;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
         }
 
         .timeline-jobs {
@@ -592,15 +618,17 @@
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             margin-top: 0;
-            padding: 0 1rem;
+            padding: 0;
+            background: rgba(15, 15, 30, 0.6);
+            border-radius: 8px;
         }
 
-        .job-item.expanded .tooltip {
+        .tooltip.active {
             max-height: 500px;
             opacity: 1;
             margin-top: 1rem;
             padding: 1rem;
-            border-top: 1px solid rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(102, 126, 234, 0.3);
         }
 
         .tooltip-company {
@@ -707,226 +735,43 @@
             <span>2024</span>
         </div>
         <div class="timeline-track">
-            <div class="timeline-bar" style="left: 0%; width: 18%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);" title="Apple Store Manager"></div>
-            <div class="timeline-bar" style="left: 36%; width: 25%; background: linear-gradient(90deg, #764ba2 0%, #f093fb 100%);" title="Apple UX Designer"></div>
-            <div class="timeline-bar" style="left: 64%; width: 4%; background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);" title="Tandon Group"></div>
-            <div class="timeline-bar" style="left: 68%; width: 5%; background: linear-gradient(90deg, #f5576c 0%, #43e97b 100%);" title="VFL"></div>
-            <div class="timeline-bar" style="left: 70%; width: 4%; background: linear-gradient(90deg, #43e97b 0%, #4facfe 100%);" title="Vinder"></div>
-            <div class="timeline-bar" style="left: 71%; width: 5%; background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);" title="EPIK"></div>
-            <div class="timeline-bar" style="left: 76%; width: 24%; background: linear-gradient(90deg, #00f2fe 0%, #667eea 100%);" title="Chef Works"></div>
+            <div class="timeline-bar" data-job="apple-store" style="left: 0%; width: 15%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);"></div>
+            <div class="timeline-bar" data-job="eastman" style="left: 19%; width: 4%; background: linear-gradient(90deg, #764ba2 0%, #8b5cf6 100%);"></div>
+            <div class="timeline-bar" data-job="robert-half" style="left: 24%; width: 4%; background: linear-gradient(90deg, #8b5cf6 0%, #a855f7 100%);"></div>
+            <div class="timeline-bar" data-job="shane" style="left: 29%; width: 8%; background: linear-gradient(90deg, #a855f7 0%, #c084fc 100%);"></div>
+            <div class="timeline-bar" data-job="apple-ux" style="left: 38%; width: 23%; background: linear-gradient(90deg, #c084fc 0%, #f093fb 100%);"></div>
+            <div class="timeline-bar" data-job="tandon" style="left: 63%; width: 4%; background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);"></div>
+            <div class="timeline-bar" data-job="vfl" style="left: 68%; width: 4%; background: linear-gradient(90deg, #f5576c 0%, #43e97b 100%);"></div>
+            <div class="timeline-bar" data-job="vinder" style="left: 70%; width: 3%; background: linear-gradient(90deg, #43e97b 0%, #4facfe 100%);"></div>
+            <div class="timeline-bar" data-job="epik" style="left: 71%; width: 4%; background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);"></div>
+            <div class="timeline-bar" data-job="volt" style="left: 75%; width: 1%; background: linear-gradient(90deg, #00f2fe 0%, #667eea 100%);"></div>
+            <div class="timeline-bar" data-job="chef-works" style="left: 76%; width: 23%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);"></div>
+            <div class="timeline-bar" data-job="startup-nda" style="left: 99%; width: 1%; background: linear-gradient(90deg, #764ba2 0%, #f093fb 100%);"></div>
         </div>
-        <div class="timeline-jobs">
-            <div class="job-item">
-                <div class="job-company">Rising Tide Berlin</div>
-                <div class="job-title">Co-founder</div>
-                <div class="job-period">Dec 2023 - Present</div>
-                <div class="tooltip">
-                    <div class="tooltip-company">Rising Tide Berlin</div>
-                    <div class="tooltip-role">Co-founder</div>
-                    <div class="tooltip-period">Dec 2023 - Present • Berlin, Germany</div>
-                    <div class="tooltip-tools">
-                        <div class="tooltip-tools-label">FOCUS AREAS</div>
-                        <div class="tooltip-tags">
-                            <span class="tooltip-tag">Leadership</span>
-                            <span class="tooltip-tag">Strategy</span>
-                            <span class="tooltip-tag">Community</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
+        <div class="company-labels">
+            <span class="company-label" data-job="apple-store">Apple Store</span>
+            <span class="company-label" data-job="eastman">Eastman</span>
+            <span class="company-label" data-job="robert-half">Robert Half</span>
+            <span class="company-label" data-job="shane">Shane Co</span>
+            <span class="company-label" data-job="apple-ux">Apple UX</span>
+            <span class="company-label" data-job="tandon">Tandon</span>
+            <span class="company-label" data-job="vfl">VFL</span>
+            <span class="company-label" data-job="vinder">Vinder</span>
+            <span class="company-label" data-job="epik">EPIK</span>
+            <span class="company-label" data-job="volt">Volt</span>
+            <span class="company-label" data-job="chef-works">Chef Works</span>
+            <span class="company-label" data-job="startup-nda">Startup</span>
+            <span class="company-label" data-job="rising-tide">Rising Tide</span>
+        </div>
 
-            <div class="job-item">
-                <div class="job-company">Startup (NDA)</div>
-                <div class="job-title">Fractional Director UX</div>
-                <div class="job-period">May 2024 - Contract</div>
-                <div class="tooltip">
-                    <div class="tooltip-company">Startup (NDA Client)</div>
-                    <div class="tooltip-role">Fractional Director UX Design</div>
-                    <div class="tooltip-period">May 2024 • Remote - Contract</div>
-                    <div class="tooltip-tools">
-                        <div class="tooltip-tools-label">TOOLS & SKILLS</div>
-                        <div class="tooltip-tags">
-                            <span class="tooltip-tag">Figma</span>
-                            <span class="tooltip-tag">Strategy</span>
-                            <span class="tooltip-tag">Leadership</span>
-                            <span class="tooltip-tag">Product Design</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="job-item">
-                <div class="job-company">Chef Works Inc</div>
-                <div class="job-title">Marketing Developer</div>
-                <div class="job-period">Oct 2018 - Jan 2024 • 5 yrs</div>
-                <div class="tooltip">
-                    <div class="tooltip-company">Chef Works, Inc.</div>
-                    <div class="tooltip-role">Marketing Developer / Campaign Strategist</div>
-                    <div class="tooltip-period">Oct 2018 - Jan 2024 • 5 years • Poway, CA</div>
-                    <div class="tooltip-tools">
-                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
-                        <div class="tooltip-tags">
-                            <span class="tooltip-tag">HTML</span>
-                            <span class="tooltip-tag">CSS</span>
-                            <span class="tooltip-tag">Liquid Script</span>
-                            <span class="tooltip-tag">Figma</span>
-                            <span class="tooltip-tag">Dotdigital</span>
-                            <span class="tooltip-tag">Mapp</span>
-                            <span class="tooltip-tag">Asana</span>
-                            <span class="tooltip-tag">Photoshop</span>
-                            <span class="tooltip-tag">Tableau</span>
-                            <span class="tooltip-tag">Lean Six Sigma</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="job-item">
-                <div class="job-company">Volt 480</div>
-                <div class="job-title">UX/UI Designer</div>
-                <div class="job-period">Sept 2018</div>
-                <div class="tooltip">
-                    <div class="tooltip-company">Volt 480</div>
-                    <div class="tooltip-role">UX/UI Designer</div>
-                    <div class="tooltip-period">Sept 2018 • Remote - Contract</div>
-                    <div class="tooltip-tools">
-                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
-                        <div class="tooltip-tags">
-                            <span class="tooltip-tag">Sketch</span>
-                            <span class="tooltip-tag">Figma</span>
-                            <span class="tooltip-tag">Wireframing</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="job-item">
-                <div class="job-company">EPIK Token</div>
-                <div class="job-title">Marketing Project Manager</div>
-                <div class="job-period">Nov 2017 - Oct 2018 • 1 yr</div>
-                <div class="tooltip">
-                    <div class="tooltip-company">EPIK Token</div>
-                    <div class="tooltip-role">Marketing Project Manager</div>
-                    <div class="tooltip-period">Nov 2017 - Oct 2018 • 1 year • Remote</div>
-                    <div class="tooltip-tools">
-                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
-                        <div class="tooltip-tags">
-                            <span class="tooltip-tag">HTML</span>
-                            <span class="tooltip-tag">CSS</span>
-                            <span class="tooltip-tag">Trello</span>
-                            <span class="tooltip-tag">Photoshop</span>
-                            <span class="tooltip-tag">Sketch</span>
-                            <span class="tooltip-tag">Slack</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="job-item">
-                <div class="job-company">Vinder</div>
-                <div class="job-title">Product Designer</div>
-                <div class="job-period">Sep 2017 - May 2018 • 1 yr</div>
-                <div class="tooltip">
-                    <div class="tooltip-company">Vinder</div>
-                    <div class="tooltip-role">Product Designer</div>
-                    <div class="tooltip-period">Sep 2017 - May 2018 • 1 year • Remote</div>
-                    <div class="tooltip-tools">
-                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
-                        <div class="tooltip-tags">
-                            <span class="tooltip-tag">Asana</span>
-                            <span class="tooltip-tag">Zeplin</span>
-                            <span class="tooltip-tag">Marvel</span>
-                            <span class="tooltip-tag">Sketch</span>
-                            <span class="tooltip-tag">Trello</span>
-                            <span class="tooltip-tag">Slack</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="job-item">
-                <div class="job-company">Virtual Fantasy League</div>
-                <div class="job-title">Technical PM/Designer</div>
-                <div class="job-period">Nov 2016 - Sept 2017 • 1 yr</div>
-                <div class="tooltip">
-                    <div class="tooltip-company">Virtual Fantasy League</div>
-                    <div class="tooltip-role">Technical Project Manager / Designer</div>
-                    <div class="tooltip-period">Nov 2016 - Sept 2017 • 1 year • Remote</div>
-                    <div class="tooltip-tools">
-                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
-                        <div class="tooltip-tags">
-                            <span class="tooltip-tag">HTML</span>
-                            <span class="tooltip-tag">CSS</span>
-                            <span class="tooltip-tag">Trello</span>
-                            <span class="tooltip-tag">Photoshop</span>
-                            <span class="tooltip-tag">Sketch</span>
-                            <span class="tooltip-tag">Slack</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="job-item">
-                <div class="job-company">Tandon Group</div>
-                <div class="job-title">UX Architect</div>
-                <div class="job-period">Jan 2016 - Oct 2016 • 1 yr</div>
-                <div class="tooltip">
-                    <div class="tooltip-company">Tandon Group</div>
-                    <div class="tooltip-role">User Experience Architect</div>
-                    <div class="tooltip-period">Jan 2016 - Oct 2016 • 1 year • San Jose, CA</div>
-                    <div class="tooltip-tools">
-                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
-                        <div class="tooltip-tags">
-                            <span class="tooltip-tag">Sketch</span>
-                            <span class="tooltip-tag">Wordpress</span>
-                            <span class="tooltip-tag">Mailchimp</span>
-                            <span class="tooltip-tag">Hubspot</span>
-                            <span class="tooltip-tag">Photoshop</span>
-                            <span class="tooltip-tag">Asana</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="job-item">
-                <div class="job-company">Apple Inc</div>
-                <div class="job-title">iOS App Review / UX</div>
-                <div class="job-period">Sep 2010 - Jan 2016 • 6 yrs</div>
-                <div class="tooltip">
-                    <div class="tooltip-company">Apple Inc.</div>
-                    <div class="tooltip-role">iOS App Review / UX Designer</div>
-                    <div class="tooltip-period">Sep 2010 - Jan 2016 • 6 years • Cupertino, CA</div>
-                    <div class="tooltip-tools">
-                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
-                        <div class="tooltip-tags">
-                            <span class="tooltip-tag">Sketch</span>
-                            <span class="tooltip-tag">Keynote</span>
-                            <span class="tooltip-tag">HTML</span>
-                            <span class="tooltip-tag">CSS</span>
-                            <span class="tooltip-tag">Tableau</span>
-                            <span class="tooltip-tag">CMS</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="job-item">
-                <div class="job-company">Apple Inc</div>
-                <div class="job-title">Store Manager</div>
-                <div class="job-period">Nov 2002 - Oct 2006 • 4 yrs</div>
-                <div class="tooltip">
-                    <div class="tooltip-company">Apple Inc.</div>
-                    <div class="tooltip-role">Store Manager</div>
-                    <div class="tooltip-period">Nov 2002 - Oct 2006 • 4 years • San Jose, CA</div>
-                    <div class="tooltip-tools">
-                        <div class="tooltip-tools-label">FOCUS AREAS</div>
-                        <div class="tooltip-tags">
-                            <span class="tooltip-tag">Team Leadership</span>
-                            <span class="tooltip-tag">Operations</span>
-                            <span class="tooltip-tag">Customer Experience</span>
-                        </div>
-                    </div>
-                </div>
+        <div class="tooltip" id="jobTooltip">
+            <div class="tooltip-company" id="tooltipCompany"></div>
+            <div class="tooltip-role" id="tooltipRole"></div>
+            <div class="tooltip-period" id="tooltipPeriod"></div>
+            <div class="tooltip-tools">
+                <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
+                <div class="tooltip-tags" id="tooltipTags"></div>
             </div>
         </div>
     </div>
@@ -1170,6 +1015,88 @@
     </footer>
 
     <script>
+        // Job data
+        const jobData = {
+            'rising-tide': {
+                company: 'Rising Tide Berlin',
+                role: 'Co-founder',
+                period: 'Dec 2023 - Present • Berlin, Germany',
+                tools: ['Leadership', 'Strategy', 'Community Building', 'Event Planning']
+            },
+            'startup-nda': {
+                company: 'Startup (NDA Client)',
+                role: 'Fractional Director UX Design',
+                period: 'May 2024 • Remote - Contract',
+                tools: ['Figma', 'Strategy', 'Leadership', 'Product Design', 'UX Research']
+            },
+            'chef-works': {
+                company: 'Chef Works, Inc.',
+                role: 'Marketing Developer / Campaign Strategist',
+                period: 'Oct 2018 - Jan 2024 • 5 years • Poway, CA',
+                tools: ['HTML', 'CSS', 'Liquid Script', 'Figma', 'Dotdigital', 'Mapp', 'Asana', 'Photoshop', 'Tableau', 'Lean Six Sigma']
+            },
+            'volt': {
+                company: 'Volt 480',
+                role: 'UX/UI Designer',
+                period: 'Sept 2018 • Remote - Contract',
+                tools: ['Sketch', 'Figma', 'Wireframing', 'Prototyping']
+            },
+            'epik': {
+                company: 'EPIK Token',
+                role: 'Marketing Project Manager',
+                period: 'Nov 2017 - Oct 2018 • 1 year • Remote',
+                tools: ['HTML', 'CSS', 'Trello', 'Photoshop', 'Sketch', 'Slack']
+            },
+            'vinder': {
+                company: 'Vinder',
+                role: 'Product Designer',
+                period: 'Sep 2017 - May 2018 • 1 year • Remote',
+                tools: ['Asana', 'Zeplin', 'Marvel', 'Sketch', 'Trello', 'Slack']
+            },
+            'vfl': {
+                company: 'Virtual Fantasy League',
+                role: 'Technical Project Manager / Designer',
+                period: 'Nov 2016 - Sept 2017 • 1 year • Remote',
+                tools: ['HTML', 'CSS', 'Trello', 'Photoshop', 'Sketch', 'Slack']
+            },
+            'tandon': {
+                company: 'Tandon Group',
+                role: 'User Experience Architect',
+                period: 'Jan 2016 - Oct 2016 • 1 year • San Jose, CA',
+                tools: ['Sketch', 'Wordpress', 'Mailchimp', 'Hubspot', 'Photoshop', 'Asana']
+            },
+            'apple-ux': {
+                company: 'Apple Inc.',
+                role: 'iOS App Review / UX Designer',
+                period: 'Sep 2010 - Jan 2016 • 6 years • Cupertino, CA',
+                tools: ['Sketch', 'Keynote', 'HTML', 'CSS', 'Tableau', 'CMS']
+            },
+            'shane': {
+                company: 'Shane Company',
+                role: 'Assistant Store Manager',
+                period: '2008 - 2010 • 2 years',
+                tools: ['Team Management', 'Sales', 'Customer Service', 'Inventory', 'Training']
+            },
+            'robert-half': {
+                company: 'Robert Half International',
+                role: 'Recruiting/Staffing Manager',
+                period: '2007 - 2008 • 1 year',
+                tools: ['Recruiting', 'Staffing', 'Client Relations', 'Interviewing', 'Account Management']
+            },
+            'eastman': {
+                company: 'Eastman Roofing',
+                role: 'Design Specialist',
+                period: '2006 - 2007 • 1 year',
+                tools: ['CAD', 'Design', 'Client Consultation', 'Project Planning']
+            },
+            'apple-store': {
+                company: 'Apple Inc.',
+                role: 'Store Manager',
+                period: 'Nov 2002 - Oct 2006 • 4 years • San Jose, CA',
+                tools: ['Team Leadership', 'Operations', 'Customer Experience', 'Retail Management', 'Training']
+            }
+        };
+
         // Timeline toggle functionality
         const timelineToggle = document.getElementById('timelineToggle');
         const careerTimeline = document.getElementById('careerTimeline');
@@ -1186,19 +1113,46 @@
             }
         });
 
-        // Job item expand/collapse functionality
-        const jobItems = document.querySelectorAll('.job-item');
-        jobItems.forEach(item => {
-            item.addEventListener('click', function(e) {
-                // Close all other expanded items
-                jobItems.forEach(otherItem => {
-                    if (otherItem !== this) {
-                        otherItem.classList.remove('expanded');
-                    }
-                });
+        // Timeline bar hover functionality
+        const timelineBars = document.querySelectorAll('.timeline-bar');
+        const companyLabels = document.querySelectorAll('.company-label');
+        const tooltip = document.getElementById('jobTooltip');
+        const tooltipCompany = document.getElementById('tooltipCompany');
+        const tooltipRole = document.getElementById('tooltipRole');
+        const tooltipPeriod = document.getElementById('tooltipPeriod');
+        const tooltipTags = document.getElementById('tooltipTags');
+
+        timelineBars.forEach(bar => {
+            bar.addEventListener('mouseenter', function() {
+                const jobKey = this.getAttribute('data-job');
+                const job = jobData[jobKey];
                 
-                // Toggle current item
-                this.classList.toggle('expanded');
+                if (job) {
+                    // Update tooltip content
+                    tooltipCompany.textContent = job.company;
+                    tooltipRole.textContent = job.role;
+                    tooltipPeriod.textContent = job.period;
+                    tooltipTags.innerHTML = job.tools.map(tool => 
+                        `<span class="tooltip-tag">${tool}</span>`
+                    ).join('');
+                    
+                    // Show tooltip
+                    tooltip.classList.add('active');
+                    
+                    // Highlight corresponding company label
+                    companyLabels.forEach(label => {
+                        if (label.getAttribute('data-job') === jobKey) {
+                            label.classList.add('active');
+                        } else {
+                            label.classList.remove('active');
+                        }
+                    });
+                }
+            });
+            
+            bar.addEventListener('mouseleave', function() {
+                tooltip.classList.remove('active');
+                companyLabels.forEach(label => label.classList.remove('active'));
             });
         });
 
