@@ -1,106 +1,93 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Athar - UX/UI Designer</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0f0f1e 100%);
-            color: #ffffff;
-            overflow-x: hidden;
-        }
-
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(15, 15, 30, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1000;
-            padding: 1rem 2rem;
-        }
-
-        .nav-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            opacity: 0.8;
-        }
-
-        .nav-links a:hover {
-            opacity: 1;
-            color: #667eea;
-        }
-
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6rem 2rem 2rem;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 1400px;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-text h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-text p {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Athar - UX/UI Designer Portfolio</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0f0f1e 100%);
+  color: #fff;
+  overflow-x: hidden;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(15,15,30,0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  z-index: 1000;
+  padding: 1rem 2rem;
+}
+.nav-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  opacity: 0.8;
+}
+.nav-links a:hover {
+  opacity: 1;
+  color: #667eea;
+}
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem 2rem;
+}
+.hero-content {
+  max-width: 1400px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+.hero-text h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #fff 0%, #667eea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-text p {
+  font-size: 1.25rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+  
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -136,13 +123,7 @@
             color: rgba(255, 255, 255, 0.6);
             margin-top: 0.5rem;
         }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn-primary {
+ .btn-primary {
             padding: 1rem 2rem;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
@@ -269,6 +250,12 @@
             font-size: 3rem;
             position: relative;
             overflow: hidden;
+        }
+    
+    
+        .project-image img {
+            max-width: 100%;
+            height: auto;
         }
 
         .project-image::before {
@@ -475,12 +462,11 @@
             background: rgba(102, 126, 234, 0.2);
             color: #ffffff;
         }
-
-        .career-timeline {
+            .career-timeline {
             position: fixed;
             top: 100px;
             right: 20px;
-            width: 380px;
+            width: 320px;
             background: rgba(15, 15, 30, 0.95);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -489,12 +475,13 @@
             z-index: 999;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
+          
         }
 
         .timeline-header {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             color: rgba(255, 255, 255, 0.9);
             display: flex;
             align-items: center;
@@ -512,51 +499,25 @@
 
         .timeline-track {
             position: relative;
-            height: 8px;
+            height: 4px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            margin-bottom: 1.5rem;
+            border-radius: 2px;
+            margin-bottom: 1rem;
         }
 
         .timeline-bar {
             position: absolute;
             height: 100%;
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            border-radius: 4px;
+            border-radius: 2px;
             cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 1;
         }
 
         .timeline-bar:hover {
-            height: 12px;
+            height: 8px;
             top: -2px;
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
-            z-index: 2;
-        }
-
-        .company-labels {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1rem;
-            padding: 0 0.25rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .company-label {
-            font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-            cursor: default;
-            white-space: nowrap;
-        }
-
-        .company-label.active {
-            color: #667eea;
-            font-weight: 700;
-            text-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
         }
 
         .timeline-jobs {
@@ -569,84 +530,76 @@
 
         .job-item {
             position: relative;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 3px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid transparent;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 0.9rem;
-            overflow: hidden;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
         }
 
         .job-item:hover {
-            background: rgba(102, 126, 234, 0.15);
+            background: rgba(102, 126, 234, 0.1);
             border-left-color: #667eea;
-            transform: translateX(8px);
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
-        }
-
-        .job-item.expanded {
-            background: rgba(102, 126, 234, 0.2);
-            border-left-color: #667eea;
-            padding: 1.5rem;
-            margin: 0.75rem 0;
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+            transform: translateX(5px);
         }
 
         .job-company {
             font-weight: 700;
             color: #ffffff;
-            margin-bottom: 0.35rem;
-            font-size: 1rem;
+            margin-bottom: 0.25rem;
         }
 
         .job-title {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.85rem;
-            margin-bottom: 0.35rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
         }
 
         .job-period {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.7rem;
         }
 
         .tooltip {
-            max-height: 0;
+            position: absolute;
+            left: -320px;
+            top: 0;
+            width: 300px;
+            background: rgba(15, 15, 30, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
             opacity: 0;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-top: 0;
-            padding: 0;
-            background: rgba(15, 15, 30, 0.6);
-            border-radius: 8px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
 
-        .tooltip.active {
-            max-height: 500px;
+        .job-item:hover .tooltip {
             opacity: 1;
-            margin-top: 1rem;
-            padding: 1rem;
-            border: 1px solid rgba(102, 126, 234, 0.3);
+            left: -330px;
         }
 
         .tooltip-company {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             color: #667eea;
             margin-bottom: 0.5rem;
         }
 
         .tooltip-role {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.9);
             margin-bottom: 0.5rem;
         }
 
         .tooltip-period {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
             margin-bottom: 0.75rem;
         }
 
@@ -657,11 +610,10 @@
         }
 
         .tooltip-tools-label {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 0.75rem;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 0.5rem;
             font-weight: 600;
-            letter-spacing: 0.5px;
         }
 
         .tooltip-tags {
@@ -671,13 +623,12 @@
         }
 
         .tooltip-tag {
-            padding: 0.35rem 0.65rem;
-            background: rgba(102, 126, 234, 0.2);
-            border: 1px solid rgba(102, 126, 234, 0.4);
-            border-radius: 6px;
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 500;
+            padding: 0.25rem 0.5rem;
+            background: rgba(102, 126, 234, 0.15);
+            border: 1px solid rgba(102, 126, 234, 0.25);
+            border-radius: 4px;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .timeline-toggle {
@@ -715,8 +666,7 @@
             .timeline-toggle {
                 display: none;
             }
-        }
-    </style>
+</style>
 </head>
 <body>
     <div class="glow" style="top: -200px; left: -200px;"></div>
@@ -735,64 +685,246 @@
             <span>2024</span>
         </div>
         <div class="timeline-track">
-            <div class="timeline-bar" data-job="apple-store" style="left: 0%; width: 15%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);"></div>
-            <div class="timeline-bar" data-job="eastman" style="left: 19%; width: 4%; background: linear-gradient(90deg, #764ba2 0%, #8b5cf6 100%);"></div>
-            <div class="timeline-bar" data-job="robert-half" style="left: 24%; width: 4%; background: linear-gradient(90deg, #8b5cf6 0%, #a855f7 100%);"></div>
-            <div class="timeline-bar" data-job="shane" style="left: 29%; width: 8%; background: linear-gradient(90deg, #a855f7 0%, #c084fc 100%);"></div>
-            <div class="timeline-bar" data-job="apple-ux" style="left: 38%; width: 23%; background: linear-gradient(90deg, #c084fc 0%, #f093fb 100%);"></div>
-            <div class="timeline-bar" data-job="tandon" style="left: 63%; width: 4%; background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);"></div>
-            <div class="timeline-bar" data-job="vfl" style="left: 68%; width: 4%; background: linear-gradient(90deg, #f5576c 0%, #43e97b 100%);"></div>
-            <div class="timeline-bar" data-job="vinder" style="left: 70%; width: 3%; background: linear-gradient(90deg, #43e97b 0%, #4facfe 100%);"></div>
-            <div class="timeline-bar" data-job="epik" style="left: 71%; width: 4%; background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);"></div>
-            <div class="timeline-bar" data-job="volt" style="left: 75%; width: 1%; background: linear-gradient(90deg, #00f2fe 0%, #667eea 100%);"></div>
-            <div class="timeline-bar" data-job="chef-works" style="left: 76%; width: 23%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);"></div>
-            <div class="timeline-bar" data-job="startup-nda" style="left: 99%; width: 1%; background: linear-gradient(90deg, #764ba2 0%, #f093fb 100%);"></div>
+            <div class="timeline-bar" style="left: 0%; width: 18%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);" title="Apple Store Manager"></div>
+            <div class="timeline-bar" style="left: 36%; width: 25%; background: linear-gradient(90deg, #764ba2 0%, #f093fb 100%);" title="Apple UX Designer"></div>
+            <div class="timeline-bar" style="left: 64%; width: 4%; background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);" title="Tandon Group"></div>
+            <div class="timeline-bar" style="left: 68%; width: 5%; background: linear-gradient(90deg, #f5576c 0%, #43e97b 100%);" title="VFL"></div>
+            <div class="timeline-bar" style="left: 70%; width: 4%; background: linear-gradient(90deg, #43e97b 0%, #4facfe 100%);" title="Vinder"></div>
+            <div class="timeline-bar" style="left: 71%; width: 5%; background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);" title="EPIK"></div>
+            <div class="timeline-bar" style="left: 76%; width: 24%; background: linear-gradient(90deg, #00f2fe 0%, #667eea 100%);" title="Chef Works"></div>
         </div>
-        
-        <div class="company-labels">
-            <span class="company-label" data-job="apple-store">Apple Store</span>
-            <span class="company-label" data-job="eastman">Eastman</span>
-            <span class="company-label" data-job="robert-half">Robert Half</span>
-            <span class="company-label" data-job="shane">Shane Co</span>
-            <span class="company-label" data-job="apple-ux">Apple UX</span>
-            <span class="company-label" data-job="tandon">Tandon</span>
-            <span class="company-label" data-job="vfl">VFL</span>
-            <span class="company-label" data-job="vinder">Vinder</span>
-            <span class="company-label" data-job="epik">EPIK</span>
-            <span class="company-label" data-job="volt">Volt</span>
-            <span class="company-label" data-job="chef-works">Chef Works</span>
-            <span class="company-label" data-job="startup-nda">Startup</span>
-            <span class="company-label" data-job="rising-tide">Rising Tide</span>
-        </div>
+        <div class="timeline-jobs">
+            <div class="job-item">
+                <div class="job-company">Rising Tide Berlin</div>
+                <div class="job-title">Co-founder</div>
+                <div class="job-period">Dec 2023 - Present</div>
+                <div class="tooltip">
+                    <div class="tooltip-company">Rising Tide Berlin</div>
+                    <div class="tooltip-role">Co-founder</div>
+                    <div class="tooltip-period">Dec 2023 - Present • Berlin, Germany</div>
+                    <div class="tooltip-tools">
+                        <div class="tooltip-tools-label">FOCUS AREAS</div>
+                        <div class="tooltip-tags">
+                            <span class="tooltip-tag">Leadership</span>
+                            <span class="tooltip-tag">Strategy</span>
+                            <span class="tooltip-tag">Community</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="tooltip" id="jobTooltip">
-            <div class="tooltip-company" id="tooltipCompany"></div>
-            <div class="tooltip-role" id="tooltipRole"></div>
-            <div class="tooltip-period" id="tooltipPeriod"></div>
-            <div class="tooltip-tools">
-                <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
-                <div class="tooltip-tags" id="tooltipTags"></div>
+            <div class="job-item">
+                <div class="job-company">Startup (NDA)</div>
+                <div class="job-title">Fractional Director UX</div>
+                <div class="job-period">May 2024 - Contract</div>
+                <div class="tooltip">
+                    <div class="tooltip-company">Startup (NDA Client)</div>
+                    <div class="tooltip-role">Fractional Director UX Design</div>
+                    <div class="tooltip-period">May 2024 • Remote - Contract</div>
+                    <div class="tooltip-tools">
+                        <div class="tooltip-tools-label">TOOLS & SKILLS</div>
+                        <div class="tooltip-tags">
+                            <span class="tooltip-tag">Figma</span>
+                            <span class="tooltip-tag">Strategy</span>
+                            <span class="tooltip-tag">Leadership</span>
+                            <span class="tooltip-tag">Product Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-item">
+                <div class="job-company">Chef Works Inc</div>
+                <div class="job-title">Marketing Developer</div>
+                <div class="job-period">Oct 2018 - Jan 2024 • 5 yrs</div>
+                <div class="tooltip">
+                    <div class="tooltip-company">Chef Works, Inc.</div>
+                    <div class="tooltip-role">Marketing Developer / Campaign Strategist</div>
+                    <div class="tooltip-period">Oct 2018 - Jan 2024 • 5 years • Poway, CA</div>
+                    <div class="tooltip-tools">
+                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
+                        <div class="tooltip-tags">
+                            <span class="tooltip-tag">HTML</span>
+                            <span class="tooltip-tag">CSS</span>
+                            <span class="tooltip-tag">Liquid Script</span>
+                            <span class="tooltip-tag">Figma</span>
+                            <span class="tooltip-tag">Dotdigital</span>
+                            <span class="tooltip-tag">Mapp</span>
+                            <span class="tooltip-tag">Asana</span>
+                            <span class="tooltip-tag">Photoshop</span>
+                            <span class="tooltip-tag">Tableau</span>
+                            <span class="tooltip-tag">Lean Six Sigma</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-item">
+                <div class="job-company">Volt 480</div>
+                <div class="job-title">UX/UI Designer</div>
+                <div class="job-period">Sept 2018</div>
+                <div class="tooltip">
+                    <div class="tooltip-company">Volt 480</div>
+                    <div class="tooltip-role">UX/UI Designer</div>
+                    <div class="tooltip-period">Sept 2018 • Remote - Contract</div>
+                    <div class="tooltip-tools">
+                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
+                        <div class="tooltip-tags">
+                            <span class="tooltip-tag">Sketch</span>
+                            <span class="tooltip-tag">Figma</span>
+                            <span class="tooltip-tag">Wireframing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-item">
+                <div class="job-company">EPIK Token</div>
+                <div class="job-title">Marketing Project Manager</div>
+                <div class="job-period">Nov 2017 - Oct 2018 • 1 yr</div>
+                <div class="tooltip">
+                    <div class="tooltip-company">EPIK Token</div>
+                    <div class="tooltip-role">Marketing Project Manager</div>
+                    <div class="tooltip-period">Nov 2017 - Oct 2018 • 1 year • Remote</div>
+                    <div class="tooltip-tools">
+                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
+                        <div class="tooltip-tags">
+                            <span class="tooltip-tag">HTML</span>
+                            <span class="tooltip-tag">CSS</span>
+                            <span class="tooltip-tag">Trello</span>
+                            <span class="tooltip-tag">Photoshop</span>
+                            <span class="tooltip-tag">Sketch</span>
+                            <span class="tooltip-tag">Slack</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-item">
+                <div class="job-company">Vinder</div>
+                <div class="job-title">Product Designer</div>
+                <div class="job-period">Sep 2017 - May 2018 • 1 yr</div>
+                <div class="tooltip">
+                    <div class="tooltip-company">Vinder</div>
+                    <div class="tooltip-role">Product Designer</div>
+                    <div class="tooltip-period">Sep 2017 - May 2018 • 1 year • Remote</div>
+                    <div class="tooltip-tools">
+                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
+                        <div class="tooltip-tags">
+                            <span class="tooltip-tag">Asana</span>
+                            <span class="tooltip-tag">Zeplin</span>
+                            <span class="tooltip-tag">Marvel</span>
+                            <span class="tooltip-tag">Sketch</span>
+                            <span class="tooltip-tag">Trello</span>
+                            <span class="tooltip-tag">Slack</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-item">
+                <div class="job-company">Virtual Fantasy League</div>
+                <div class="job-title">Technical PM/Designer</div>
+                <div class="job-period">Nov 2016 - Sept 2017 • 1 yr</div>
+                <div class="tooltip">
+                    <div class="tooltip-company">Virtual Fantasy League</div>
+                    <div class="tooltip-role">Technical Project Manager / Designer</div>
+                    <div class="tooltip-period">Nov 2016 - Sept 2017 • 1 year • Remote</div>
+                    <div class="tooltip-tools">
+                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
+                        <div class="tooltip-tags">
+                            <span class="tooltip-tag">HTML</span>
+                            <span class="tooltip-tag">CSS</span>
+                            <span class="tooltip-tag">Trello</span>
+                            <span class="tooltip-tag">Photoshop</span>
+                            <span class="tooltip-tag">Sketch</span>
+                            <span class="tooltip-tag">Slack</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-item">
+                <div class="job-company">Tandon Group</div>
+                <div class="job-title">UX Architect</div>
+                <div class="job-period">Jan 2016 - Oct 2016 • 1 yr</div>
+                <div class="tooltip">
+                    <div class="tooltip-company">Tandon Group</div>
+                    <div class="tooltip-role">User Experience Architect</div>
+                    <div class="tooltip-period">Jan 2016 - Oct 2016 • 1 year • San Jose, CA</div>
+                    <div class="tooltip-tools">
+                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
+                        <div class="tooltip-tags">
+                            <span class="tooltip-tag">Sketch</span>
+                            <span class="tooltip-tag">Wordpress</span>
+                            <span class="tooltip-tag">Mailchimp</span>
+                            <span class="tooltip-tag">Hubspot</span>
+                            <span class="tooltip-tag">Photoshop</span>
+                            <span class="tooltip-tag">Asana</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-item">
+                <div class="job-company">Apple Inc</div>
+                <div class="job-title">iOS App Review / UX</div>
+                <div class="job-period">Sep 2010 - Jan 2016 • 6 yrs</div>
+                <div class="tooltip">
+                    <div class="tooltip-company">Apple Inc.</div>
+                    <div class="tooltip-role">iOS App Review / UX Designer</div>
+                    <div class="tooltip-period">Sep 2010 - Jan 2016 • 6 years • Cupertino, CA</div>
+                    <div class="tooltip-tools">
+                        <div class="tooltip-tools-label">TOOLS & TECHNOLOGIES</div>
+                        <div class="tooltip-tags">
+                            <span class="tooltip-tag">Sketch</span>
+                            <span class="tooltip-tag">Keynote</span>
+                            <span class="tooltip-tag">HTML</span>
+                            <span class="tooltip-tag">CSS</span>
+                            <span class="tooltip-tag">Tableau</span>
+                            <span class="tooltip-tag">CMS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-item">
+                <div class="job-company">Apple Inc</div>
+                <div class="job-title">Store Manager</div>
+                <div class="job-period">Nov 2002 - Oct 2006 • 4 yrs</div>
+                <div class="tooltip">
+                    <div class="tooltip-company">Apple Inc.</div>
+                    <div class="tooltip-role">Store Manager</div>
+                    <div class="tooltip-period">Nov 2002 - Oct 2006 • 4 years • San Jose, CA</div>
+                    <div class="tooltip-tools">
+                        <div class="tooltip-tools-label">FOCUS AREAS</div>
+                        <div class="tooltip-tags">
+                            <span class="tooltip-tag">Team Leadership</span>
+                            <span class="tooltip-tag">Operations</span>
+                            <span class="tooltip-tag">Customer Experience</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <nav class="navbar">
-        <div class="nav-content">
-            <div class="logo">ATHAR</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+<nav class="navbar">
+  <div class="nav-content">
+    <div class="logo">ATHAR</div>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="public/AtharHafizCV.pdf">CV/Resume</a></li>
+    </ul>
+  </div>
+</nav>
 
     <section id="home" class="hero">
         <div class="hero-content">
             <div class="hero-text">
-                <h1>Ex-Silicon Valley UX Product Designer</h1>
-                <p>Data-driven UX designer and Lean Six Sigma Greenbelt with expertise in B2B/B2C lifecycles, project management, service blueprints, and design systems. Based in San Francisco Bay Area & Berlin.</p>
+                <h1>UX/UI Product Designer, Product Manager</h1>
+                <p>Data-driven UX designer and Lean Six Sigma Greenbelt with expertise in B2B/B2C lifecycles, service blueprints, and design systems. Based in Berlin.</p>
                 
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -834,92 +966,104 @@
         </div>
     </section>
 
-    <section id="projects">
-        <div class="section-header">
+<section id="projects">
+          <div class="section-header">
             <h2>Featured Projects</h2>
             <p>A selection of my recent work in UX/UI design and product development</p>
         </div>
-
-        <div class="projects-grid">
-            <div class="project-card">
-                <div class="project-image">🚜</div>
-                <div class="project-content">
-                    <h3 class="project-title">Vinder - P2P Farmers Market</h3>
-                    <p class="project-desc">Peer-to-peer farmers market delivery service with complete UX design system. Developed 9 personas, service blueprints for B2B and B2C customer lifecycles.</p>
-                    <div class="project-tags">
-                        <span class="tag">Mobile Design</span>
-                        <span class="tag">Service Design</span>
-                        <span class="tag">Personas</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">🍎</div>
-                <div class="project-content">
-                    <h3 class="project-title">Apple Inc - App Review & UX</h3>
-                    <p class="project-desc">6 years as UX Designer focused on app review processes, data visualization, and internal tools using Sketch, Tableau, and custom CMS systems.</p>
-                    <div class="project-tags">
-                        <span class="tag">Enterprise UX</span>
-                        <span class="tag">Data Viz</span>
-                        <span class="tag">iOS</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">👔</div>
-                <div class="project-content">
-                    <h3 class="project-title">Chef Works Inc - Marketing Dev</h3>
-                    <p class="project-desc">5 years developing marketing automation, data-driven campaigns, and UX improvements. Utilized Figma, Dotdigital, Tableau, and Lean Six Sigma methodologies.</p>
-                    <div class="project-tags">
-                        <span class="tag">Marketing Tech</span>
-                        <span class="tag">Automation</span>
-                        <span class="tag">Analytics</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">📊</div>
-                <div class="project-content">
-                    <h3 class="project-title">110 Hours CRM System</h3>
-                    <p class="project-desc">Enterprise CRM solution for automotive dealerships with advanced lead tracking, communication tools, and AI-powered sequences.</p>
-                    <div class="project-tags">
-                        <span class="tag">Enterprise</span>
-                        <span class="tag">Data Viz</span>
-                        <span class="tag">UX Research</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">🎉</div>
-                <div class="project-content">
-                    <h3 class="project-title">Event Planner CRM Dashboard</h3>
-                    <p class="project-desc">Complete event management platform with real-time analytics, client tracking, and automated workflow systems.</p>
-                    <div class="project-tags">
-                        <span class="tag">Dashboard Design</span>
-                        <span class="tag">CRM</span>
-                        <span class="tag">Analytics</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-image" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">📚</div>
-                <div class="project-content">
-                    <h3 class="project-title">UX Design Fundamentals - Coursebook</h3>
-                    <p class="project-desc">Comprehensive UX design coursebook paired with sketchbook featuring basic instructions, core concepts, and templates for aspiring designers.</p>
-                    <div class="project-tags">
-                        <span class="tag">Education</span>
-                        <span class="tag">Templates</span>
-                        <span class="tag">UX Methods</span>
-                    </div>
-                </div>
-            </div>
+  <div class="projects-grid">
+    <!-- Featured Projects -->
+    <div class="project-card">
+      <div class="project-image"><img src="public/gallery5.png"></div>
+      <div class="project-content">
+        <h3 class="project-title">Vinder – Peer-to-Peer Farmers Market</h3>
+        <p class="project-desc">UX design, personas, service blueprints for B2B/B2C marketplace.</p>
+        <div class="project-tags">
+          <span class="tag">UX Design</span>
+          <span class="tag">Service Design</span>
         </div>
-    </section>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-image"><img src="public/gallery19.png"></div>
+      <div class="project-content">
+        <h3 class="project-title">Volt480 – Service Design Mobile App</h3>
+        <p class="project-desc">Mobile app UX case study with complete user flows and wireframes.</p>
+        <div class="project-tags">
+          <span class="tag">UX</span>
+          <span class="tag">Mobile Design</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-image"><img src="public/gallery7.png"></div>
+      <div class="project-content">
+        <h3 class="project-title">Persona from Chef Works – UX Case Study</h3>
+        <p class="project-desc">Customer personas and lifecycle analysis for global marketing campaigns.</p>
+        <div class="project-tags">
+          <span class="tag">UX</span>
+          <span class="tag">Persona Mapping</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-image"> <img src="public/gallery1.png"></div>
+      <div class="project-content">
+         <h3 class="project-title">Complete CRM System</h3>
+        <p>Enterprise CRM UX for automotive dealerships, with auto dialer, and marketing automation.</p>
+        <div class="project-tags">
+          <span class="tag">Enterprise UX</span>
+          <span class="tag">CRM</span>
+        </div>
+      </div>
+    </div>
+       <div class="section-header">
+            <h2>Prototypes</h2>
+            <p>Vibe coded Apps hosted on my Github</p>
+        </div>
+    <!-- Prototype Apps -->
+    <div class="project-card">
+      <div class="project-image"><img src="public/crmSequences.png"></div>
+      <div class="project-content">
+        <h3 class="project-title">Automotive Sales CRM SaaS</h3>
+        <p class="project-desc">Enterprise automotive CRM prototype, built with AI, hosted on GitHub.</p>
+         <div><p><a href="https://110hourscrmuxuiathar.pages.dev/" target="_blank" style="color:#00ffff;text-decoration:underline;">View App →</a></p></div>
+        <div class="project-tags"><span class="tag">Prototype</span></div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-image"><img src="public/eventDash.png"></div>
+      <div class="project-content">
+        <h3 class="project-title">Event Planner CRM SaaS</h3>
+        <p>Event management dashboard prototype, real-time analytics.</p>
+         <div><p><a href="https://athareventplanner-crm.pages.dev/" target="_blank" style="color:#00ffff;text-decoration:underline;">View App →</a></p></div>
+        <div class="project-tags"><span class="tag">Prototype</span></div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-image"><img src="public/travelFlights.png"></div>
+      <div class="project-content">
+        <h3 class="project-title">Travel Planning with the help of an AI Assistant</h3>
+        <div><p><a href="https://athar-travel-ai-app.pages.dev/" target="_blank" style="color:#00ffff;text-decoration:underline;">View App →</a></p></div>
+        <div class="project-tags"><span class="tag">Prototype</span></div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-image"><img src="public/timerScreen.png"></div>
+      <div class="project-content">
+        <h3 class="project-title">Mobile Timer Interface edit</h3>
+        <div><p><a href="https://ios-timer-athar-edit.pages.dev/" target="_blank" style="color:#00ffff;text-decoration:underline;">View App →</a></p></div>
+        <div class="project-tags"><span class="tag">Prototype</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <section id="skills">
         <div class="section-header">
@@ -1006,97 +1150,15 @@
 
     <footer>
         <div class="social-links">
-            <a href="https://www.linkedin.com/in/atharhafiz/" title="LinkedIn">💻</a>
-            <a href="#" title="GitHub">🕹️</a>
-            <a href="#" title="SoundCloud">🪩</a>
+            <a href="http://www.linkedin.com/in/atharhafiz" title="LinkedIn">💼</a>
+            <a href="https://github.com/atharux" title="GitHub">📱</a>
+            <a href="https://soundcloud.com/aguruxm16" title="SoundCloud">🎨</a>
         </div>
-        <p style="color: rgba(255, 255, 255, 0.5);">© 2025 Athar. Designed with insight & precision.</p>
+        <p style="color: rgba(255, 255, 255, 0.5);">© 2025 Athar Hafiz</p>
     </footer>
 
     <script>
-        // Job data
-        const jobData = {
-            'rising-tide': {
-                company: 'Rising Tide Berlin',
-                role: 'Co-founder',
-                period: 'Dec 2023 - Present • Berlin, Germany',
-                tools: ['Leadership', 'Strategy', 'Community Building', 'Event Planning']
-            },
-            'startup-nda': {
-                company: 'Stealth Startup',
-                role: 'Fractional Director UX Design',
-                period: 'May 2024 • Remote - Contract',
-                tools: ['Figma', 'Strategy', 'Leadership', 'Product Design', 'UX Research']
-            },
-            'chef-works': {
-                company: 'Chef Works, Inc.',
-                role: 'Marketing Developer / Campaign Strategist',
-                period: 'Oct 2018 - Jan 2024 • 5 years • Poway, CA',
-                tools: ['HTML', 'CSS', 'Liquid Script', 'Figma', 'Dotdigital', 'Mapp', 'Asana', 'Photoshop', 'Tableau', 'Lean Six Sigma']
-            },
-            'volt': {
-                company: 'Volt 480',
-                role: 'UX/UI Designer',
-                period: 'Sept 2018 • Remote - Contract',
-                tools: ['Sketch', 'Figma', 'Wireframing', 'Prototyping']
-            },
-            'epik': {
-                company: 'EPIK Token',
-                role: 'Marketing Project Manager',
-                period: 'Nov 2017 - Oct 2018 • 1 year • Remote',
-                tools: ['HTML', 'CSS', 'Trello', 'Photoshop', 'Sketch', 'Slack']
-            },
-            'vinder': {
-                company: 'Vinder',
-                role: 'Product Designer',
-                period: 'Sep 2017 - May 2018 • 1 year • Remote',
-                tools: ['Asana', 'Zeplin', 'Marvel', 'Sketch', 'Trello', 'Slack']
-            },
-            'vfl': {
-                company: 'Virtual Fantasy League',
-                role: 'Technical Project Manager / Designer',
-                period: 'Nov 2016 - Sept 2017 • 1 year • Remote',
-                tools: ['HTML', 'CSS', 'Trello', 'Photoshop', 'Sketch', 'Slack']
-            },
-            'tandon': {
-                company: 'Tandon Group',
-                role: 'User Experience Architect',
-                period: 'Jan 2016 - Oct 2016 • 1 year • San Jose, CA',
-                tools: ['Sketch', 'Wordpress', 'Mailchimp', 'Hubspot', 'Photoshop', 'Asana']
-            },
-            'apple-ux': {
-                company: 'Apple Inc.',
-                role: 'iOS App Review / UX Designer',
-                period: 'Sep 2010 - Jan 2016 • 6 years • Cupertino, CA',
-                tools: ['Sketch', 'Keynote', 'HTML', 'CSS', 'Tableau', 'CMS']
-            },
-            'shane': {
-                company: 'Shane Company',
-                role: 'Assistant Store Manager',
-                period: '2008 - 2010 • 2 years',
-                tools: ['Team Management', 'Sales', 'Customer Service', 'Inventory', 'Training']
-            },
-            'robert-half': {
-                company: 'Robert Half International',
-                role: 'Recruiting/Staffing Manager',
-                period: '2007 - 2008 • 1 year',
-                tools: ['Recruiting', 'Staffing', 'Client Relations', 'Interviewing', 'Account Management']
-            },
-            'eastman': {
-                company: 'Eastman Roofing',
-                role: 'Design Specialist',
-                period: '2006 - 2007 • 1 year',
-                tools: ['CAD', 'Design', 'Client Consultation', 'Project Planning']
-            },
-            'apple-store': {
-                company: 'Apple Inc.',
-                role: 'Store Manager',
-                period: 'Nov 2002 - Oct 2006 • 4 years • San Jose, CA',
-                tools: ['Team Leadership', 'Operations', 'Customer Experience', 'Retail Management', 'Training']
-            }
-        };
-
-        // Timeline toggle functionality
+            // Timeline toggle functionality
         const timelineToggle = document.getElementById('timelineToggle');
         const careerTimeline = document.getElementById('careerTimeline');
         let isTimelineVisible = true;
@@ -1112,49 +1174,7 @@
             }
         });
 
-        // Timeline bar hover functionality
-        const timelineBars = document.querySelectorAll('.timeline-bar');
-        const companyLabels = document.querySelectorAll('.company-label');
-        const tooltip = document.getElementById('jobTooltip');
-        const tooltipCompany = document.getElementById('tooltipCompany');
-        const tooltipRole = document.getElementById('tooltipRole');
-        const tooltipPeriod = document.getElementById('tooltipPeriod');
-        const tooltipTags = document.getElementById('tooltipTags');
-
-        timelineBars.forEach(bar => {
-            bar.addEventListener('mouseenter', function() {
-                const jobKey = this.getAttribute('data-job');
-                const job = jobData[jobKey];
-                
-                if (job) {
-                    // Update tooltip content
-                    tooltipCompany.textContent = job.company;
-                    tooltipRole.textContent = job.role;
-                    tooltipPeriod.textContent = job.period;
-                    tooltipTags.innerHTML = job.tools.map(tool => 
-                        `<span class="tooltip-tag">${tool}</span>`
-                    ).join('');
-                    
-                    // Show tooltip
-                    tooltip.classList.add('active');
-                    
-                    // Highlight corresponding company label
-                    companyLabels.forEach(label => {
-                        if (label.getAttribute('data-job') === jobKey) {
-                            label.classList.add('active');
-                        } else {
-                            label.classList.remove('active');
-                        }
-                    });
-                }
-            });
-            
-            bar.addEventListener('mouseleave', function() {
-                tooltip.classList.remove('active');
-                companyLabels.forEach(label => label.classList.remove('active'));
-            });
-        });
-
+        
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
