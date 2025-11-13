@@ -375,124 +375,27 @@ body {
             transform: translateY(-3px);
         }
 
-   /* Mobile Menu */
-.mobile-menu-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 4px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-}
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
 
-.mobile-menu-toggle span {
-    width: 25px;
-    height: 3px;
-    background: #fff;
-    border-radius: 2px;
-    transition: all 0.3s ease;
-}
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
 
-.mobile-menu-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
 
-.mobile-menu-toggle.active span:nth-child(2) {
-    opacity: 0;
-}
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
 
-.mobile-menu-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -6px);
-}
-
-.cta-buttons {
-    display: flex;
-    gap: 1rem;
-}
-
-@media (max-width: 768px) {
-    .hero-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .hero-text h1 {
-        font-size: 2.5rem;
-    }
-
-    .hero-visual {
-        order: -1;
-        max-width: 400px;
-        margin: 0 auto;
-    }
-
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .cta-buttons {
-        justify-content: center;
-    }
-
-    .projects-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .skills-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .mobile-menu-toggle {
-        display: flex;
-    }
-
-    .nav-links {
-        position: fixed;
-        top: 70px;
-        left: -100%;
-        width: 100%;
-        height: calc(100vh - 70px);
-        background: rgba(15,15,30,0.98);
-        backdrop-filter: blur(20px);
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 2rem;
-        gap: 1.5rem;
-        transition: left 0.3s ease;
-        border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .nav-links.active {
-        left: 0;
-    }
-
-    .nav-links li {
-        width: 100%;
-        text-align: center;
-    }
-
-    .nav-links a {
-        display: block;
-        padding: 1rem;
-        font-size: 1.2rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-text h1 {
-        font-size: 2rem;
-    }
-
-    .section-header h2 {
-        font-size: 2rem;
-    }
-
-    .stat-card {
-        padding: 1rem;
-    }
-}
+            .nav-links {
+                display: none;
+            }
+        }
 
         .floating {
             animation: floating 3s ease-in-out infinite;
@@ -866,12 +769,7 @@ body {
 <nav class="navbar">
   <div class="nav-content">
     <div class="logo">ATHAR</div>
-    <button class="mobile-menu-toggle" id="mobileMenuToggle">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <ul class="nav-links" id="navLinks">
+    <ul class="nav-links">
       <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a href="AtharHafizCV.pdf">CV/Resume</a></li>
@@ -1281,37 +1179,12 @@ body {
             });
         });
 
-// Card hover effect
+        // Card hover effect
         const cards = document.querySelectorAll('.project-card, .skill-category, .stat-card');
         cards.forEach(card => {
             card.addEventListener('mouseenter', function() {
                 this.style.transition = 'all 0.3s ease';
             });
-        });
-
-        // Mobile menu toggle
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const navLinks = document.getElementById('navLinks');
-
-        mobileMenuToggle.addEventListener('click', () => {
-            mobileMenuToggle.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        // Close mobile menu when clicking a link
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenuToggle.classList.remove('active');
-                navLinks.classList.remove('active');
-            });
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!navLinks.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-                mobileMenuToggle.classList.remove('active');
-                navLinks.classList.remove('active');
-            }
         });
     </script>
 </body>
