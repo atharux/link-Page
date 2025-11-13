@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+  <meta name="description" content="Redesigning a web marketplace into a mobile app.">
+  <title>Athar - Designing the VOLT480 app</title>
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0f0f1e 100%);
+  color: #fff;
+  overflow-x: hidden;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(15,15,30,0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  z-index: 1000;
+  padding: 1rem 2rem;
+}
+.nav-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  opacity: 0.8;
+}
+.nav-links a:hover {
+  opacity: 1;
+  color: #667eea;
+}
+.dropdown {
+  position: relative;
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: rgba(15,15,30,0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  min-width: 150px;
+  margin-top: 0;
+  padding-top: 0.5rem;
+}
+.dropdown-menu.show {
+  display: block;
+}
+.dropdown-menu a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  opacity: 0.8;
+}
+.dropdown-menu a:hover {
+  background: rgba(102, 126, 234, 0.2);
+  opacity: 1;
+}
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem 2rem;
+  text-align: center;
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 0;
+}
+.hero-content {
+  max-width: 1000px;
+  position: relative;
+  z-index: 1;
+}
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #fff 0%, #667eea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero p {
+  font-size: 1.25rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.6;
+}
+section {
+  padding: 4rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.divider-section {
+  padding: 2rem;
+  text-align: center;
+}
+.divider-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.5), transparent);
+  margin: 1rem auto;
+  max-width: 600px;
+}
+.divider-text {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.9rem;
+  margin: 1rem 0;
+}
+.challenge-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  margin: 3rem 0;
+}
+.challenge-section h2 {
+  font-size: 1.5rem;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.8;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.image-text-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin: 3rem 0;
+}
+.image-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  overflow: hidden;
+}
+.image-placeholder {
+  width: 100%;
+  height: 300px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+.text-content {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.8;
+}
+.menu-section {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  padding: 3rem;
+  margin: 3rem 0;
+}
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #fff 0%, #667eea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.section-subtitle {
+  font-size: 1.25rem;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.iteration-image {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 3rem;
+  margin: 3rem 0;
+  text-align: center;
+}
+.iteration-placeholder {
+  width: 60%;
+  height: 300px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+.dark-section {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4rem 2rem;
+  margin: 3rem 0;
+  border-radius: 20px;
+}
+.dark-section p {
+  text-align: center;
+  font-size: 1.25rem;
+  color: rgba(255,255,255,0.8);
+  max-width: 900px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+.gallery-section {
+  margin: 4rem 0;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.gallery-item {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.gallery-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+.gallery-placeholder {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: rgba(255,255,255,0.8);
+}
+.gallery-label {
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.8);
+}
+.conclusion-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  margin: 3rem 0;
+}
+.conclusion-section p {
+  font-size: 1.25rem;
+  color: rgba(255,255,255,0.8);
+  max-width: 900px;
+  margin: 0 auto 2rem;
+  line-height: 1.8;
+}
+.contact-section {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+.email-form {
+  max-width: 500px;
+  margin: 2rem auto;
+  display: flex;
+  gap: 1rem;
+}
+.email-input {
+  flex: 1;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+}
+.email-input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+.btn-primary {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+footer {
+  background: rgba(15, 15, 30, 0.8);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  text-align: center;
+  color: rgba(255,255,255,0.7);
+}
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  .image-text-section {
+    grid-template-columns: 1fr;
+  }
+  .iteration-placeholder {
+    width: 100%;
+  }
+  .nav-links {
+    display: none;
+  }
+}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-content">
+      <a href="index.html" class="logo">ATHAR</a>
+      <ul class="nav-links">
+        <li><a href="public/AtharHafizCV.pdf">Resume</a></li>
+        <li class="dropdown">
+          <a href="#">Case Studies</a>
+          <div class="dropdown-menu">
+            <a href="page3.html">Volt480</a>
+            <a href="case_vinder.html">Vinder</a>
+            <a href="page4.html">Persona Map</a>
+            <a href="CRMUX.html">CRM UX/UI</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Case Study: Mobile Prototype</h1>
+      <p>Design and deliver a clickable mobile prototype based on a service web platform</p>
+    </div>
+  </section>
+
+  <section class="divider-section">
+    <div class="divider-line"></div>
+    <div class="divider-text">
+      Client: Volt480<br>I worked remotely with two other people: CEO and Head of Product
+    </div>
+    <div class="divider-line"></div>
+  </section>
+
+  <section class="challenge-section">
+    <h2>Challenge: Deliver new mobile user journey for the sales team to demonstrate the service at a trade show.</h2>
+  </section>
+
+  <section class="image-text-section">
+    <div class="text-content">
+      <p>First, I met with the CEO and Product Manager to understand the purpose of the app and simplify user journeys, so I could begin wireframing the main flows.</p>
+    </div>
+    <div class="image-container">
+    <img src="/Users/athar/Desktop/2025PageNew/cases/projectimages/volt1a.png" style="width: 100%; height: auto; border-radius: 12px; display: block;">
+    </div>
+  </section>
+
+  <section class="menu-section">
+    <div class="image-text-section">
+      <div class="image-container">
+         <img src="/Users/athar/Desktop/2025PageNew/cases/projectimages/volt1.png" style="width: 100%; height: auto; border-radius: 12px; display: block;">
+      </div>
+      <div class="text-content">
+        <p>After studying the process, I decided to use a tabbed sticky menu with a progress bar as a visual signal. This let the user know exactly where they were in the multi-step process.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h1 class="section-title">Iterative process</h1>
+    <p class="section-subtitle">With main steps established I began experimenting with streamlining process, adding feedback, and signifiers</p>
+    <div class="iteration-image">
+       <img src="/Users/athar/Desktop/2025PageNew/cases/projectimages/voltscreens.png" style="width: 100%; height: auto; border-radius: 12px; display: block;">
+    </div>
+  </section>
+
+  <section class="dark-section">
+    <p>Once I verified the UX, I updated the UI layer in Marvel and then created the Zeplin project to communicate specs with the devs.</p>
+  </section>
+
+  <section>
+    <h3 class="section-subtitle">My contributions to the project</h3>
+  </section>
+
+  <section class="gallery-section">
+    <div class="gallery-grid">
+      <div class="gallery-item">
+          <img src="/Users/athar/Desktop/2025PageNew/cases/projectimages/voltWorkflow.png" style="width: 100%; height: auto; border-radius: 12px; display: block;">
+        <div class="gallery-label">Journeys</div>
+      </div>
+  
+      <div class="gallery-item">
+        <img src="/Users/athar/Desktop/2025PageNew/cases/projectimages/volt1.png" style="width: 100%; height: auto; border-radius: 12px; display: block;">
+        <div class="gallery-label">Multistep tabbed and scroll navigation</div>
+      </div>
+      <div class="gallery-item">
+               <img src="/Users/athar/Desktop/2025PageNew/cases/projectimages/volt1a.png" style="width: 100%; height: auto; border-radius: 12px; display: block;">
+
+        <div class="gallery-label">Flows</div>
+      </div>
+    
+            <div class="gallery-item">
+        <img src="/Users/athar/Desktop/2025PageNew/cases/projectimages/voltSubmit.png" style="width: 100%; height: auto; border-radius: 12px; display: block;">
+        <div class="gallery-label">Progress feedback</div>
+      </div>
+      <div class="gallery-item">
+         <img src="/Users/athar/Desktop/2025PageNew/cases/projectimages/voltmobilef.png" style="width: 100%; height: auto; border-radius: 12px; display: block;">
+
+        <div class="gallery-label">Mobile</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="conclusion-section">
+    <h1 class="section-title">Conclusion</h1>
+    <p>I delivered a Marvel prototype along with a Zeplin project with final UI within 2 weeks. VOLT480 was able to successfully demonstrate the product on a mobile device at the industry trade show.</p>
+  </section>
+
+  <section class="contact-section">
+    <h2 class="section-title">Design service</h2>
+    <h3 class="section-subtitle">Concept to prototype for a new modern app or website. Let's talk.</h3>
+    <form class="email-form">
+      <input type="email" class="email-input" placeholder="Email" required>
+      <button type="submit" class="btn-primary">Send</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>Athar Hafiz © 2025</p>
+  </footer>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdown = document.querySelector('.dropdown');
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+  let timeoutId;
+
+  function showMenu() {
+    clearTimeout(timeoutId);
+    dropdownMenu.classList.add('show');
+  }
+
+  function hideMenu() {
+    timeoutId = setTimeout(() => {
+      dropdownMenu.classList.remove('show');
+    }, 100);
+  }
+
+  dropdown.addEventListener('mouseenter', showMenu);
+  dropdown.addEventListener('mouseleave', hideMenu);
+  dropdownMenu.addEventListener('mouseenter', showMenu);
+  dropdownMenu.addEventListener('mouseleave', hideMenu);
+});
+</script>
+</body>
+</html>
