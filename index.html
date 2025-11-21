@@ -465,7 +465,7 @@ footer {
 
 .cta-buttons { 
   display: flex; 
-  gap: 10px; 
+  gap: 5px; 
 }
 
 /* Career Timeline Section - Full Width */
@@ -716,7 +716,7 @@ footer {
           <div class="dot"></div>
         </div>
         <div class="preview-content">
-          <a href="https://athareventplanner-crm.pages.dev/" target="_blank"><img id="eventScreenshot" class="preview-image" src="https://atharux.com/public/crmSequences.png" alt="Event Planner CRM Screenshot" onerror="this.style.display='none'; document.getElementById('previewFallback').style.display='flex';" /></a>
+          <img id="eventScreenshot" class="preview-image" src="https://atharux.com/public/crmSequences.png" alt="Event Planner CRM Screenshot" onerror="this.style.display='none'; document.getElementById('previewFallback').style.display='flex';" />
           <div id="previewFallback" class="preview-fallback" style="display:none;">Event Planner CRM preview unavailable – <a href="https://athareventplanner-crm.pages.dev/" target="_blank" style="color:#9aa8ff;text-decoration:underline;">Open app</a></div>
         </div>
       </div>
@@ -775,6 +775,7 @@ footer {
     </div>
   </div>
 </section>
+
 <section id="projects">
           <div class="section-header">
             <h2>Featured Projects</h2>
@@ -834,9 +835,8 @@ footer {
 
        <div class="section-header">
             <h2>Prototypes</h2>
-            <p>Reverse prompt engineered with long prompt feedback loops.</p>
-             <p>React + Vite Apps</p>
-            <p>Ai Assistants: ChatGPT, Claude, Perplexity</p>
+            <p>Long form, reverse prompt engineered</p>
+            <p>working alongside ChatGPT, Claude, Perplexity</p>
         </div>
     <!-- Prototype Apps -->
     <div class="project-card">
@@ -969,176 +969,196 @@ footer {
         <p style="color: rgba(255, 255, 255, 0.5);">© 2025 Athar Hafiz</p>
     </footer>
     
+
 <script>
-        // Job data
-        const jobData = {
-            'rising-tide': {
-                company: 'Rising Tide Berlin',
-                role: 'Co-founder',
-                period: 'Dec 2023 - Present • Berlin, Germany',
-                tools: ['Leadership', 'Strategy', 'Community Building', 'Event Planning']
-            },
-            'startup-nda': {
-                company: 'Stealth Startup',
-                role: 'Fractional Director UX Design',
-                period: 'May 2024 • Remote - Contract',
-                tools: ['Figma', 'Strategy', 'Leadership', 'Product Design', 'UX Research']
-            },
-            'chef-works': {
-                company: 'Chef Works, Inc.',
-                role: 'Marketing Developer / Campaign Strategist',
-                period: 'Oct 2018 - Jan 2024 • 5 years • Poway, CA',
-                tools: ['HTML', 'CSS', 'Liquid Script', 'Figma', 'Dotdigital', 'Mapp', 'Asana', 'Photoshop', 'Tableau', 'Lean Six Sigma']
-            },
-            'volt': {
-                company: 'Volt 480',
-                role: 'UX/UI Designer',
-                period: 'Sept 2018 • Remote - Contract',
-                tools: ['Sketch', 'Figma', 'Wireframing', 'Prototyping']
-            },
-            'epik': {
-                company: 'EPIK Token',
-                role: 'Marketing Project Manager',
-                period: 'Nov 2017 - Oct 2018 • 1 year • Remote',
-                tools: ['HTML', 'CSS', 'Trello', 'Photoshop', 'Sketch', 'Slack']
-            },
-            'vinder': {
-                company: 'Vinder',
-                role: 'Product Designer',
-                period: 'Sep 2017 - May 2018 • 1 year • Remote',
-                tools: ['Asana', 'Zeplin', 'Marvel', 'Sketch', 'Trello', 'Slack']
-            },
-            'vfl': {
-                company: 'Virtual Fantasy League',
-                role: 'Technical Project Manager / Designer',
-                period: 'Nov 2016 - Sept 2017 • 1 year • Remote',
-                tools: ['HTML', 'CSS', 'Trello', 'Photoshop', 'Sketch', 'Slack']
-            },
-            'tandon': {
-                company: 'Tandon Group',
-                role: 'User Experience Architect',
-                period: 'Jan 2016 - Oct 2016 • 1 year • San Jose, CA',
-                tools: ['Sketch', 'Wordpress', 'Mailchimp', 'Hubspot', 'Photoshop', 'Asana']
-            },
-            'apple-ux': {
-                company: 'Apple Inc.',
-                role: 'iOS App Review / UX Designer',
-                period: 'Sep 2010 - Jan 2016 • 6 years • Cupertino, CA',
-                tools: ['Sketch', 'Keynote', 'HTML', 'CSS', 'Tableau', 'CMS']
-            },
-            'shane': {
-                company: 'Shane Company',
-                role: 'Assistant Store Manager',
-                period: '2008 - 2010 • 2 years',
-                tools: ['Team Management', 'Sales', 'Customer Service', 'Inventory', 'Training']
-            },
-            'robert-half': {
-                company: 'Robert Half International',
-                role: 'Recruiting/Staffing Manager',
-                period: '2007 - 2008 • 1 year',
-                tools: ['Recruiting', 'Staffing', 'Client Relations', 'Interviewing', 'Account Management']
-            },
-            'eastman': {
-                company: 'Eastman Roofing',
-                role: 'Design Specialist',
-                period: '2006 - 2007 • 1 year',
-                tools: ['CAD', 'Design', 'Client Consultation', 'Project Planning']
-            },
-            'apple-store': {
-                company: 'Apple Inc.',
-                role: 'Store Manager',
-                period: 'Nov 2002 - Oct 2006 • 4 years • San Jose, CA',
-                tools: ['Team Leadership', 'Operations', 'Customer Experience', 'Retail Management', 'Training']
-            }
-        };
+const jobData = {
+  'rising-tide': {
+    company: 'Rising Tide Berlin',
+    role: 'Co-founder',
+    period: 'Dec 2023 - Present • Berlin, Germany',
+    tools: ['Leadership', 'Strategy', 'Community Building', 'Event Planning']
+  },
+  'startup-nda': {
+    company: 'Stealth Startup',
+    role: 'Fractional Director UX Design',
+    period: 'May 2024 • Remote - Contract',
+    tools: ['Figma', 'Strategy', 'Leadership', 'Product Design', 'UX Research']
+  },
+  'chef-works': {
+    company: 'Chef Works, Inc.',
+    role: 'Marketing Developer / Campaign Strategist',
+    period: 'Oct 2018 - Jan 2024 • 5 years • Poway, CA',
+    tools: ['HTML', 'CSS', 'Liquid Script', 'Figma', 'Dotdigital', 'Mapp', 'Asana', 'Photoshop', 'Tableau', 'Lean Six Sigma']
+  },
+  'volt': {
+    company: 'Volt 480',
+    role: 'UX/UI Designer',
+    period: 'Sept 2018 • Remote - Contract',
+    tools: ['Sketch', 'Figma', 'Wireframing', 'Prototyping']
+  },
+  'epik': {
+    company: 'EPIK Token',
+    role: 'Marketing Project Manager',
+    period: 'Nov 2017 - Oct 2018 • 1 year • Remote',
+    tools: ['HTML', 'CSS', 'Trello', 'Photoshop', 'Sketch', 'Slack']
+  },
+  'vinder': {
+    company: 'Vinder',
+    role: 'Product Designer',
+    period: 'Sep 2017 - May 2018 • 1 year • Remote',
+    tools: ['Asana', 'Zeplin', 'Marvel', 'Sketch', 'Trello', 'Slack']
+  },
+  'vfl': {
+    company: 'Virtual Fantasy League',
+    role: 'Technical Project Manager / Designer',
+    period: 'Nov 2016 - Sept 2017 • 1 year • Remote',
+    tools: ['HTML', 'CSS', 'Trello', 'Photoshop', 'Sketch', 'Slack']
+  },
+  'tandon': {
+    company: 'Tandon Group',
+    role: 'User Experience Architect',
+    period: 'Jan 2016 - Oct 2016 • 1 year • San Jose, CA',
+    tools: ['Sketch', 'Wordpress', 'Mailchimp', 'Hubspot', 'Photoshop', 'Asana']
+  },
+  'apple-ux': {
+    company: 'Apple Inc.',
+    role: 'iOS App Review / UX Designer',
+    period: 'Sep 2010 - Jan 2016 • 6 years • Cupertino, CA',
+    tools: ['Sketch', 'Keynote', 'HTML', 'CSS', 'Tableau', 'CMS']
+  },
+  'shane': {
+    company: 'Shane Company',
+    role: 'Assistant Store Manager',
+    period: '2008 - 2010 • 2 years',
+    tools: ['Team Management', 'Sales', 'Customer Service', 'Inventory', 'Training']
+  },
+  'robert-half': {
+    company: 'Robert Half International',
+    role: 'Recruiting/Staffing Manager',
+    period: '2007 - 2008 • 1 year',
+    tools: ['Recruiting', 'Staffing', 'Client Relations', 'Interviewing', 'Account Management']
+  },
+  'eastman': {
+    company: 'Eastman Roofing',
+    role: 'Design Specialist',
+    period: '2006 - 2007 • 1 year',
+    tools: ['CAD', 'Design', 'Client Consultation', 'Project Planning']
+  },
+  'apple-store': {
+    company: 'Apple Inc.',
+    role: 'Store Manager',
+    period: 'Nov 2002 - Oct 2006 • 4 years • San Jose, CA',
+    tools: ['Team Leadership', 'Operations', 'Customer Experience', 'Retail Management', 'Training']
+  }
+};
 
-        // Timeline toggle functionality
-        const timelineToggle = document.getElementById('timelineToggle');
-        const careerTimeline = document.getElementById('careerTimeline');
-        let isTimelineVisible = true;
+const tooltip = document.getElementById('jobTooltip');
+const tooltipCompany = document.getElementById('tooltipCompany');
+const tooltipRole = document.getElementById('tooltipRole');
+const tooltipPeriod = document.getElementById('tooltipPeriod');
+const tooltipTags = document.getElementById('tooltipTags');
+const timelineBars = document.querySelectorAll('.timeline-bar');
+const companyLabels = document.querySelectorAll('.company-label');
+const timelineTrack = document.querySelector('.timeline-track');
 
-        timelineToggle.addEventListener('click', () => {
-            isTimelineVisible = !isTimelineVisible;
-            if (isTimelineVisible) {
-                careerTimeline.style.display = 'block';
-                timelineToggle.classList.add('active');
-            } else {
-                careerTimeline.style.display = 'none';
-                timelineToggle.classList.remove('active');
-            }
-        });
+function showTooltip(jobKey, referenceElement) {
+  const job = jobData[jobKey];
+  if (!job) return;
 
-        // Timeline bar hover functionality
-        const timelineBars = document.querySelectorAll('.timeline-bar');
-        const companyLabels = document.querySelectorAll('.company-label');
-        const tooltip = document.getElementById('jobTooltip');
-        const tooltipCompany = document.getElementById('tooltipCompany');
-        const tooltipRole = document.getElementById('tooltipRole');
-        const tooltipPeriod = document.getElementById('tooltipPeriod');
-        const tooltipTags = document.getElementById('tooltipTags');
+  tooltipCompany.textContent = job.company;
+  tooltipRole.textContent = job.role;
+  tooltipPeriod.textContent = job.period;
+  tooltipTags.innerHTML = job.tools.map(t => `<span class="tooltip-tag">${t}</span>`).join('');
 
-        timelineBars.forEach(bar => {
-            bar.addEventListener('mouseenter', function() {
-                const jobKey = this.getAttribute('data-job');
-                const job = jobData[jobKey];
-                
-                if (job) {
-                    // Update tooltip content
-                    tooltipCompany.textContent = job.company;
-                    tooltipRole.textContent = job.role;
-                    tooltipPeriod.textContent = job.period;
-                    tooltipTags.innerHTML = job.tools.map(tool => 
-                        `<span class="tooltip-tag">${tool}</span>`
-                    ).join('');
-                    
-                    // Show tooltip
-                    tooltip.classList.add('active');
-                    
-                    // Highlight corresponding company label
-                    companyLabels.forEach(label => {
-                        if (label.getAttribute('data-job') === jobKey) {
-                            label.classList.add('active');
-                        } else {
-                            label.classList.remove('active');
-                        }
-                    });
-                }
-            });
-            
-            bar.addEventListener('mouseleave', function() {
-                tooltip.classList.remove('active');
-                companyLabels.forEach(label => label.classList.remove('active'));
-            });
-        });
+  const trackRect = timelineTrack.getBoundingClientRect();
+  const refRect = referenceElement.getBoundingClientRect();
+  const relativeCenter = refRect.left - trackRect.left + (refRect.width / 2);
 
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
+  tooltip.style.left = `${relativeCenter}px`;
 
-        // Parallax effect on scroll
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const glows = document.querySelectorAll('.glow');
-            glows.forEach((glow, index) => {
-                const speed = (index + 1) * 0.5;
-                glow.style.transform = `translateY(${scrolled * speed}px)`;
-            });
-        });
+  const tooltipWidth = 340;
+  const halfWidth = tooltipWidth / 2;
+  const padding = 20;
 
-        // Card hover effect
-        const cards = document.querySelectorAll('.project-card, .skill-category, .stat-card');
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transition = 'all 0.3s ease';
-            });
-        });
-    </script>
+  if (relativeCenter - halfWidth < padding) {
+    tooltip.style.left = `${halfWidth + padding}px`;
+  } else if (relativeCenter + halfWidth > trackRect.width - padding) {
+    tooltip.style.left = `${trackRect.width - halfWidth - padding}px`;
+  }
+
+  tooltip.classList.add('active');
+
+  companyLabels.forEach(label => {
+    if (label.getAttribute('data-job') === jobKey) {
+      label.classList.add('active');
+    } else {
+      label.classList.remove('active');
+    }
+  });
+}
+
+function hideTooltip() {
+  tooltip.classList.remove('active');
+  companyLabels.forEach(label => label.classList.remove('active'));
+}
+
+timelineBars.forEach(bar => {
+  bar.addEventListener('mouseenter', function() {
+    const jobKey = this.getAttribute('data-job');
+    showTooltip(jobKey, this);
+  });
+  bar.addEventListener('mouseleave', hideTooltip);
+});
+
+companyLabels.forEach(label => {
+  label.addEventListener('mouseenter', function() {
+    const jobKey = this.getAttribute('data-job');
+    const correspondingBar = document.querySelector(`.timeline-bar[data-job="${jobKey}"]`);
+    if (correspondingBar) {
+      correspondingBar.style.height = '18px';
+      correspondingBar.style.transform = 'translateY(-50%) translateY(-4px)';
+      correspondingBar.style.boxShadow = '0 10px 30px rgba(102,126,234,0.45)';
+      showTooltip(jobKey, correspondingBar);
+    }
+  });
+  
+  label.addEventListener('mouseleave', function() {
+    const jobKey = this.getAttribute('data-job');
+    const correspondingBar = document.querySelector(`.timeline-bar[data-job="${jobKey}"]`);
+    if (correspondingBar) {
+      correspondingBar.style.height = '12px';
+      correspondingBar.style.transform = 'translateY(-50%)';
+      correspondingBar.style.boxShadow = '0 6px 18px rgba(0,0,0,0.35)';
+    }
+    hideTooltip();
+  });
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+window.addEventListener('scroll', () => {
+  const scrolled = window.pageYOffset;
+  const glows = document.querySelectorAll('.glow');
+  glows.forEach((glow, index) => {
+    const speed = (index + 1) * 0.5;
+    glow.style.transform = `translateY(${scrolled * speed}px)`;
+  });
+});
+
+const cards = document.querySelectorAll('.project-card, .skill-category, .stat-card');
+cards.forEach(card => {
+  card.addEventListener('mouseenter', function() {
+    this.style.transition = 'all 0.3s ease';
+  });
+});
+</script>
 </body>
 </html>
