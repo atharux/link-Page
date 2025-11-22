@@ -768,6 +768,119 @@ footer {
     justify-content: center;
     font-size: 0.85rem;
   }
+    }
+        /* Theme Toggle Button */
+.theme-toggle {
+  position: fixed;
+  top: 3.25rem;
+  right: 2rem;
+  z-index: 1001;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle svg {
+  width: 24px;
+  height: 24px;
+  stroke: #ffffff;
+  transition: all 0.3s ease;
+}
+
+/* Glassmorphic Theme */
+body.glass-theme {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+}
+
+body.glass-theme::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.glass-theme .navbar {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body.glass-theme .project-card,
+body.glass-theme .skill-category,
+body.glass-theme .stat-card,
+body.glass-theme .contact-card,
+body.glass-theme .dashboard-preview {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+body.glass-theme .timeline-track {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+body.glass-theme footer {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body.glass-theme .btn-secondary {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+body.glass-theme .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+body.glass-theme .contact-item {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body.glass-theme .contact-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+body.glass-theme .tooltip {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: 1rem;
+    right: 1rem;
+    width: 44px;
+    height: 44px;
+  }
+}
 }
 </style>
 </head>
@@ -785,6 +898,16 @@ footer {
     </ul>
   </div>
 </div>
+    
+    <!-- Theme Toggle Button -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle glassmorphic theme">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="2" opacity="0.3"/>
+    <rect x="5" y="5" width="14" height="14" rx="2" opacity="0.5"/>
+    <rect x="7" y="7" width="10" height="10" rx="2" opacity="0.8"/>
+    <rect x="9" y="9" width="6" height="6" rx="1"/>
+  </svg>
+</button>
 
 <section id="home" class="hero">
   <div class="hero-content">
@@ -1258,6 +1381,33 @@ cards.forEach(card => {
   card.addEventListener('mouseenter', function() {
     this.style.transition = 'all 0.3s ease';
   });
+});
+    
+    // Theme Toggle
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
+
+// Check for saved theme preference
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'glass') {
+  body.classList.add('glass-theme');
+}
+
+themeToggle.addEventListener('click', () => {
+  body.classList.toggle('glass-theme');
+  
+  // Save preference
+  if (body.classList.contains('glass-theme')) {
+    localStorage.setItem('theme', 'glass');
+  } else {
+    localStorage.removeItem('theme');
+  }
+  
+  // Add a little animation feedback
+  themeToggle.style.transform = 'scale(0.9)';
+  setTimeout(() => {
+    themeToggle.style.transform = '';
+  }, 150);
 });
 </script>
 </body>
