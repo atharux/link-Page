@@ -617,11 +617,18 @@ footer {
 
 @media (max-width: 768px) {
     body {
-    width: 95%;
-        margin: 0 auto;
-    align-items: center;
-    display: block;
+        margin: 0;
+        padding: 0;
     }
+    
+    section {
+    padding: 4rem 1rem;
+    width: 100%;
+}
+
+.projects-grid {
+    padding: 0 1rem;
+}
     
   .hero-content {
     grid-template-columns: 1fr;
@@ -645,6 +652,9 @@ footer {
 
   .career-timeline.full-width { 
     padding: 1rem; 
+      padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .tooltip { 
