@@ -615,11 +615,99 @@ footer {
   border: 1px solid rgba(102,126,234,0.18); 
 }
 
-@media (max-width: 768px) {
-    body {
-        margin: 0;
-        padding: 0;
-    }
+
+    @media (max-width: 768px) {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Hero Section Fixes */
+  .hero {
+    padding: 5rem 1.5rem 2rem;
+    min-height: auto;
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0;
+  }
+
+  .hero-text {
+    text-align: center;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+  }
+
+  /* Dashboard Preview - make it responsive */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+  }
+
+  .dashboard-preview {
+    width: 100%;
+    max-width: 360px;
+    height: 220px;
+    padding: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+  }
+
+  /* Rest of your existing mobile styles... */
+  section {
+    padding: 4rem 1rem;
+    width: 100%;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
+  .career-timeline.full-width { 
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
     
     section {
     padding: 4rem 1rem;
