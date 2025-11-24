@@ -617,11 +617,15 @@ footer {
 
 
     @media (max-width: 768px) {
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
+ body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+    }
+ * {
+        max-width: 100%;
+        }
   /* Hero Section Fixes */
   .hero {
     padding: 5rem 1.5rem 2rem;
@@ -696,6 +700,7 @@ footer {
   section {
     padding: 4rem 1rem;
     width: 100%;
+    box-sizing: border-box;
   }
 
   .projects-grid {
@@ -709,10 +714,6 @@ footer {
     box-sizing: border-box;
   }
     
-    section {
-    padding: 4rem 1rem;
-    width: 100%;
-}
 
 .projects-grid {
     padding: 0 1rem;
@@ -726,9 +727,7 @@ footer {
     font-size: 2.5rem;
   }
 
-  .stats-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  
 
   .projects-grid {
     grid-template-columns: 1fr;
