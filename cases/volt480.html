@@ -153,6 +153,65 @@ document.addEventListener('DOMContentLoaded', function() {
   dropdownMenu.addEventListener('mouseenter', showMenu);
   dropdownMenu.addEventListener('mouseleave', hideMenu);
 });
+
+  // Image Zoom Lightbox
+document.addEventListener('DOMContentLoaded', function() {
+  // Create overlay element
+  const overlay = document.createElement('div');
+  overlay.className = 'image-overlay';
+  overlay.innerHTML = '<div class="image-overlay-close">×</div>';
+  document.body.appendChild(overlay);
+  
+  // Get all zoomable images
+  const zoomableContainers = document.querySelectorAll('.image-container, .large-image');
+  
+  zoomableContainers.forEach(container => {
+    container.addEventListener('click', function() {
+      const img = this.querySelector('img');
+      if (img) {
+        const clonedImg = img.cloneNode();
+        
+        // Remove existing image if any
+        const existingImg = overlay.querySelector('img');
+        if (existingImg) {
+          existingImg.remove();
+        }
+        
+        // Add close button before image
+        const closeBtn = overlay.querySelector('.image-overlay-close');
+        overlay.insertBefore(clonedImg, closeBtn.nextSibling);
+        overlay.classList.add('active');
+        
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+  
+  // Close overlay function
+  function closeOverlay() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  
+  // Close on background click
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) {
+      closeOverlay();
+    }
+  });
+  
+  // Close on X button click
+  const closeBtn = overlay.querySelector('.image-overlay-close');
+  closeBtn.addEventListener('click', closeOverlay);
+  
+  // Close on ESC key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) {
+      closeOverlay();
+    }
+  });
+});
 </script>
 </body>
 </html>
