@@ -616,214 +616,6 @@ footer {
 }
 
 
-    @media (max-width: 768px) {
- body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        overflow-x: hidden;
-    }
- * {
-        max-width: 100%;
-        }
-  /* Hero Section Fixes */
-  .hero {
-    padding: 5rem 1.5rem 2rem;
-    min-height: auto;
-  }
-
-  .hero-content {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 0;
-  }
-
-  .hero-text {
-    text-align: center;
-  }
-
-  .hero-text h1 {
-    font-size: 2rem;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-  }
-
-  .hero-text p {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .cta-buttons {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  .btn-primary,
-  .btn-secondary {
-    width: 100%;
-    max-width: 280px;
-    text-align: center;
-  }
-
-  /* Dashboard Preview - make it responsive */
-  .hero-visual {
-    display: flex;
-    justify-content: center;
-  }
-
-  .dashboard-preview {
-    width: 100%;
-    max-width: 360px;
-    height: 220px;
-    padding: 1.5rem;
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
-  }
-
-  .stat-card {
-    padding: 1rem;
-  }
-
-  .stat-number {
-    font-size: 1.5rem;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-  }
-
-  /* Rest of your existing mobile styles... */
-  section {
-    padding: 4rem 1rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .projects-grid {
-    grid-template-columns: 1fr;
-    padding: 0 1rem;
-  }
-
-  .career-timeline.full-width { 
-    padding: 1rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-    @media (max-width: 768px) {
-  /* Existing mobile styles... */
-  
-  /* Timeline Tooltip Fixes */
-  .career-timeline.full-width {
-    position: relative;
-    overflow: visible;
-  }
-  
-  .timeline-track {
-    position: relative;
-    overflow: visible;
-  }
-  
-  .tooltip {
-    width: 90vw;
-    max-width: 320px;
-    left: 50% !important;
-    transform: translateX(-50%);
-    top: -180px;
-  }
-  
-  .tooltip.active {
-    top: -200px;
-    z-index: 9999;
-  }
-  
-  /* Make sure tooltip isn't cut off by section */
-  .career-section {
-    overflow: visible;
-    padding-bottom: 6rem;
-  }
-  
-  /* Ensure tooltips appear above everything */
-  body.glass-theme .tooltip,
-  body.brutalist-theme .tooltip {
-    z-index: 9999;
-  }
-  
-  /* Make timeline bars more tappable on mobile */
-  .timeline-bar {
-    height: 20px !important;
-    cursor: pointer;
-  }
-  
-  .timeline-bar:active {
-    height: 24px !important;
-    transform: translateY(-50%) translateY(-6px) !important;
-  }
-  
-  /* Alternative: Show tooltip on tap for mobile */
-  .timeline-bar.active-touch {
-    height: 24px !important;
-    box-shadow: 0 10px 30px rgba(102,126,234,0.45);
-  }
-}
-    
-
-.projects-grid {
-    padding: 0 1rem;
-}
-    
-  .hero-content {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-text h1 {
-    font-size: 2.5rem;
-  }
-
-  
-
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .nav-links {
-    display: none;
-  }
-
-  .career-timeline.full-width { 
-    padding: 1rem; 
-      padding: 1rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .tooltip { 
-    width: 280px; 
-  }
-
-  .company-labels { 
-    font-size: 0.85rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .company-label {
-    font-size: 0.8rem;
-  }
-
-  .timeline-header {
-    font-size: 1.8rem;
-    text-align: center;
-  }
-
-  .timeline-years {
-    justify-content: center;
-    font-size: 0.85rem;
-  }
-    }
         /* Theme Toggle Button */
 .theme-toggle {
   position: fixed;
@@ -1148,6 +940,7 @@ body.brutalist-theme .timeline-header {
   color: #000000;
   font-weight: 900;
 }
+    
 /* Glassmorphic Theme */
 body.glass-theme {
   background: linear-gradient(135deg, #93A5CF 0%, #E4EfE9 100%);
@@ -1240,15 +1033,229 @@ body.glass-theme .tooltip {
 }
 
 /* Mobile adjustments */
-@media (max-width: 768px) {
+
+   @media (max-width: 768px) {
+       
   .theme-toggle {
     top: 1rem;
     right: 1rem;
     width: 44px;
     height: 44px;
   }
+    
+    body.glass-theme .hero-text h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }       
+ body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+    }
+ * {
+        max-width: 100%;
+        }
+  /* Hero Section Fixes */
+  .hero {
+    padding: 5rem 1.5rem 2rem;
+    min-height: auto;
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0;
+  }
+
+  .hero-text {
+    text-align: center;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+  }
+
+  /* Dashboard Preview - make it responsive */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+  }
+
+  .dashboard-preview {
+    width: 100%;
+    max-width: 360px;
+    height: 220px;
+    padding: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+  }
+
+  /* Rest of your existing mobile styles... */
+  section {
+    padding: 4rem 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
+  .career-timeline.full-width { 
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+    @media (max-width: 768px) {
+  /* Existing mobile styles... */
+  
+  /* Timeline Tooltip Fixes */
+  .career-timeline.full-width {
+    position: relative;
+    overflow: visible;
+  }
+  
+  .timeline-track {
+    position: relative;
+    overflow: visible;
+  }
+  
+  .tooltip {
+    width: 90vw;
+    max-width: 320px;
+    left: 50% !important;
+    transform: translateX(-50%);
+    top: -180px;
+  }
+  
+  .tooltip.active {
+    top: -200px;
+    z-index: 9999;
+  }
+  
+  /* Make sure tooltip isn't cut off by section */
+  .career-section {
+    overflow: visible;
+    padding-bottom: 6rem;
+  }
+  
+  /* Ensure tooltips appear above everything */
+  body.glass-theme .tooltip,
+  body.brutalist-theme .tooltip {
+    z-index: 9999;
+  }
+  
+  /* Make timeline bars more tappable on mobile */
+  .timeline-bar {
+    height: 20px !important;
+    cursor: pointer;
+  }
+  
+  .timeline-bar:active {
+    height: 24px !important;
+    transform: translateY(-50%) translateY(-6px) !important;
+  }
+  
+  /* Alternative: Show tooltip on tap for mobile */
+  .timeline-bar.active-touch {
+    height: 24px !important;
+    box-shadow: 0 10px 30px rgba(102,126,234,0.45);
+  }
 }
+    
+
+.projects-grid {
+    padding: 0 1rem;
 }
+    
+  .hero-content {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-text h1 {
+    font-size: 2.5rem;
+  }
+
+  
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .career-timeline.full-width { 
+    padding: 1rem; 
+      padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .tooltip { 
+    width: 280px; 
+  }
+
+  .company-labels { 
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .company-label {
+    font-size: 0.8rem;
+  }
+
+  .timeline-header {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .timeline-years {
+    justify-content: center;
+    font-size: 0.85rem;
+  }
+    }
+
 </style>
 </head>
 <body>
