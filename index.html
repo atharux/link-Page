@@ -713,6 +713,62 @@ footer {
     width: 100%;
     box-sizing: border-box;
   }
+    @media (max-width: 768px) {
+  /* Existing mobile styles... */
+  
+  /* Timeline Tooltip Fixes */
+  .career-timeline.full-width {
+    position: relative;
+    overflow: visible;
+  }
+  
+  .timeline-track {
+    position: relative;
+    overflow: visible;
+  }
+  
+  .tooltip {
+    width: 90vw;
+    max-width: 320px;
+    left: 50% !important;
+    transform: translateX(-50%);
+    top: -180px;
+  }
+  
+  .tooltip.active {
+    top: -200px;
+    z-index: 9999;
+  }
+  
+  /* Make sure tooltip isn't cut off by section */
+  .career-section {
+    overflow: visible;
+    padding-bottom: 6rem;
+  }
+  
+  /* Ensure tooltips appear above everything */
+  body.glass-theme .tooltip,
+  body.brutalist-theme .tooltip {
+    z-index: 9999;
+  }
+  
+  /* Make timeline bars more tappable on mobile */
+  .timeline-bar {
+    height: 20px !important;
+    cursor: pointer;
+  }
+  
+  .timeline-bar:active {
+    height: 24px !important;
+    transform: translateY(-50%) translateY(-6px) !important;
+  }
+  
+  /* Alternative: Show tooltip on tap for mobile */
+  .timeline-bar.active-touch {
+    height: 24px !important;
+    box-shadow: 0 10px 30px rgba(102,126,234,0.45);
+  }
+}
     
 
 .projects-grid {
@@ -1733,6 +1789,78 @@ themeToggle.addEventListener('click', () => {
     themeToggle.style.transform = '';
   }, 150);
 });
+    
+// Mobile touch support for timeline tooltips
+if ('ontouchstart' in window) {
+  let activeBar = null;
+  
+  timelineBars.forEach(bar => {
+    bar.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      
+      // Remove previous active state
+      if (activeBar) {
+        activeBar.classList.remove('active-touch');
+      }
+      
+      // Hide previous tooltip
+      hideTooltip();
+      
+      // If clicking the same bar, just close it
+      if (activeBar === this) {
+        activeBar = null;
+        return;
+      }
+      
+      // Show new tooltip
+      activeBar = this;
+      this.classList.add('active-touch');
+      const jobKey = this.getAttribute('data-job');
+      showTooltip(jobKey, this);
+    });
+  });
+  
+  // Also handle label taps on mobile
+  companyLabels.forEach(label => {
+    label.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      const jobKey = this.getAttribute('data-job');
+      const correspondingBar = document.querySelector(`.timeline-bar[data-job="${jobKey}"]`);
+      
+      if (correspondingBar) {
+        // Remove previous active
+        if (activeBar) {
+          activeBar.classList.remove('active-touch');
+        }
+        hideTooltip();
+        
+        // If same label, close
+        if (activeBar === correspondingBar) {
+          activeBar = null;
+          return;
+        }
+        
+        // Activate new
+        activeBar = correspondingBar;
+        correspondingBar.classList.add('active-touch');
+        showTooltip(jobKey, correspondingBar);
+      }
+    });
+  });
+  
+  // Close tooltip when tapping outside
+  document.addEventListener('touchstart', function(e) {
+    if (!e.target.closest('.timeline-bar') && 
+        !e.target.closest('.company-label') && 
+        !e.target.closest('.tooltip')) {
+      if (activeBar) {
+        activeBar.classList.remove('active-touch');
+        activeBar = null;
+      }
+      hideTooltip();
+    }
+  });
+}
 </script>
 </body>
 </html>
