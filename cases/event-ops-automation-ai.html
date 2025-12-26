@@ -61,6 +61,96 @@
 
     /* Links section */
     .links a { display:block; margin-bottom: 8px; font-weight: bold; }
+
+    .ai-output-panel {
+  background: linear-gradient(
+    180deg,
+    rgba(40, 45, 75, 0.85),
+    rgba(20, 25, 45, 0.9)
+  );
+  border-radius: 16px;
+  padding: 24px;
+  color: #e6e9f2;
+  box-shadow: 0 0 0 1px rgba(150, 100, 255, 0.35),
+              0 0 40px rgba(150, 100, 255, 0.25);
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.ai-header h2 {
+  margin: 8px 0 4px;
+}
+
+.ai-badge {
+  background: rgba(150, 100, 255, 0.25);
+  color: #cdbbff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.ai-subtitle {
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+.ai-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.summary-card {
+  background: rgba(10, 15, 30, 0.6);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.summary-value {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.status {
+  font-size: 12px;
+  margin-top: 6px;
+  display: inline-block;
+}
+
+.status.success {
+  color: #6dffb2;
+}
+
+.status.neutral {
+  color: #9aa3c7;
+}
+
+.ai-section h3 {
+  margin-bottom: 12px;
+}
+
+.vendor-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.vendor-cost {
+  color: #bfa8ff;
+}
+
+.next-actions {
+  list-style: none;
+  padding: 0;
+}
+
+.next-actions li {
+  padding: 6px 0;
+  opacity: 0.85;
+}
+
   </style>
 </head>
 <body>
@@ -142,6 +232,68 @@ AI Orchestration Layer → Advisory Prompts
       </ul>
     </div>
 
+    <hr>
+  <!-- Ai Output panel -->
+    <div class="ai-output-panel">
+  <div class="ai-header">
+    <span class="ai-badge">✨ AI Assistant</span>
+    <h2>Event Plan Generated</h2>
+    <p class="ai-subtitle">
+      Operational summary based on your event description
+    </p>
+  </div>
+
+  <div class="ai-summary">
+    <div class="summary-card">
+      <label>Total Estimated Cost</label>
+      <div class="summary-value">€11,360</div>
+      <span class="status success">Within Budget</span>
+    </div>
+
+    <div class="summary-card">
+      <label>Risk Assessment</label>
+      <div class="summary-value">No Risks Detected</div>
+      <span class="status neutral">All clear</span>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <h3>Recommended Vendors</h3>
+
+    <div class="vendor-row">
+      <span class="vendor-type">Venue</span>
+      <span class="vendor-tier">Standard</span>
+      <span class="vendor-cost">€3,600</span>
+    </div>
+
+    <div class="vendor-row">
+      <span class="vendor-type">Catering</span>
+      <span class="vendor-tier">Mid</span>
+      <span class="vendor-cost">€4,800</span>
+    </div>
+
+    <div class="vendor-row">
+      <span class="vendor-type">DJ</span>
+      <span class="vendor-tier">Standard</span>
+      <span class="vendor-cost">€2,000</span>
+    </div>
+
+    <div class="vendor-row">
+      <span class="vendor-type">Security</span>
+      <span class="vendor-tier">Standard</span>
+      <span class="vendor-cost">€960</span>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <h3>Next Actions</h3>
+    <ul class="next-actions">
+      <li>Proceed to vendor outreach</li>
+      <li>Confirm availability</li>
+    </ul>
+  </div>
+</div>
+    
     <hr>
 
     <!-- Technical Highlights -->
