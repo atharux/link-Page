@@ -5,22 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Event Ops Automation with AI — Case Study | AtharUX</title>
   <style>
-    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #111; color: #eee; }
-    .container { max-width: 900px; margin: 50px auto; padding: 20px; }
+    /* Body & Fonts */
+    body { 
+      font-family: 'Geist', Arial, sans-serif; 
+      background-color: #111; 
+      color: #eee; 
+      margin: 0; padding: 0;
+    }
+
+    /* Container with glassmorphism */
+    .container { 
+      max-width: 900px; 
+      margin: 50px auto; 
+      padding: 40px; 
+      background: rgba(255,255,255,0.05); 
+      backdrop-filter: blur(12px); 
+      border-radius: 20px; 
+      box-shadow: 0 8px 32px rgba(0,255,255,0.2); 
+    }
+
+    /* Headings */
     h1, h2, h3 { color: #00ffff; }
+    h1 { font-size: 2.2em; margin-bottom: 20px; }
+    h2 { font-size: 1.8em; margin-top: 40px; margin-bottom: 20px; }
+    h3 { font-size: 1.4em; margin-bottom: 15px; }
+
+    /* Paragraphs */
+    p { margin-bottom: 15px; line-height: 1.6; }
+
+    /* Links */
     a { color: #00ffff; text-decoration: none; }
     a:hover { text-decoration: underline; }
-    ul { margin-left: 20px; }
-    .section { margin-bottom: 40px; }
-    .links a { display: block; margin-bottom: 8px; }
-    pre { background-color: #222; padding: 10px; overflow-x: auto; }
+
+    /* Lists */
+    ul { margin-left: 20px; margin-bottom: 20px; }
+
+    /* Images */
+    .centered-img { display: block; margin: 30px auto; width: 80%; border-radius: 15px; box-shadow: 0 0 20px rgba(0,255,255,0.5); }
+
+    .screenshot-row { display:flex; gap:20px; flex-wrap:wrap; justify-content:center; margin:30px 0; }
+    .screenshot-row img { width:48%; border-radius:15px; box-shadow:0 0 20px rgba(0,255,255,0.4); }
+
+    /* Preformatted blocks */
+    pre { 
+      background: rgba(255,255,255,0.05); 
+      border-left: 4px solid #00ffff; 
+      padding: 12px; 
+      border-radius: 10px; 
+      overflow-x:auto; 
+      box-shadow: 0 0 15px rgba(0,255,255,0.2); 
+    }
+
+    /* Section divider */
+    hr { border:0; height:1px; background: linear-gradient(to right, #00ffff, rgba(0,255,255,0)); margin:40px 0; }
+
+    /* Links section */
+    .links a { display:block; margin-bottom: 8px; font-weight: bold; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Event Ops Automation with AI</h1>
 
-    <div class="section">
+    <!-- Overview -->
+    <div>
       <h2>Overview</h2>
       <p>
         Event planners manage complex operational workflows involving budgets, vendors, logistics, and risk—often across disconnected tools and manual processes.
@@ -31,9 +79,18 @@
       <p>
         The reference implementation confirms the architecture works and integrates safely with an existing event planning UI, without requiring any UI changes.
       </p>
+
+      <!-- Visual storytelling: conceptual screenshot -->
+      <div class="screenshot-row">
+        <img src="/assets/eventDash1.png" alt="Dashboard Screenshot 1">
+        <img src="/assets/eventDash2.png" alt="Dashboard Screenshot 2">
+      </div>
     </div>
 
-    <div class="section">
+    <hr>
+
+    <!-- Role -->
+    <div>
       <h2>My Role</h2>
       <ul>
         <li>Defined system architecture and workflows</li>
@@ -45,14 +102,18 @@
       <p><em>Note:</em> The Python reference implementation was co-developed with an AI coding assistant. My focus was on architecture, rules, validation, and portfolio-level design, not production-level coding.</p>
     </div>
 
-    <div class="section">
+    <hr>
+
+    <!-- System Architecture -->
+    <div>
       <h2>System Architecture</h2>
       <p>The system has two layers:</p>
       <ul>
         <li><strong>Deterministic Operations Layer:</strong> Calculates costs using explicit rules, evaluates budget constraints, detects risks, and generates suggested next actions.</li>
-        <li><strong>AI Orchestration Layer:</strong> Converts deterministic outputs into AI-safe context, suggests optimizations and strategies without modifying system facts, and validates advisory recommendations against business rules.</li>
+        <li><strong>AI Orchestration Layer:</strong> Converts deterministic outputs into AI-safe context, suggests optimizations without modifying system facts, and validates advisory recommendations against business rules.</li>
       </ul>
       <p><strong>Data Flow:</strong></p>
+      <img src="/assets/event-ops-diagram.png" alt="Event Ops Automation Flow Diagram" class="centered-img">
       <pre>
 Add Event UI
      ↓
@@ -66,7 +127,10 @@ AI Orchestration Layer → Advisory Prompts
       </pre>
     </div>
 
-    <div class="section">
+    <hr>
+
+    <!-- Methodology & Tooling -->
+    <div>
       <h2>Methodology & Tooling</h2>
       <ul>
         <li><strong>Python 3.12</strong> — reference implementation, not production backend</li>
@@ -77,7 +141,10 @@ AI Orchestration Layer → Advisory Prompts
       </ul>
     </div>
 
-    <div class="section">
+    <hr>
+
+    <!-- Technical Highlights -->
+    <div>
       <h2>Technical Highlights</h2>
       <ul>
         <li>Rule-based cost estimation</li>
@@ -88,11 +155,14 @@ AI Orchestration Layer → Advisory Prompts
       </ul>
     </div>
 
-    <div class="section links">
+    <hr>
+
+    <!-- Links -->
+    <div class="links">
       <h2>Links</h2>
       <a href="https://athareventplanner-crm.pages.dev/" target="_blank">Live Prototype</a>
-      <a href="https://github.com/atharux/Eventopsautomation" target="_blank">System Repository (GitHub)</a>
-      <a href="/systemFlowDiagram.png" target="_blank">System Architecture Diagram</a>
+      <a href="https://github.com/YOUR_USERNAME/event-ops-automation" target="_blank">System Repository (GitHub)</a>
+      <a href="/assets/event-ops-diagram.png" target="_blank">System Architecture Diagram</a>
     </div>
 
   </div>
