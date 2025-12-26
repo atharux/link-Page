@@ -1,0 +1,144 @@
+<svg viewBox="0 0 800 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d97706;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="700" text-anchor="middle" fill="#1f2937">
+    Event Operations Automation
+  </text>
+  
+  <!-- User Input Layer -->
+  <g filter="url(#shadow)">
+    <rect x="200" y="80" width="400" height="80" rx="12" fill="#f0f4ff" stroke="#667eea" stroke-width="2"/>
+    <text x="400" y="115" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" text-anchor="middle" fill="#667eea">
+      USER INTERFACE
+    </text>
+    <text x="400" y="140" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" text-anchor="middle" fill="#1f2937">
+      Add Event
+    </text>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 400 160 L 400 200" stroke="#9ca3af" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Structured Input -->
+  <g filter="url(#shadow)">
+    <rect x="200" y="200" width="400" height="80" rx="12" fill="url(#greenGrad)"/>
+    <text x="400" y="235" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" text-anchor="middle" fill="white">
+      Structured Event Data
+    </text>
+    <text x="400" y="258" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="middle" fill="rgba(255,255,255,0.9)">
+      JSON Schema Validation
+    </text>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 400 280 L 400 320" stroke="#9ca3af" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Rules Engine -->
+  <g filter="url(#shadow)">
+    <rect x="200" y="320" width="400" height="90" rx="12" fill="url(#orangeGrad)"/>
+    <circle cx="250" cy="365" r="20" fill="rgba(255,255,255,0.2)"/>
+    <path d="M 245 365 L 250 370 L 260 355" stroke="white" stroke-width="3" fill="none"/>
+    <text x="400" y="360" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" text-anchor="middle" fill="white">
+      Deterministic Rules Engine
+    </text>
+    <text x="400" y="385" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="middle" fill="rgba(255,255,255,0.9)">
+      Business Logic • Constraints • Validation
+    </text>
+  </g>
+  
+  <!-- Separator Line -->
+  <line x1="100" y1="450" x2="700" y2="450" stroke="#e5e7eb" stroke-width="2" stroke-dasharray="8,8"/>
+  <rect x="310" y="438" width="180" height="24" fill="white"/>
+  <text x="400" y="455" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#6b7280">
+    DETERMINISTIC LAYER
+  </text>
+  
+  <!-- Arrow -->
+  <path d="M 400 410 L 400 490" stroke="#9ca3af" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Operational Plan -->
+  <g filter="url(#shadow)">
+    <rect x="200" y="490" width="400" height="80" rx="12" fill="url(#orangeGrad)" opacity="0.8"/>
+    <text x="400" y="525" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" text-anchor="middle" fill="white">
+      Operational Plan
+    </text>
+    <text x="400" y="548" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="middle" fill="rgba(255,255,255,0.9)">
+      Executable Actions • Resource Allocation
+    </text>
+  </g>
+  
+  <!-- Arrow -->
+  <path d="M 400 570 L 400 610" stroke="#9ca3af" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- AI Advisory -->
+  <g filter="url(#shadow)">
+    <rect x="200" y="610" width="400" height="90" rx="12" fill="url(#blueGrad)"/>
+    <circle cx="250" cy="655" r="18" fill="rgba(255,255,255,0.2)"/>
+    <text x="250" y="662" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="white">AI</text>
+    <text x="400" y="650" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" text-anchor="middle" fill="white">
+      AI Advisory Layer
+    </text>
+    <text x="400" y="675" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="middle" fill="rgba(255,255,255,0.9)">
+      Insights • Optimization • Risk Analysis
+    </text>
+  </g>
+  
+  <!-- Advisory Box -->
+  <g filter="url(#shadow)">
+    <rect x="480" y="730" width="280" height="120" rx="12" fill="#fefefe" stroke="#667eea" stroke-width="2"/>
+    <text x="620" y="755" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" text-anchor="middle" fill="#667eea">
+      ADVISORY ONLY
+    </text>
+    <text x="495" y="780" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="start" fill="#4b5563">
+      • Performance optimization
+    </text>
+    <text x="495" y="805" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="start" fill="#4b5563">
+      • Risk mitigation strategies
+    </text>
+    <text x="495" y="830" font-family="system-ui, -apple-system, sans-serif" font-size="14" text-anchor="start" fill="#4b5563">
+      • Best practice recommendations
+    </text>
+  </g>
+  
+  <!-- Connection line to advisory -->
+  <path d="M 600 655 L 620 655 L 620 730" stroke="#667eea" stroke-width="2" fill="none" stroke-dasharray="6,4"/>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#9ca3af"/>
+    </marker>
+  </defs>
+  
+  <!-- Legend -->
+  <g>
+    <text x="50" y="875" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#6b7280">
+      ARCHITECTURE:
+    </text>
+    <rect x="165" y="863" width="80" height="18" rx="4" fill="url(#orangeGrad)" opacity="0.8"/>
+    <text x="205" y="876" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="white">
+      Deterministic
+    </text>
+    <rect x="260" y="863" width="80" height="18" rx="4" fill="url(#blueGrad)"/>
+    <text x="300" y="876" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="white">
+      AI-Powered
+    </text>
+  </g>
+</svg>
