@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Ops Automation with AI — Case Study | AtharUX</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #111; color: #eee; }
+    .container { max-width: 900px; margin: 50px auto; padding: 20px; }
+    h1, h2, h3 { color: #00ffff; }
+    a { color: #00ffff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    ul { margin-left: 20px; }
+    .section { margin-bottom: 40px; }
+    .links a { display: block; margin-bottom: 8px; }
+    pre { background-color: #222; padding: 10px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Event Ops Automation with AI</h1>
+
+    <div class="section">
+      <h2>Overview</h2>
+      <p>
+        Event planners manage complex operational workflows involving budgets, vendors, logistics, and risk—often across disconnected tools and manual processes.
+      </p>
+      <p>
+        I designed a Python-based reference implementation to validate a structured system for automating event operations. The system separates <strong>deterministic rules</strong> (costs, budget constraints, risk detection) from an <strong>AI advisory layer</strong> that suggests optimizations without modifying facts.
+      </p>
+      <p>
+        The reference implementation confirms the architecture works and integrates safely with an existing event planning UI, without requiring any UI changes.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>My Role</h2>
+      <ul>
+        <li>Defined system architecture and workflows</li>
+        <li>Modeled business rules and deterministic logic for event operations</li>
+        <li>Designed AI orchestration patterns and boundaries</li>
+        <li>Validated system behavior through a <strong>Python reference implementation</strong>, assisted by an AI coding tool</li>
+        <li>Authored documentation and case study for portfolio integration</li>
+      </ul>
+      <p><em>Note:</em> The Python reference implementation was co-developed with an AI coding assistant. My focus was on architecture, rules, validation, and portfolio-level design, not production-level coding.</p>
+    </div>
+
+    <div class="section">
+      <h2>System Architecture</h2>
+      <p>The system has two layers:</p>
+      <ul>
+        <li><strong>Deterministic Operations Layer:</strong> Calculates costs using explicit rules, evaluates budget constraints, detects risks, and generates suggested next actions.</li>
+        <li><strong>AI Orchestration Layer:</strong> Converts deterministic outputs into AI-safe context, suggests optimizations and strategies without modifying system facts, and validates advisory recommendations against business rules.</li>
+      </ul>
+      <p><strong>Data Flow:</strong></p>
+      <pre>
+Add Event UI
+     ↓
+Structured Event Input (JSON)
+     ↓
+Deterministic Rules Engine (Reference Implementation)
+     ↓
+Operational Plan (JSON)
+     ↓
+AI Orchestration Layer → Advisory Prompts
+      </pre>
+    </div>
+
+    <div class="section">
+      <h2>Methodology & Tooling</h2>
+      <ul>
+        <li><strong>Python 3.12</strong> — reference implementation, not production backend</li>
+        <li><strong>JSON-first architecture</strong> — separates data, rules, and AI prompts</li>
+        <li><strong>AI-assisted coding</strong> — used AI to generate code scaffolding and logic, while I directed architecture and verified behavior</li>
+        <li><strong>Validation</strong> — tested outputs with realistic input events to confirm expected operational behavior</li>
+        <li><strong>No UI changes</strong> — system designed to integrate seamlessly with the existing event planner interface</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Technical Highlights</h2>
+      <ul>
+        <li>Rule-based cost estimation</li>
+        <li>Budget and risk evaluation</li>
+        <li>AI advisory context generation</li>
+        <li>Deterministic vs probabilistic separation</li>
+        <li>System validation via Python reference implementation</li>
+      </ul>
+    </div>
+
+    <div class="section links">
+      <h2>Links</h2>
+      <a href="https://athareventplanner-crm.pages.dev/" target="_blank">Live Prototype</a>
+      <a href="https://github.com/YOUR_USERNAME/event-ops-automation" target="_blank">System Repository (GitHub)</a>
+      <a href="/assets/event-ops-diagram.png" target="_blank">System Architecture Diagram</a>
+    </div>
+
+  </div>
+</body>
+</html>
