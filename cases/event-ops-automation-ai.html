@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Event Ops Automation with AI — Case Study | AtharUX</title>
+  <title>Event Ops Automation with AI – Case Study | AtharUX</title>
   <style>
     /* Body & Fonts */
     body { 
@@ -25,11 +24,25 @@
       box-shadow: 0 8px 32px rgba(0,255,255,0.2); 
     }
 
+    /* Responsive container */
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+    }
+
     /* Headings */
     h1, h2, h3 { color: #00ffff; }
     h1 { font-size: 2.2em; margin-bottom: 20px; }
     h2 { font-size: 1.8em; margin-top: 40px; margin-bottom: 20px; }
     h3 { font-size: 1.4em; margin-bottom: 15px; }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 1.6em; }
+      h2 { font-size: 1.4em; margin-top: 30px; }
+      h3 { font-size: 1.2em; }
+    }
 
     /* Paragraphs */
     p { margin-bottom: 15px; line-height: 1.6; }
@@ -44,8 +57,17 @@
     /* Images */
     .centered-img { display: block; margin: 30px auto; width: 80%; border-radius: 15px; box-shadow: 0 0 20px rgba(0,255,255,0.5); }
 
+    @media (max-width: 768px) {
+      .centered-img { width: 100%; margin: 20px auto; }
+    }
+
     .screenshot-row { display:flex; gap:20px; flex-wrap:wrap; justify-content:center; margin:30px 0; }
     .screenshot-row img { width:48%; border-radius:15px; box-shadow:0 0 20px rgba(0,255,255,0.4); }
+
+    @media (max-width: 768px) {
+      .screenshot-row { gap: 10px; margin: 20px 0; }
+      .screenshot-row img { width: 100%; }
+    }
 
     /* Preformatted blocks */
     pre { 
@@ -57,8 +79,16 @@
       box-shadow: 0 0 15px rgba(0,255,255,0.2); 
     }
 
+    @media (max-width: 768px) {
+      pre { font-size: 12px; padding: 10px; }
+    }
+
     /* Section divider */
     hr { border:0; height:1px; background: linear-gradient(to right, #00ffff, rgba(0,255,255,0)); margin:40px 0; }
+
+    @media (max-width: 768px) {
+      hr { margin: 30px 0; }
+    }
 
     /* Links section */
     .links a { display:block; margin-bottom: 8px; font-weight: bold; }
@@ -75,6 +105,10 @@
   box-shadow: 0 0 0 1px rgba(150, 100, 255, 0.35),
               0 0 40px rgba(150, 100, 255, 0.25);
   font-family: Inter, system-ui, sans-serif;
+}
+
+@media (max-width: 768px) {
+  .ai-output-panel { padding: 16px; }
 }
 
 .ai-header h2 {
@@ -101,6 +135,10 @@
   margin: 24px 0;
 }
 
+@media (max-width: 768px) {
+  .ai-summary { grid-template-columns: 1fr; gap: 12px; }
+}
+
 .summary-card {
   background: rgba(10, 15, 30, 0.6);
   border-radius: 12px;
@@ -111,6 +149,10 @@
   font-size: 22px;
   font-weight: 600;
   margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+  .summary-value { font-size: 18px; }
 }
 
 .status {
@@ -138,6 +180,11 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+@media (max-width: 768px) {
+  .vendor-row { grid-template-columns: 1fr auto; gap: 8px; }
+  .vendor-row .vendor-tier { display: none; }
+}
+
 .vendor-cost {
   color: #bfa8ff;
 }
@@ -159,11 +206,19 @@
   box-shadow: inset 0 0 0 1px rgba(150, 100, 255, 0.25);
 }
 
+@media (max-width: 768px) {
+  .code-panel { padding: 16px; margin-top: 24px; }
+}
+
 .code-header {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+  .code-header { flex-direction: column; align-items: flex-start; gap: 8px; }
 }
 
 .code-badge {
@@ -190,6 +245,10 @@
   overflow-x: auto;
 }
 
+@media (max-width: 768px) {
+  .code-block { font-size: 11px; padding: 12px; }
+}
+
 .code-caption {
   margin-top: 10px;
   font-size: 12px;
@@ -201,6 +260,10 @@
   border-radius: 16px;
   background: rgba(20, 25, 45, 0.7);
   box-shadow: inset 0 0 0 1px rgba(150, 100, 255, 0.25);
+}
+
+@media (max-width: 768px) {
+  .admin-panel { padding: 16px; margin-top: 30px; }
 }
 
 .admin-badge {
@@ -223,6 +286,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .admin-grid { grid-template-columns: 1fr; gap: 12px; }
 }
 
 .admin-field label {
@@ -258,13 +325,13 @@
     <div>
       <h2>Overview</h2>
       <p>
-        Event planners manage complex operational workflows involving budgets, vendors, logistics, and risk—often across disconnected tools and manual processes.
+        Event planners manage complex operational workflows involving budgets, vendors, logistics, and risk—often across disconnected tools and manual processes. This creates data quality issues, inconsistent validation, and difficulty scaling operational decision-making.
       </p>
       <p>
-        I designed a Python-based reference implementation to validate a structured system for automating event operations. The system separates <strong>deterministic rules</strong> (costs, budget constraints, risk detection) from an <strong>AI advisory layer</strong> that suggests optimizations without modifying facts.
+        I designed a system architecture to demonstrate how structured data pipelines and rule-based validation can automate event operations while maintaining governance. The system separates <strong>deterministic business logic</strong> (cost calculations, budget constraints, risk detection) from an <strong>AI advisory layer</strong> that provides recommendations without modifying source data or bypassing validation rules.
       </p>
       <p>
-        The reference implementation confirms the architecture works and integrates safely with an existing <a href="https://athareventplanner-crm.pages.dev/" target="_blank">event planning UI</a>, without requiring any UI changes.
+        A Python reference implementation was built to validate the architecture. I defined the data models, business rules, validation logic, and system boundaries. An AI coding assistant generated implementation code based on my specifications. The reference implementation confirms the architecture is sound and can integrate with an existing <a href="https://athareventplanner-crm.pages.dev/" target="_blank">event planning UI</a> without requiring frontend changes.
       </p>
 
       <!-- Visual storytelling: conceptual screenshot -->
@@ -281,13 +348,15 @@
     <div>
       <h2>My Role</h2>
       <ul>
-        <li>Defined system architecture and workflows</li>
-        <li>Modeled business rules and deterministic logic for event operations</li>
-        <li>Designed AI orchestration patterns and boundaries</li>
-        <li>Validated system behavior through a <strong>Python reference implementation</strong>, assisted by an AI coding tool</li>
-        <li>Authored documentation and case study for portfolio integration</li>
+        <li>Designed system architecture with clear separation between deterministic operations and AI advisory layers</li>
+        <li>Defined data schemas, validation rules, and business logic for event cost estimation, budget evaluation, and risk detection</li>
+        <li>Specified data flow patterns to ensure governance and auditability at each system stage</li>
+        <li>Architected AI orchestration boundaries to prevent probabilistic outputs from contaminating deterministic operations</li>
+        <li>Directed development of a <strong>Python reference implementation</strong> to validate system behavior, using an AI coding assistant to generate code based on my specifications</li>
+        <li>Verified system outputs against expected operational behavior using realistic event scenarios</li>
+        <li>Documented architecture, data flows, and design decisions for portfolio and technical review</li>
       </ul>
-      <p><em>Note:</em> The Python reference implementation was co-developed with an AI coding assistant. My focus was on architecture, rules, validation, and portfolio-level design, not production-level coding.</p>
+      <p><strong>Contribution Breakdown:</strong> I was responsible for architectural design, data modeling, rule specification, validation strategy, and system verification. The Python code itself was generated by an AI coding assistant following my detailed specifications. My focus was on system design, governance, and ensuring the reference implementation validated the architecture—not production-level software engineering.</p>
     </div>
 
     <hr>
@@ -295,24 +364,34 @@
     <!-- System Architecture -->
     <div>
       <h2>System Architecture</h2>
-      <p>The system has two layers:</p>
+      <p>The system is organized into two distinct layers to maintain data integrity and governance:</p>
       <ul>
-        <li><strong>Deterministic Operations Layer:</strong> Calculates costs using explicit rules, evaluates budget constraints, detects risks, and generates suggested next actions.</li>
-        <li><strong>AI Orchestration Layer:</strong> Converts deterministic outputs into AI-safe context, suggests optimizations without modifying system facts, and validates advisory recommendations against business rules.</li>
+        <li><strong>Deterministic Operations Layer:</strong> Executes explicit business rules for cost calculation, budget constraint evaluation, risk flag detection, and next-action generation. All outputs are traceable to rule definitions. No probabilistic logic exists at this layer.</li>
+        <li><strong>AI Orchestration Layer:</strong> Consumes validated operational outputs as structured context. Generates advisory recommendations (vendor optimization, risk mitigation strategies) without modifying source data or bypassing validation rules. All AI outputs are clearly labeled as advisory.</li>
       </ul>
-      <p><strong>Data Flow:</strong></p>
+      <p><strong>Data Flow & Validation Pipeline:</strong></p>
       <img src="https://atharux.com/cases/projectimages/event-ops-flow.svg" alt="Event Ops Automation Flow Diagram" class="centered-img">
       <pre>
 <a href="https://athareventplanner-crm.pages.dev/" target="_blank">Add Event UI</a>
      ↓
-Structured Event Input (JSON)
+[1] Structured Event Input (JSON)
      ↓
-Deterministic Rules Engine (Reference Implementation)
+[2] Schema Validation Layer
      ↓
-Operational Plan (JSON)
+[3] Deterministic Rules Engine (Python Reference Implementation)
+    - Cost calculation via explicit rules
+    - Budget constraint evaluation
+    - Risk flag detection
      ↓
-AI Orchestration Layer → Advisory Prompts
+[4] Operational Plan Output (JSON)
+     ↓
+[5] AI Orchestration Layer
+    - Converts validated data to AI-safe context
+    - Generates advisory prompts (no data modification)
+     ↓
+[6] Advisory Recommendations (labeled as non-deterministic)
       </pre>
+      <p><strong>Governance Principles:</strong> Each stage produces auditable, versioned outputs. Deterministic operations are testable and reproducible. AI advisory outputs cannot override validated data or business rules. All system decisions trace back to either explicit rules or labeled AI recommendations.</p>
     </div>
 
     <hr>
@@ -321,12 +400,15 @@ AI Orchestration Layer → Advisory Prompts
     <div>
       <h2>Methodology & Tooling</h2>
       <ul>
-        <li><strong>Python 3.12</strong> — reference implementation, not production backend</li>
-        <li><strong>JSON-first architecture</strong> — separates data, rules, and AI prompts</li>
-        <li><strong>AI-assisted coding</strong> — used AI to generate code scaffolding and logic, while I directed architecture and verified behavior</li>
-        <li><strong>Validation</strong> — tested outputs with realistic input events to confirm expected operational behavior</li>
-        <li><strong>No UI changes</strong> — system designed to integrate seamlessly with the existing event planner interface</li>
+        <li><strong>Python 3.12</strong> — reference implementation for validation purposes, not production backend</li>
+        <li><strong>JSON-first data architecture</strong> — ensures structured, schema-validated inputs and outputs at every pipeline stage</li>
+        <li><strong>Rule-based deterministic logic</strong> — all cost, budget, and risk calculations follow explicit, testable rules with no probabilistic behavior</li>
+        <li><strong>AI-assisted code generation</strong> — I specified system requirements, data models, and business rules; an AI coding assistant generated Python implementation code</li>
+        <li><strong>Validation & verification</strong> — tested system behavior with realistic event scenarios to confirm outputs matched expected operational logic</li>
+        <li><strong>Data lineage & auditability</strong> — each transformation stage produces traceable outputs; deterministic operations are reproducible; AI advisory outputs are clearly labeled</li>
+        <li><strong>Zero UI modification requirement</strong> — system designed to integrate with existing event planner interface via API contract without frontend changes</li>
       </ul>
+      <p><strong>Architectural Focus:</strong> This project prioritizes demonstrating sound system design, data governance, and separation of concerns over production-grade implementation. The Python reference code validates that the architecture works as specified.</p>
     </div>
 
     <hr>
@@ -370,8 +452,7 @@ AI Orchestration Layer → Advisory Prompts
 }</code></pre>
 
   <p class="code-caption">
-    Output generated by a Python reference implementation used to validate
-    system logic prior to AI advisory generation.
+    Output generated by the Python reference implementation. All values are calculated via explicit rules and are fully auditable. This validated output serves as input to the AI advisory layer, ensuring no probabilistic logic contaminates deterministic operations.
   </p>
 </div>
 
@@ -484,12 +565,14 @@ AI Orchestration Layer → Advisory Prompts
     <div>
       <h2>Technical Highlights</h2>
       <ul>
-        <li>Rule-based cost estimation</li>
-        <li>Budget and risk evaluation</li>
-        <li>AI advisory context generation</li>
-        <li>Deterministic vs probabilistic separation</li>
-        <li>System validation via Python reference implementation</li>
+        <li><strong>Data validation pipeline:</strong> Schema enforcement at input, rule-based transformations at processing, structured outputs for downstream consumption</li>
+        <li><strong>Deterministic business logic:</strong> All cost, budget, and risk calculations follow explicit, testable rules with reproducible outputs</li>
+        <li><strong>Governance & auditability:</strong> Each pipeline stage produces traceable, versioned outputs; no black-box operations</li>
+        <li><strong>AI boundary enforcement:</strong> Probabilistic advisory layer consumes validated data as read-only context; cannot modify source data or override business rules</li>
+        <li><strong>Architectural validation:</strong> Python reference implementation confirms system design is sound, data flows are correct, and integration is feasible</li>
+        <li><strong>Separation of concerns:</strong> Clear distinction between deterministic operations (rules engine) and probabilistic outputs (AI advisory layer)</li>
       </ul>
+      <p><strong>Relevance to Data Engineering:</strong> This project demonstrates data pipeline design, validation strategy, schema governance, and architectural patterns for separating deterministic and probabilistic operations—core skills for data engineering and AI system integration roles.</p>
     </div>
 
     <hr>
