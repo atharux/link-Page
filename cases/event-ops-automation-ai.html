@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -194,6 +195,58 @@
   font-size: 12px;
   opacity: 0.6;
 }
+.admin-panel {
+  margin-top: 40px;
+  padding: 24px;
+  border-radius: 16px;
+  background: rgba(20, 25, 45, 0.7);
+  box-shadow: inset 0 0 0 1px rgba(150, 100, 255, 0.25);
+}
+
+.admin-badge {
+  display: inline-block;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 140, 0, 0.25);
+  color: #ffd7a0;
+  margin-bottom: 8px;
+}
+
+.admin-subtitle {
+  font-size: 14px;
+  opacity: 0.7;
+  margin-bottom: 20px;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.admin-field label {
+  display: block;
+  font-size: 12px;
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+
+.admin-field input {
+  width: 100%;
+  background: rgba(5, 8, 18, 0.8);
+  color: #e6e9f2;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 8px;
+}
+
+.admin-caption {
+  margin-top: 16px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
 
   </style>
 </head>
@@ -322,6 +375,46 @@ AI Orchestration Layer → Advisory Prompts
   </p>
 </div>
 
+<hr>
+<div class="admin-panel">
+  <div class="admin-header">
+    <span class="admin-badge">Admin Controls</span>
+    <h3>Deterministic Rule Configuration</h3>
+    <p class="admin-subtitle">
+      Parameters used by the planning engine before AI advisory generation
+    </p>
+  </div>
+
+  <div class="admin-grid">
+    <div class="admin-field">
+      <label>Venue Cost Multiplier</label>
+      <input type="range" min="0.8" max="1.5" step="0.05" value="1.0" disabled>
+      <span class="admin-value">1.0×</span>
+    </div>
+
+    <div class="admin-field">
+      <label>Catering Cost per Guest (€)</label>
+      <input type="number" value="24" disabled>
+    </div>
+
+    <div class="admin-field">
+      <label>Budget Risk Threshold (%)</label>
+      <input type="number" value="85" disabled>
+    </div>
+
+    <div class="admin-field">
+      <label>Security Staff Ratio</label>
+      <input type="text" value="1 per 50 guests" disabled>
+    </div>
+  </div>
+
+  <p class="admin-caption">
+    Changes to these parameters immediately affect cost estimation,
+    risk evaluation, and downstream AI advisory context.
+  </p>
+</div>
+
+
   <hr>
   <!-- Ai Output panel -->
     <div class="ai-output-panel">
@@ -416,5 +509,5 @@ AI Orchestration Layer → Advisory Prompts
   </a>
 </div>
     <hr>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b496eb73a2ad38e',t:'MTc2Njg0NDk1Mg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
