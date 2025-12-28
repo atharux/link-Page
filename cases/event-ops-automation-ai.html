@@ -452,6 +452,32 @@
       color: #86efac;
       margin-top: 0;
     }
+    .output-meta {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.output-tag {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.output-tag.deterministic {
+  background: rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+  border: 1px solid rgba(99, 102, 241, 0.35);
+}
+
+.output-tag.reference {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
 
   </style>
 </head>
@@ -769,6 +795,11 @@
 
     <!-- AI Output Panel -->
     <div class="ai-output-panel">
+      <div class="output-meta">
+  <span class="output-tag deterministic">Deterministic Sample</span>
+  <span class="output-tag reference">Reference Output</span>
+</div>
+
       <h2>System Output UI</h2>
       <div class="ai-header">
         <span class="ai-badge">✨ AI Assistant</span>
