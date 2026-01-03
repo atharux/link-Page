@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-black text-white">
+<head>
+  <meta charset="UTF-8" />
+  <title>Travel AI App — From Demo to Orchestration System</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+    <style>
+        h3 {
+            margin-right: 1rem;
+        }        
+
+li {
+  display: inline;
+}
+
+ul {
+  padding: 0px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+display: block;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+  border-color: rgba(102, 126, 234, 0.5);
+}
+    
+    
+    </style>
+<body class="h-full font-mono bg-black text-white">
+  <main class="min-h-screen">
+    <!-- HERO -->
+    <section class="border-b border-white px-6 py-10 md:py-16">
+      <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10">
+        <div>
+          <h1 class="text-3xl md:text-5xl font-bold tracking-tight uppercase">
+            Travel AI App<br />
+            <span class="bg-white text-black px-2 inline-block mt-2">
+              Process & System Design
+            </span>
+          </h1>
+          <p class="mt-6 text-sm md:text-base max-w-md leading-relaxed">
+            From demo to orchestration system.<br />
+            A travel orchestration layer, not a booking engine.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-4 items-center">
+            <a href="https://athar-travel-ai-app.pages.dev/?"
+               class="border border-white bg-white text-black px-4 py-2 text-xs uppercase tracking-wide hover:bg-black hover:text-white transition">
+              Open Demo
+            </a>
+            <span class="text-xs uppercase tracking-wide">
+              Demo mode · no login · brutalist UI
+            </span>
+          </div>
+        </div>
+        <div class="border border-white p-4 md:p-6 text-xs space-y-3">
+          <div class="flex justify-between border-b border-white pb-2">
+            <span>Problem Context</span>
+            <span class="opacity-60">01</span>
+          </div>
+          <p>Intent lives in conversation. Users say “somewhere warm in March” or “kid‑friendly beach with direct flights.”</p>
+          <p>Execution lives in rigid forms. Every new form resets the conversation; intent gets reduced to dropdowns.</p>
+          <p>Most tools optimize for transactions, not understanding.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPERATIONS SYSTEM IDEA -->
+    <section class="border-b border-white px-6 py-10">
+      <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10">
+        <div class="space-y-4">
+          <h2 class="text-xl md:text-2xl font-bold uppercase">
+            What if travel planning worked like an operations system?
+          </h2>
+          <ul class="text-xs space-y-2">
+            <li><span class="font-bold">01.</span> AI captures intent and constraints from natural language without forcing premature decisions.</li>
+            <li><span class="font-bold">02.</span> Users confirm assumptions explicitly before anything runs.</li>
+            <li><span class="font-bold">03.</span> The system orchestrates decisions transparently, with visible reasoning and alternatives.</li>
+          </ul>
+          <p class="text-xs mt-4">
+            Not a chatbot. Not an OTA clone. A planning and orchestration layer.
+          </p>
+        </div>
+        <div class="border border-white p-4 text-xs">
+          <div class="grid grid-cols-4 gap-2">
+            <div class="col-span-1 border border-white p-2">
+              <div class="uppercase text-[10px] mb-1">Intent</div>
+              <p class="text-[10px] leading-snug">“Beach vacation in March, family of four, under $5K.”</p>
+            </div>
+            <div class="col-span-1 flex items-center justify-center">
+              <div class="h-0.5 w-full bg-white"></div>
+            </div>
+            <div class="col-span-1 border border-white p-2">
+              <div class="uppercase text-[10px] mb-1">AI Parsing</div>
+              <p class="text-[10px] leading-snug">LLM → dates, budget, constraints, party size.</p>
+            </div>
+            <div class="col-span-1 flex items-center justify-center">
+              <div class="h-0.5 w-full bg-white"></div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-3">
+            <div class="border border-white p-2">
+              <div class="uppercase text-[10px] mb-1">Orchestration Core</div>
+              <p class="text-[10px] leading-snug">Ruby decides. Providers and AI only supply data.</p>
+            </div>
+            <div class="border border-white p-2">
+              <div class="uppercase text-[10px] mb-1">Options & Itinerary</div>
+              <p class="text-[10px] leading-snug">Comparable options, constraints, trade‑offs, next actions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GOLDEN PATH -->
+    <section class="border-b border-white px-6 py-10">
+      <div class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl md:text-2xl font-bold uppercase">Golden Path · 3–5 Minutes to Value</h2>
+          <span class="text-[10px] uppercase">Intent → Confirmation → Options → Itinerary</span>
+        </div>
+        <div class="grid md:grid-cols-4 gap-4 text-xs">
+          <div class="border border-white p-3">
+            <div class="text-[10px] uppercase mb-1">01 · Intent capture</div>
+            <p>Natural language input is parsed into parameters: dates, constraints, preferences.</p>
+          </div>
+          <div class="border border-white p-3">
+            <div class="text-[10px] uppercase mb-1">02 · Structured confirmation</div>
+            <p>Explicit review of assumptions. Users see what the system understood.</p>
+          </div>
+          <div class="border border-white p-3">
+            <div class="text-[10px] uppercase mb-1">03 · Option comparison</div>
+            <p>Normalized, comparable results with transparent scoring and trade‑offs.</p>
+          </div>
+          <div class="border border-white p-3">
+            <div class="text-[10px] uppercase mb-1">04 · Itinerary assembly</div>
+            <p>Coherent trip structure, booking links, documented assumptions, clear edit paths.</p>
+          </div>
+        </div>
+        <p class="text-[11px] mt-4">
+          First‑time users must understand: what the AI did, why it did it, and how to override it.
+        </p>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section class="border-b border-white px-6 py-10">
+      <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10">
+        <div class="space-y-3 text-xs">
+          <h2 class="text-xl md:text-2xl font-bold uppercase">System Architecture & Ruby</h2>
+          <p><span class="font-bold">Single Ruby orchestration service.</span> Ruby 3.x + Sinatra API for readability, maintainability, and rapid iteration.</p>
+          <p><span class="font-bold">Domain-driven design.</span> POROs model trips, legs, constraints, assumptions explicitly.</p>
+          <p><span class="font-bold">Explicit orchestration layer.</span> Decision logic lives in Ruby, not in AI or provider APIs. Providers are passive data sources.</p>
+          <p class="text-[11px] uppercase">Architecture is product.</p>
+        </div>
+        <div class="border border-white p-4 text-xs space-y-3">
+          <div class="flex items-center justify-between border-b border-white pb-2">
+            <span class="uppercase text-[10px]">High-level Flow</span>
+            <span class="text-[10px] opacity-60">Frontend → Ruby → Providers / AI</span>
+          </div>
+          <div class="space-y-2">
+            <div class="border border-white p-2">
+              <div class="text-[10px] uppercase mb-1">Frontend UI</div>
+              <p>Static app focused on clarity and interaction, not booking.</p>
+            </div>
+            <div class="border border-white p-2">
+              <div class="text-[10px] uppercase mb-1">Ruby API + Orchestration Core</div>
+              <p>Owns validation, decision logic, and explainability.</p>
+            </div>
+            <div class="border border-white p-2">
+              <div class="text-[10px] uppercase mb-1">Providers / AI</div>
+              <p>Return normalized data only. AI parses intent; providers provide quotes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REQUEST LIFECYCLE -->
+    <section class="border-b border-white px-6 py-10">
+      <div class="max-w-5xl mx-auto">
+        <h2 class="text-xl md:text-2xl font-bold uppercase mb-4">Request Lifecycle</h2>
+        <div class="grid md:grid-cols-3 gap-4 text-xs">
+          <div class="border border-white p-3">
+            <div class="text-[10px] uppercase mb-1">01 · Raw intent</div>
+            <p>User submits: “Beach vacation in March, family of four, under $5K.”</p>
+          </div>
+          <div class="border border-white p-3">
+            <div class="text-[10px] uppercase mb-1">02 · Validate & normalize</div>
+            <p>Ruby API checks completeness, sanitizes input, and transforms it into an internal request format.</p>
+          </div>
+          <div class="border border-white p-3">
+            <div class="text-[10px] uppercase mb-1">03 · AI extracts structured intent</div>
+            <p>LLM parses dates, destination constraints, budget, and party composition.</p>
+          </div>
+          <div class="border border-white p-3">
+            <div class="text-[10px] uppercase mb-1">04 · Provider quotes</div>
+            <p>Adapters query flight, hotel, and activity providers, normalize responses into consistent schemas.</p>
+          </div>
+          <div class="border border-white p-3">
+            <div class="text-[10px] uppercase mb-1">05 · Domain validation</div>
+            <p>Domain models (Trip, Leg, Constraint) are built and checked for logical consistency.</p>
+          </div>
+          <div class="border border-white p-3">
+            <div class="text-[10px] uppercase mb-1">06 · Orchestrated response</div>
+            <p>Itinerary with surfaced assumptions, confidence scores, alternatives, and next action prompts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEMO SECTION -->
+    <section class="border-b border-white px-6 py-10">
+      <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-stretch">
+        <div class="space-y-3 text-xs">
+          <h2 class="text-xl md:text-2xl font-bold uppercase">Try the Demo</h2>
+          <p><span class="font-bold">Demo mode</span> works immediately with realistic data, no live bookings.</p>
+          <p>The UI uses hard grids, high contrast, and minimal decoration to expose interaction flow and hierarchy.</p>
+          <p>Use natural language intent, review what the system understood, and inspect how options are assembled.</p>
+          <a href="https://athar-travel-ai-app.pages.dev/?"
+             class="inline-block mt-4 border border-white bg-white text-black px-4 py-2 text-xs uppercase tracking-wide hover:bg-black hover:text-white transition">
+            Open App in New Tab
+          </a>
+        </div>
+        <div class="border border-white bg-gray-900 flex items-center justify-center text-[10px] text-gray-300">
+          <!-- if you can embed, replace with an iframe -->
+          <!-- <iframe src="https://athar-travel-ai-app.pages.dev/?" class="w-full h-96 border-0"></iframe> -->
+          <span><iframe
+  src="https://athar-travel-ai-app.pages.dev/?"
+  title="Travel AI App Demo"
+  style="border: 1px solid #ffffff; width: 100%; height: 80vh; background: #000000;"
+  loading="lazy"
+></iframe>
+</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUILD PHILOSOPHY & PRINCIPLES -->
+    <section class="px-6 py-10">
+      <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 text-xs">
+        <div class="border border-white p-4 space-y-2">
+          <h2 class="text-sm uppercase mb-2">Build philosophy, status, next</h2>
+          <p><span class="font-bold">Start with one end-to-end flow</span> and validate it completely.</p>
+          <p><span class="font-bold">Replace mocked data incrementally,</span> provider by provider.</p>
+          <p><span class="font-bold">Document every architectural decision</span> as the system grows.</p>
+          <p>Built as real system, learning artifact, and portfolio case study.</p>
+          <div class="border-t border-white pt-2 mt-2">
+            <p>Status: product definition locked, UX flows defined, MVP scope constrained.</p>
+            <p>Next: implement Ruby orchestration service, connect intent parsing to domain models, replace first mocked API with a live provider.</p>
+          </div>
+        </div>
+        <div class="border border-white p-4 space-y-2">
+          <h2 class="text-sm uppercase mb-2">Principles that guide this work</h2>
+          <p><span class="font-bold">Architecture is product.</span> System design directly affects trust, explainability, and viability.</p>
+          <p><span class="font-bold">Transparency over automation.</span> AI should parse, not decide. Logic must be traceable and overridable.</p>
+          <p><span class="font-bold">Constraints enable clarity.</span> A single orchestration service and tight scope prevent complexity sprawl.</p>
+          <p class="text-[11px] mt-2">This is not a booking engine. It is a system for understanding, structuring, and orchestrating travel intent.</p>
+        </div>
+      </div>
+    </section>
+       
+    <div class="flex items-center justify-center">
+      <h3>
+        More from me:
+      </h3>
+      <ul>
+        <li><a href="https://github.com/atharux" target="_blank">🕹️ Github</a></li>
+        <li><a href="http://www.linkedin.com/in/atharhafiz" target="_blank">💻 Linkedin</a></li>
+        <li><a href="https://soundcloud.com/aguruxm16" target="_blank">🪩 SoundCloud</a></li>
+        <li><a href="https://atharux.com" target="_blank">👾 Portfolio</a></li>
+          <li><a href="https://atharux.com" target="_blank">© 2026 Athar Hafiz</a></li>
+      </ul>
+
+          
+    </div>
+    
+  </main>
+</body>
+</html>
