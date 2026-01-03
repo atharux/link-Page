@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Sequence CRM – Lead Sequence Orchestration System</title>
+  <title>110Hours CRM – Lead Sequence Orchestration System</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     * {
@@ -33,14 +33,14 @@
     /* HEADER */
     .header {
       border-bottom: 2px solid white;
-      padding: 32px 0;
-      margin-bottom: 48px;
+      padding: 40px 0;
+      margin-bottom: 60px;
     }
 
     .header-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 48px;
+      gap: 60px;
     }
 
     .logo {
@@ -71,7 +71,7 @@
     }
 
     .hero-title {
-      font-size: clamp(32px, 5vw, 48px);
+      font-size: clamp(42px, 5vw, 60px);
       font-weight: 700;
       text-transform: uppercase;
       line-height: 1.1;
@@ -84,24 +84,24 @@
       background: white;
       color: black;
       padding: 8px 16px;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-top: 8px;
+      margin-top: 12px;
     }
 
     .hero-description {
-      font-size: 14px;
+      font-size: 16px;
       line-height: 1.8;
-      margin-top: 24px;
-      max-width: 480px;
+      margin-top: 32px;
+      max-width: 520px;
     }
 
     .header-actions {
       display: flex;
       gap: 16px;
-      margin-top: 24px;
+      margin-top: 32px;
       flex-wrap: wrap;
     }
 
@@ -109,11 +109,11 @@
       border: 2px solid white;
       background: white;
       color: black;
-      padding: 12px 24px;
-      font-size: 11px;
+      padding: 14px 28px;
+      font-size: 12px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       text-decoration: none;
       transition: all 0.2s;
     }
@@ -130,8 +130,8 @@
 
     .context-box {
       border: 2px solid white;
-      padding: 24px;
-      font-size: 12px;
+      padding: 28px;
+      font-size: 14px;
       line-height: 1.8;
     }
 
@@ -139,97 +139,97 @@
       display: flex;
       justify-content: space-between;
       border-bottom: 1px solid white;
-      padding-bottom: 12px;
-      margin-bottom: 16px;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
       font-weight: 700;
       text-transform: uppercase;
-      font-size: 11px;
-      letter-spacing: 1px;
+      font-size: 12px;
+      letter-spacing: 1.5px;
     }
 
     .context-box p {
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     /* SECTIONS */
     .section {
       border-bottom: 2px solid white;
-      padding: 48px 0;
+      padding: 60px 0;
     }
 
     .section-title {
-      font-size: clamp(20px, 3vw, 28px);
+      font-size: clamp(28px, 3vw, 36px);
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
     }
 
     .section-subtitle {
-      font-size: 10px;
+      font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       opacity: 0.6;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
     }
 
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 48px;
+      gap: 60px;
     }
 
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      gap: 32px;
     }
 
     .grid-4 {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
+      gap: 32px;
     }
 
     .card {
       border: 2px solid white;
-      padding: 20px;
-      font-size: 12px;
+      padding: 28px;
+      font-size: 14px;
     }
 
     .card-header {
-      font-size: 10px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
+      letter-spacing: 1.5px;
+      margin-bottom: 16px;
       font-weight: 700;
     }
 
     .card p {
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .flow-diagram {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin: 32px 0;
+      gap: 20px;
+      margin: 40px 0;
     }
 
     .flow-box {
       border: 2px solid white;
-      padding: 16px;
-      font-size: 11px;
+      padding: 20px;
+      font-size: 13px;
       position: relative;
     }
 
     .flow-box::after {
       content: '→';
       position: absolute;
-      right: -24px;
+      right: -28px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 20px;
+      font-size: 24px;
     }
 
     .flow-box:last-child::after {
@@ -237,48 +237,48 @@
     }
 
     .flow-label {
-      font-size: 9px;
+      font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
       font-weight: 700;
     }
 
     .architecture-box {
       border: 2px solid white;
-      padding: 24px;
-      margin: 24px 0;
+      padding: 28px;
+      margin: 28px 0;
     }
 
     .architecture-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-top: 16px;
+      gap: 20px;
+      margin-top: 20px;
     }
 
     .architecture-item {
       border: 1px solid white;
-      padding: 12px;
-      font-size: 11px;
+      padding: 16px;
+      font-size: 13px;
     }
 
     .architecture-label {
-      font-size: 9px;
+      font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
       font-weight: 700;
     }
 
     /* IMAGE SECTION */
     .image-section {
-      margin: 48px 0;
+      margin: 60px 0;
     }
 
     .image-frame {
       border: 2px solid white;
-      padding: 24px;
+      padding: 28px;
       background: #111;
       position: relative;
     }
@@ -286,44 +286,44 @@
     .image-frame::before {
       content: 'LIVE DASHBOARD VIEW';
       position: absolute;
-      top: 8px;
-      left: 24px;
-      font-size: 9px;
-      letter-spacing: 1px;
+      top: 10px;
+      left: 28px;
+      font-size: 10px;
+      letter-spacing: 1.5px;
       opacity: 0.6;
     }
 
     .dashboard-image {
       width: 100%;
       height: auto;
-      margin-top: 24px;
+      margin-top: 32px;
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin: 32px 0;
+      gap: 24px;
+      margin: 40px 0;
     }
 
     .stat-box {
       border: 2px solid white;
-      padding: 24px;
+      padding: 32px;
       text-align: center;
     }
 
     .stat-value {
-      font-size: 42px;
+      font-size: 52px;
       font-weight: 700;
       line-height: 1;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
 
     .stat-label {
-      font-size: 11px;
+      font-size: 13px;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       opacity: 0.7;
     }
 
@@ -334,35 +334,38 @@
     }
 
     ul li {
-      font-size: 12px;
-      margin-bottom: 12px;
-      padding-left: 24px;
+      font-size: 14px;
+      margin-bottom: 16px;
+      padding-left: 28px;
       position: relative;
+      line-height: 1.7;
     }
 
     ul li::before {
       content: '→';
       position: absolute;
       left: 0;
+      font-size: 16px;
     }
 
     /* FOOTER */
     footer {
-      padding: 48px 0;
+      padding: 60px 0;
       text-align: center;
-      font-size: 12px;
+      font-size: 14px;
     }
 
     footer h3 {
       margin: 0;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
+      font-size: 14px;
     }
 
     footer ul {
       display: flex;
-      gap: 16px;
+      gap: 20px;
       list-style: none;
       padding: 0;
       margin: 0;
@@ -404,21 +407,34 @@
         content: '↓';
         right: 50%;
         top: auto;
-        bottom: -24px;
+        bottom: -28px;
         transform: translateX(50%);
       }
 
       .container {
-        padding: 16px;
+        padding: 20px;
       }
 
       .section {
+        padding: 40px 0;
+      }
+
+      .header {
         padding: 32px 0;
+        margin-bottom: 40px;
       }
 
       footer h3 {
         width: 100%;
         margin-bottom: 16px;
+      }
+
+      .hero-title {
+        font-size: 36px;
+      }
+
+      .section-title {
+        font-size: 24px;
       }
     }
   </style>
@@ -431,8 +447,8 @@
       <div class="header-grid">
         <div>
           <div class="logo">
-            
-            <div class="logo-text">Sqequence CRM</div>
+            <div class="logo-icon">📊</div>
+            <div class="logo-text">110Hours CRM</div>
           </div>
           
           <h1 class="hero-title">
@@ -481,13 +497,13 @@
             <li>Users see real-time status without polling APIs or refreshing dashboards.</li>
             <li>Sequence logic is explicit, auditable, and centrally orchestrated.</li>
           </ul>
-          <p style="font-size: 12px; margin-top: 24px;">
+          <p style="font-size: 14px; margin-top: 32px;">
             Not a CRM clone. Not a notification system. A sequence orchestration and visibility layer.
           </p>
         </div>
 
         <div class="architecture-box">
-          <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; font-weight: 700;">High-level Flow</div>
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; font-weight: 700;">High-level Flow</div>
           
           <div class="flow-diagram">
             <div class="flow-box">
@@ -542,7 +558,7 @@
         </div>
       </div>
 
-      <p style="font-size: 11px; margin-top: 24px;">
+      <p style="font-size: 13px; margin-top: 32px;">
         First-time users must understand: which sequences are running, what state each lead is in, and what action to take next.
       </p>
     </section>
@@ -572,13 +588,13 @@
       <div class="grid-2">
         <div>
           <h2 class="section-title">System Architecture</h2>
-          <p style="font-size: 12px; margin-bottom: 16px;"><strong>Event-driven orchestration core.</strong> Centralized state machine manages sequence progression, not scattered webhook handlers.</p>
+          <p style="font-size: 14px; margin-bottom: 20px; line-height: 1.7;"><strong>Event-driven orchestration core.</strong> Centralized state machine manages sequence progression, not scattered webhook handlers.</p>
           
-          <p style="font-size: 12px; margin-bottom: 16px;"><strong>Domain-driven design.</strong> Models explicitly represent Sequences, Leads, Steps, Events, and Constraints.</p>
+          <p style="font-size: 14px; margin-bottom: 20px; line-height: 1.7;"><strong>Domain-driven design.</strong> Models explicitly represent Sequences, Leads, Steps, Events, and Constraints.</p>
           
-          <p style="font-size: 12px; margin-bottom: 16px;"><strong>Channel adapters as data sources.</strong> Email, SMS, and call providers are passive event sources. Logic lives in orchestration layer.</p>
+          <p style="font-size: 14px; margin-bottom: 20px; line-height: 1.7;"><strong>Channel adapters as data sources.</strong> Email, SMS, and call providers are passive event sources. Logic lives in orchestration layer.</p>
 
-          <p style="font-size: 11px; text-transform: uppercase; margin-top: 24px; letter-spacing: 1px;">
+          <p style="font-size: 12px; text-transform: uppercase; margin-top: 32px; letter-spacing: 1.5px;">
             Architecture is product.
           </p>
         </div>
@@ -589,13 +605,13 @@
             <span>Frontend → Backend → Providers</span>
           </div>
           
-          <div style="margin-top: 16px;">
-            <div class="card" style="margin-bottom: 16px;">
+          <div style="margin-top: 20px;">
+            <div class="card" style="margin-bottom: 20px;">
               <div class="card-header">Frontend Dashboard</div>
               <p>Real-time WebSocket updates, no polling. Focused on visibility and action, not data entry.</p>
             </div>
             
-            <div class="card" style="margin-bottom: 16px;">
+            <div class="card" style="margin-bottom: 20px;">
               <div class="card-header">Orchestration Service</div>
               <p>Owns sequence state, event processing, conditional logic, and metric aggregation.</p>
             </div>
@@ -646,11 +662,11 @@
       <div class="grid-2">
         <div>
           <h2 class="section-title">Live Dashboard</h2>
-          <p style="font-size: 12px; margin-bottom: 16px;"><strong>Demo mode</strong> uses realistic data showing active sequences across multiple channels.</p>
+          <p style="font-size: 14px; margin-bottom: 20px; line-height: 1.7;"><strong>Demo mode</strong> uses realistic data showing active sequences across multiple channels.</p>
           
-          <p style="font-size: 12px; margin-bottom: 16px;">UI emphasizes information density and hierarchy. Every sequence, every lead, every metric visible without scrolling.</p>
+          <p style="font-size: 14px; margin-bottom: 20px; line-height: 1.7;">UI emphasizes information density and hierarchy. Every sequence, every lead, every metric visible without scrolling.</p>
           
-          <p style="font-size: 12px; margin-bottom: 24px;">Inspect sequence states, engagement patterns, and goal tracking in real-time.</p>
+          <p style="font-size: 14px; margin-bottom: 32px; line-height: 1.7;">Inspect sequence states, engagement patterns, and goal tracking in real-time.</p>
 
           <a href="https://110hourscrmuxuiathar.pages.dev/" class="header-link" style="display: inline-block;">
             Open Dashboard
@@ -660,7 +676,7 @@
         <div class="image-frame">
           <img 
             src="https://atharux.com/public/crmSequences.png" 
-            alt="Sequence CRM Dashboard" 
+            alt="110Hours CRM Dashboard" 
             class="dashboard-image"
             loading="lazy"
           />
@@ -672,30 +688,30 @@
     <section class="section">
       <div class="grid-2">
         <div class="card">
-          <h2 style="font-size: 14px; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 1px;">Build Philosophy & Status</h2>
+          <h2 style="font-size: 16px; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px;">Build Philosophy & Status</h2>
           <p><strong>Start with one complete sequence flow</strong> and validate state transitions end-to-end.</p>
           <p><strong>Replace mock providers incrementally,</strong> channel by channel.</p>
           <p><strong>Document every orchestration decision</strong> as complexity grows.</p>
           <p>Built as real system, learning artifact, and portfolio demonstration.</p>
-          <div style="border-top: 1px solid white; padding-top: 12px; margin-top: 16px;">
+          <div style="border-top: 1px solid white; padding-top: 16px; margin-top: 20px;">
             <p><strong>Status:</strong> Core orchestration defined, multi-channel adapters designed, dashboard UX finalized.</p>
             <p><strong>Next:</strong> Implement event processing pipeline, connect real email/SMS providers, add WebSocket layer.</p>
           </div>
         </div>
 
         <div class="card">
-          <h2 style="font-size: 14px; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 1px;">Design Principles</h2>
+          <h2 style="font-size: 16px; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px;">Design Principles</h2>
           <p><strong>Architecture is product.</strong> System design directly affects reliability, debuggability, and team velocity.</p>
           <p><strong>Visibility over automation.</strong> Show state explicitly. Make transitions auditable and reversible.</p>
           <p><strong>Centralized orchestration.</strong> One service owns sequence logic. Providers are passive data sources.</p>
-          <p style="font-size: 11px; margin-top: 16px;">This is not a notification engine. It is a system for understanding, orchestrating, and monitoring lead sequences.</p>
+          <p style="font-size: 13px; margin-top: 20px;">This is not a notification engine. It is a system for understanding, orchestrating, and monitoring lead sequences.</p>
         </div>
       </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
         <h3>More from me:</h3>
         <ul>
           <li><a href="https://github.com/atharux" target="_blank">🕹️ Github</a></li>
