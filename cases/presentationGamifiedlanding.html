@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-black text-white">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Ops Automation with AI – AtharUX</title>
+
+ <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    html, body {
+      max-width: 100vw;
+      overflow-x: hidden;
+      background-color: #000000;
+      color: white;
+    }
+
+    body {
+      font-family: 'Courier New', monospace;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* HEADER */
+    .header {
+      border-bottom: 2px solid white;
+      padding: 40px 0;
+      margin-bottom: 60px;
+    }
+
+    .header-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      border: 2px solid white;
+      background: white;
+      color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .hero-title {
+      font-size: clamp(42px, 5vw, 60px);
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1.1;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .hero-subtitle {
+      display: inline-block;
+      background: white;
+      color: black;
+      padding: 8px 16px;
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 12px;
+    }
+
+    .hero-description {
+      font-size: 16px;
+      line-height: 1.8;
+      margin-top: 32px;
+      max-width: 520px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    .header-link {
+      border: 2px solid white;
+      background: white;
+      color: black;
+      padding: 14px 28px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .header-link:hover {
+      background: black;
+      color: white;
+    }
+
+    .header-link.secondary {
+      background: transparent;
+      color: white;
+    }
+
+    .context-box {
+      border: 2px solid white;
+      padding: 28px;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .context-box-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid white;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+    }
+
+    .context-box p {
+      margin-bottom: 16px;
+    }
+
+    /* SECTIONS */
+    .section {
+      border-bottom: 2px solid white;
+      padding: 60px 0;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 3vw, 36px);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 32px;
+    }
+
+    .section-subtitle {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      opacity: 0.6;
+      margin-bottom: 32px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+
+    .card {
+      border: 2px solid white;
+      padding: 28px;
+      font-size: 14px;
+    }
+
+    .card-header {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .card p {
+      line-height: 1.7;
+    }
+
+    .flow-diagram {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 40px 0;
+    }
+
+    .flow-box {
+      border: 2px solid white;
+      padding: 20px;
+      font-size: 13px;
+      position: relative;
+    }
+
+    .flow-box::after {
+      content: '→';
+      position: absolute;
+      right: -28px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+    }
+
+    .flow-box:last-child::after {
+      display: none;
+    }
+
+    .flow-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .architecture-box {
+      border: 2px solid white;
+      padding: 28px;
+      margin: 28px 0;
+    }
+
+    .architecture-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .architecture-item {
+      border: 1px solid white;
+      padding: 16px;
+      font-size: 13px;
+    }
+
+    .architecture-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    /* IMAGE SECTION */
+    .image-section {
+      margin: 60px 0;
+    }
+
+    .image-frame {
+      border: 2px solid white;
+      padding: 28px;
+      background: #111;
+      position: relative;
+    }
+
+    .image-frame::before {
+      content: 'LIVE DASHBOARD VIEW';
+      position: absolute;
+      top: 10px;
+      left: 28px;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      opacity: 0.6;
+    }
+
+    .dashboard-image {
+      width: 100%;
+      height: auto;
+      margin-top: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin: 40px 0;
+    }
+
+    .stat-box {
+      border: 2px solid white;
+      padding: 32px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      opacity: 0.7;
+    }
+
+    /* LIST STYLING */
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      font-size: 14px;
+      margin-bottom: 16px;
+      padding-left: 28px;
+      position: relative;
+      line-height: 1.7;
+    }
+
+    ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      font-size: 16px;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 60px 0;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    footer h3 {
+      margin: 0;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 14px;
+    }
+
+    footer ul {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    footer ul li {
+      padding: 0;
+      margin: 0;
+    }
+
+    footer ul li::before {
+      display: none;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    footer a:hover {
+      opacity: 0.7;
+    }
+
+    .header-link {
+      border: 2px solid white;
+      background: white;
+      color: black;
+      padding: 5px 7px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .header-link:hover {
+      background: black;
+      color: white;
+    }
+
+    .header-link.secondary {
+      background: transparent;
+      color: white;
+    }
+     .case-section {
+          background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(71, 85, 105, 0.3); backdrop-filter: blur(8px); 
+     }
+     
+     .btn-primary {
+         padding: 3px;
+         background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(71, 85, 105, 0.3); backdrop-filter: blur(8px);
+         color: white !important;
+         margin-bottom: 2px !important;
+     }
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .header-grid,
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .architecture-grid,
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-box::after {
+        content: '↓';
+        right: 50%;
+        top: auto;
+        bottom: -28px;
+        transform: translateX(50%);
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      .section {
+        padding: 40px 0;
+      }
+
+      .header {
+        padding: 32px 0;
+        margin-bottom: 40px;
+      }
+
+      footer h3 {
+        width: 100%;
+        margin-bottom: 16px;
+      }
+
+      .hero-title {
+        font-size: 36px;
+      }
+
+      .section-title {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="case-page">
+
+    <section class="case-hero">
+      <div class="container">
+        <h1>Event Operations Automation with AI</h1>
+        <p class="case-subtitle">
+          Structured event planning automation with explainable AI guidance.
+        </p>
+              <div class="cta-buttons" style="justify-content: center;">
+                <a href="mailto:athar.hafiz@gmail.com" class="btn-primary">Ask me for the Password</a>
+            </div>
+        <a class="header-link" href="https://events.atharux.com" class="primary-button">Open Demo</a>
+      </div>
+    </section>
+
+    <section class="case-section">
+      <div class="container">
+        <h2>The Problem</h2>
+        <p>Event planning at scale is error-prone and manual. Teams struggle with cost accuracy, risk flags, and tooling fragmentation.</p>
+      </div>
+    </section>
+
+    <section class="case-section alt">
+      <div class="container">
+        <h2>The Idea</h2>
+        <p>Build an operational core where event data is validated and computed before advisory insights are added.</p>
+      </div>
+    </section>
+ <!-- DEMO SECTION -->
+    <section class="case-section">
+      <div class="grid-2">
+            <div class="container">
+        <h2>The Solution</h2>
+        <ul class="case-list">
+          <li>Schema-validated event inputs</li>
+          <li>Rule-based cost & constraint engine</li>
+          <li>Automated risk identification</li>
+          <li>Immutable operational output</li>
+          <li>AI advisory layer, post-deterministic processing</li>
+                <div class="cta-buttons" style="justify-content: center;">
+                <a href="mailto:athar.hafiz@gmail.com" class="btn-primary">Ask me for the Password</a>
+            </div>
+             <a href="https://events.atharux.com" class="header-link">Launch Demo</a>
+        </ul>
+    
+        </div>
+
+        <div class="image-frame">
+          <img 
+            src="https://atharux.com/public/eventDash.png" 
+            alt="Sequence CRM Dashboard" 
+            class="dashboard-image"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </section>
+
+
+    <section class="case-section alt">
+      <div class="container">
+        <h2>Operational Flow</h2>
+        <p class="mono">Input → Validate → Compute → Detect Risks → Operational Plan → AI Guidance</p>
+      </div>
+    </section>
+
+    <section class="case-section">
+      <div class="container">
+        <h2>Impact</h2>
+        <ul class="case-list">
+          <li>Faster plans with consistent validation</li>
+          <li>Governance & auditability by default</li>
+          <li>Clear separation of logic and AI insight</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="case-section alt" id="demo">
+      <div class="container">
+        <h2>Interactive Demo</h2>
+          <div class="cta-buttons" style="justify-content: center;">
+                <a href="mailto:athar.hafiz@gmail.com" class="btn-primary">Ask me for the Password</a>
+            </div>
+        <p>Explore the prototype that synthesizes structured event data into auditable plans with AI advice layered on top.</p>
+        <a href="https://events.atharux.com" class="header-link">Launch Demo</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h3>Athar Hafiz</h3>
+        <p>UX, AI Systems & Product Design — explainable, human-centered experiences.</p>
+      </div>
+      <div>
+        <ul class="footer-links">
+          <li><a href="https://atharux.com">Portfolio</a></li>
+          <li><a href="https://www.linkedin.com/in/atharhafiz/">LinkedIn</a></li>
+          <li><a href="https://github.com/">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
