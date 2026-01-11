@@ -7,46 +7,59 @@
 <title>Athar - Product Designer & Developer</title>
 <link rel="icon" type="image/x-icon" href="icon.png">
 <style>
-<!-- =========================
-CORE RESET & SAFETY
-========================== -->
-<style>
-*, *::before, *::after {
-box-sizing: border-box;
-margin: 0;
-padding: 0;
+/* ===============================
+   KERNEL LAYOUT STABILITY LAYER
+   Non-destructive overrides only
+================================ */
+
+/* Prevent horizontal drift on mobile */
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
 }
 
-
-html {
-scroll-behavior: smooth;
+/* Replace unsafe vh usage */
+@supports (height: 100svh) {
+  section,
+  header,
+  main {
+    min-height: auto;
+  }
 }
 
-
-body {
-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-background: linear-gradient(135deg, #0f0f1e, #1a1a2e 50%, #0f0f1e);
-color: #ffffff;
-overflow-x: hidden;
-width: 100%;
-max-width: 100vw;
-position: relative;
+/* Kill layout-affecting transforms globally */
+@media (max-width: 1024px) {
+  * {
+    transform: none !important;
+  }
 }
 
+/* Lock hero / preview containers */
+.hero,
+.hero *,
+.dashboard,
+.preview,
+.image-container {
+  transform: none !important;
+}
 
+/* Prevent image re-scaling on refresh */
 img {
-display: block;
-max-width: 100%;
-height: auto;
+  max-width: 100%;
+  height: auto;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
 }
 
-
-/* Disable motion-based layout shifts */
+/* Prevent animation-based layout jitter */
 @media (prefers-reduced-motion: reduce) {
-* {
-animation: none !important;
-transition: none !important;
-}
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 .navbar {
   position: fixed;
