@@ -40,8 +40,57 @@ display: block;
   box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
   border-color: rgba(102, 126, 234, 0.5);
 }
-    
-    
+ /* FOOTER */
+    footer {
+      padding: 60px 0;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    footer h3 {
+      margin: 0;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 14px;
+    }
+
+    footer ul {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    footer ul li {
+      padding: 0;
+      margin: 0;
+    }
+
+    footer ul li::before {
+      display: none;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    footer a:hover {
+      opacity: 0.7;
+    }
+
+      /* RESPONSIVE */
+    @media (max-width: 768px) {
+      footer h3 {
+        width: 100%;
+        margin-bottom: 16px;
+      }
+    }
     </style>
 <body class="h-full font-mono bg-black text-white">
   <main class="min-h-screen">
@@ -281,22 +330,22 @@ display: block;
           <p class="text-[11px] mt-2">This is not a booking engine. It is a system for understanding, structuring, and orchestrating travel intent.</p>
         </div>
       </div>
-  
+    </section>
        
-    <div class="flex items-center justify-center py-0.5">
-      <h3>
-        More from me:
-      </h3>
-      <ul>
-        <li><a href="https://github.com/atharux/athar-travel-ai-app" target="_blank">🕹️ Github</a></li>
-        <li><a href="http://www.linkedin.com/in/atharhafiz" target="_blank">💻 Linkedin</a></li>
-        <li><a href="https://soundcloud.com/aguruxm16" target="_blank">🪩 SoundCloud</a></li>
-        <li><a href="https://atharux.com" target="_blank">👾 Portfolio</a></li>
+    <!-- FOOTER -->
+    <footer>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
+        <h3>More from me:</h3>
+        <ul>
+          <li><a href="https://github.com/atharux/110hoursCRMUXUIAthar" target="_blank">🕹️ Github</a></li>
+          <li><a href="http://www.linkedin.com/in/atharhafiz" target="_blank">💻 Linkedin</a></li>
+          <li><a href="https://soundcloud.com/aguruxm16" target="_blank">🪩 SoundCloud</a></li>
+          <li><a href="https://atharux.com" target="_blank">💾 Portfolio</a></li>
           <li><a href="https://atharux.com" target="_blank">© 2026 Athar Hafiz</a></li>
-      </ul>
-
-    </div>
-      </section>
+        </ul>
+      </div>
+    </footer>
+     
   </main>
 </body>
 </html>
