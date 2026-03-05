@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study — Apple App Review & Developer Collaboration</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white:   #FFFFFF;
+    --off:     #F5F5F7;
+    --light:   #E8E8ED;
+    --mid:     #86868B;
+    --dark:    #1D1D1F;
+    --black:   #000000;
+    --accent:  #0071E3;
+    --accent2: #BF5AF2;
+    --success: #30D158;
+    --warn:    #FF9F0A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--white);
+    color: var(--dark);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 80px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 50%, rgba(0,113,227,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 80% at 80% 30%, rgba(191,90,242,0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .hero-eyebrow::before,
+  .hero-eyebrow::after {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(42px, 7vw, 88px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+    margin: 0 auto 28px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    max-width: 560px;
+    margin: 0 auto 60px;
+    line-height: 1.6;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    text-align: center;
+  }
+
+  .meta-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 6px;
+  }
+
+  .meta-value {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--white);
+  }
+
+  /* ── DOORDASH CALLOUT ── */
+  .doordash-banner {
+    background: linear-gradient(135deg, #FF3008 0%, #CC0000 100%);
+    color: white;
+    padding: 64px 40px;
+    text-align: center;
+  }
+
+  .doordash-banner .dd-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 16px;
+  }
+
+  .doordash-banner h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.15;
+  }
+
+  .doordash-banner p {
+    font-size: 17px;
+    font-weight: 300;
+    opacity: 0.85;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 100px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 4vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    color: var(--dark);
+  }
+
+  .section-intro {
+    font-size: 17px;
+    color: var(--mid);
+    max-width: 640px;
+    line-height: 1.7;
+    margin-bottom: 64px;
+  }
+
+  /* ── ISSUE CARDS ── */
+  .issues-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2px;
+    background: var(--light);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .issue-card {
+    background: var(--white);
+    padding: 48px 40px;
+    position: relative;
+    transition: background 0.25s;
+  }
+
+  .issue-card:hover { background: var(--off); }
+
+  .issue-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--light);
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: -0.04em;
+  }
+
+  .issue-title {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--dark);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .issue-problem {
+    font-size: 14px;
+    color: var(--mid);
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .tag {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 20px;
+    background: var(--off);
+    color: var(--dark);
+    border: 1px solid var(--light);
+  }
+
+  .tag.bad  { background: rgba(255,59,48,0.07);  color: #FF3B30; border-color: rgba(255,59,48,0.15); }
+  .tag.good { background: rgba(48,209,88,0.08);  color: #1A8C3A; border-color: rgba(48,209,88,0.2); }
+
+  .hig-principle {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--accent);
+    border-left: 2px solid var(--accent);
+    padding-left: 14px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  .solution-list {
+    list-style: none;
+    font-size: 14px;
+    color: var(--dark);
+    line-height: 1.7;
+  }
+
+  .solution-list li {
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+
+  .solution-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--success);
+    font-size: 13px;
+  }
+
+  /* ── BEFORE / AFTER ── */
+  .redesign {
+    background: var(--black);
+    padding: 100px 40px;
+  }
+
+  .redesign-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .redesign .section-label { color: var(--accent2); }
+  .redesign .section-title { color: var(--white); }
+  .redesign .section-intro { color: rgba(255,255,255,0.45); }
+
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 640px) { .ba-grid { grid-template-columns: 1fr; } }
+
+  .ba-card {
+    padding: 48px 40px;
+  }
+
+  .ba-card.before { background: #1A1A1A; }
+  .ba-card.after  { background: #0A0A0A; }
+
+  .ba-label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+
+  .ba-card.before .ba-label { color: #FF453A; }
+  .ba-card.after  .ba-label { color: var(--success); }
+
+  .ba-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--white);
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+
+  .ba-list {
+    list-style: none;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .ba-card.before .ba-list li { color: rgba(255,255,255,0.45); }
+  .ba-card.after  .ba-list li { color: rgba(255,255,255,0.85); }
+
+  .ba-card.before .ba-list li::before { content: '✕  '; color: #FF453A; }
+  .ba-card.after  .ba-list li::before { content: '✓  '; color: var(--success); }
+
+  /* ── RESULT STATS ── */
+  .results {
+    background: var(--off);
+    padding: 100px 40px;
+  }
+
+  .results-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 640px) { .stats-row { grid-template-columns: 1fr; } }
+
+  .stat-card {
+    background: var(--white);
+    padding: 52px 32px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 12px;
+    letter-spacing: -0.03em;
+  }
+
+  .stat-label {
+    font-size: 15px;
+    color: var(--mid);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* ── TAKEAWAYS ── */
+  .takeaways {
+    padding: 100px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .takeaway-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2px;
+    background: var(--light);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 56px;
+  }
+
+  .takeaway-card {
+    background: var(--white);
+    padding: 40px 32px;
+    transition: background 0.2s;
+  }
+
+  .takeaway-card:hover { background: var(--off); }
+
+  .takeaway-icon {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--light);
+    line-height: 1;
+    margin-bottom: 20px;
+    letter-spacing: -0.04em;
+  }
+
+  .takeaway-title {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--dark);
+    margin-bottom: 10px;
+  }
+
+  .takeaway-body {
+    font-size: 14px;
+    color: var(--mid);
+    line-height: 1.65;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+    padding: 48px 40px;
+    font-size: 13px;
+  }
+
+  footer strong { color: rgba(255,255,255,0.7); }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-eyebrow">Apple WWDR  ·  App Review  ·  Design Evangelism</div>
+    <h1>Helping Developers Build<br><em>Better</em> Apple Experiences</h1>
+    <p class="hero-sub">Inside the UX review process that shaped 600,000+ iOS apps — and helped DoorDash ship to the App Store.</p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">App Review Specialist, WWDR</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Company</div>
+        <div class="meta-value">Apple</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Period</div>
+        <div class="meta-value">2010 – 2016</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Apps Reviewed</div>
+        <div class="meta-value">600,000+</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Also Served On</div>
+        <div class="meta-value">App Review Board</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOORDASH CALLOUT -->
+<div class="doordash-banner fade-in">
+  <div class="dd-label">Notable Collaboration</div>
+  <h2>Working with DoorDash to Ship on the App Store</h2>
+  <p>As part of Apple's Worldwide Developer Relations team, I collaborated directly with the DoorDash engineering and product team — providing HIG-aligned UX guidance that helped them navigate the App Review process and launch successfully on the iOS App Store.</p>
+  <p style="margin-top: 20px; opacity: 0.7; font-size: 15px;">As a member of the App Review Board, I also worked with developers whose apps had been rejected — helping them understand the issues, resolve compliance and UX problems, and successfully resubmit.</p>
+</div>
+
+<!-- COMMON ISSUES -->
+<section class="section fade-in">
+  <div class="section-label">The Review Process</div>
+  <h2 class="section-title">Common Issues Found<br>in App Reviews</h2>
+  <p class="section-intro">Across 600,000+ app reviews over six years, three categories of UX problems appeared most consistently — each solvable with disciplined application of Apple's Human Interface Guidelines.</p>
+
+  <div class="issues-grid">
+
+    <!-- Issue 1 -->
+    <div class="issue-card">
+      <div class="issue-number">01</div>
+      <div class="issue-title">Navigation Misalignment</div>
+      <p class="issue-problem">Developers often implement custom navigation patterns that conflict with native iOS behaviors, creating disorientation for users accustomed to platform conventions.</p>
+      <div class="tag-row">
+        <span class="tag bad">Non-standard tab nav</span>
+        <span class="tag bad">Hidden primary actions</span>
+        <span class="tag bad">Gesture conflicts</span>
+      </div>
+      <p class="hig-principle">"Navigation should be predictable and consistent with platform conventions."</p>
+      <ul class="solution-list">
+        <li>Use standard UITabBar components</li>
+        <li>Preserve system gesture behaviors</li>
+        <li>Maintain consistent navigation hierarchy</li>
+      </ul>
+    </div>
+
+    <!-- Issue 2 -->
+    <div class="issue-card">
+      <div class="issue-number">02</div>
+      <div class="issue-title">Visual Hierarchy Problems</div>
+      <p class="issue-problem">Many apps fail to establish clear hierarchy, making interfaces difficult to scan. Competing visual elements fragment attention and slow task completion.</p>
+      <div class="tag-row">
+        <span class="tag bad">Excessive type styles</span>
+        <span class="tag bad">Poor spacing</span>
+        <span class="tag bad">Lack of grouping</span>
+      </div>
+      <p class="hig-principle">"Interfaces should communicate hierarchy clearly through typography, spacing, and color."</p>
+      <ul class="solution-list">
+        <li>Apply SF typography scale</li>
+        <li>Use 8-point spacing system</li>
+        <li>Reduce competing visual elements</li>
+      </ul>
+    </div>
+
+    <!-- Issue 3 -->
+    <div class="issue-card">
+      <div class="issue-number">03</div>
+      <div class="issue-title">Interaction Feedback</div>
+      <p class="issue-problem">Users often receive insufficient feedback for actions, leaving them uncertain whether an interaction registered — a critical trust failure in consumer apps.</p>
+      <div class="tag-row">
+        <span class="tag bad">No button states</span>
+        <span class="tag bad">Missing loading indicators</span>
+        <span class="tag bad">No haptic feedback</span>
+      </div>
+      <p class="hig-principle">"People should always understand the result of their actions."</p>
+      <ul class="solution-list">
+        <li>Implement visual state changes</li>
+        <li>Add micro-animations on interaction</li>
+        <li>Use system haptic feedback patterns</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section class="redesign fade-in">
+  <div class="redesign-inner">
+    <div class="section-label">Example Redesign</div>
+    <h2 class="section-title">Before &amp; After</h2>
+    <p class="section-intro">Applying HIG principles consistently transforms cluttered, non-native interfaces into clear, platform-confident experiences.</p>
+
+    <div class="ba-grid">
+      <div class="ba-card before">
+        <div class="ba-label">Before Review</div>
+        <div class="ba-title">Common failure state</div>
+        <ul class="ba-list">
+          <li>Cluttered, over-designed interface</li>
+          <li>Custom gestures conflicting with iOS</li>
+          <li>Weak visual hierarchy throughout</li>
+          <li>No feedback on user actions</li>
+          <li>Accessibility gaps in contrast and targets</li>
+        </ul>
+      </div>
+      <div class="ba-card after">
+        <div class="ba-label">After Guidance</div>
+        <div class="ba-title">Platform-native clarity</div>
+        <ul class="ba-list">
+          <li>Clear information hierarchy</li>
+          <li>Native navigation patterns respected</li>
+          <li>SF typography and spacing applied</li>
+          <li>State changes and haptics implemented</li>
+          <li>Improved accessibility and readability</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results fade-in">
+  <div class="results-inner">
+    <div class="section-label">Impact</div>
+    <h2 class="section-title">Measurable Results</h2>
+    <p class="section-intro" style="margin: 0 auto 0; max-width: 520px;">Design guidance grounded in HIG principles consistently produces faster, more trusted, more accessible experiences.</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-number">↓</div>
+        <div class="stat-label">Reduced cognitive load<br>through clearer hierarchy</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">↑</div>
+        <div class="stat-label">Faster task completion<br>with native navigation</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">✓</div>
+        <div class="stat-label">More platform-native experience<br>aligned with HIG standards</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAKEAWAYS -->
+<section class="takeaways fade-in">
+  <div class="section-label">Key Takeaways</div>
+  <h2 class="section-title">What Makes Apple Platform<br>Design Succeed</h2>
+
+  <div class="takeaway-grid">
+    <div class="takeaway-card">
+      <div class="takeaway-icon">I</div>
+      <div class="takeaway-title">Follow the HIG</div>
+      <div class="takeaway-body">Human Interface Guidelines exist because Apple has studied how people use their devices for decades. Working with the platform — not against it — always wins.</div>
+    </div>
+    <div class="takeaway-card">
+      <div class="takeaway-icon">II</div>
+      <div class="takeaway-title">Respect Conventions</div>
+      <div class="takeaway-body">Users build muscle memory with native patterns. Deviating from platform conventions creates friction, increases cognitive load, and erodes trust.</div>
+    </div>
+    <div class="takeaway-card">
+      <div class="takeaway-icon">III</div>
+      <div class="takeaway-title">Prioritize Feedback</div>
+      <div class="takeaway-body">Every action a user takes deserves a response. State changes, haptics, and micro-animations are not decoration — they are the grammar of a trustworthy interface.</div>
+    </div>
+    <div class="takeaway-card">
+      <div class="takeaway-icon">IV</div>
+      <div class="takeaway-title">Design for Accessibility</div>
+      <div class="takeaway-body">Accessibility is not a checklist item added at the end. Apps designed with Dynamic Type, sufficient contrast, and reachable targets are better for every user.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Athar Hafiz</strong> — Senior UX Designer &amp; Apple Platform Specialist<br>
+  <span style="margin-top:8px; display:block;">atharux.com &nbsp;·&nbsp; linkedin.com/in/atharhafiz &nbsp;·&nbsp; Berlin, Germany</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Stagger issue cards
+  document.querySelectorAll('.issue-card, .takeaway-card, .stat-card, .ba-card').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 60}ms`;
+  });
+</script>
+</body>
+</html>
