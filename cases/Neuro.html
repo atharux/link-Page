@@ -126,7 +126,7 @@
                 <button onclick="document.getElementById('psychology').scrollIntoView({behavior: 'smooth'})" class="px-8 py-4 bg-brand-accent text-white rounded-xl font-bold hover:bg-purple-600 transition-all shadow-[0_0_20px_rgba(160,32,240,0.3)]">
                     Explore the Research
                 </button>
-                <button onclick="document.getElementById('ai-simulator').scrollIntoView({behavior: 'smooth'})" class="px-8 py-4 bg-white/5 text-white border border-white/10 rounded-xl font-bold hover:bg-white/10 transition-all">
+                <button onclick="const el=document.getElementById('logic');window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-64,behavior:'smooth'})" class="px-8 py-4 bg-white/5 text-white border border-white/10 rounded-xl font-bold hover:bg-white/10 transition-all">
                     Test AI Logic
                 </button>
             </div>
