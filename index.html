@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Athar Hafiz — UX Designer & Front-End Specialist</title>
+<link rel="icon" type="image/x-icon" href="icon.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════ */
+:root {
+  --bg:         #0d0d1a;
+  --bg2:        #12121f;
+  --bg3:        #1a1a2e;
+  --surface:    rgba(255,255,255,0.04);
+  --border:     rgba(255,255,255,0.08);
+  --border-hi:  rgba(139,92,246,0.4);
+  --purple:     #8b5cf6;
+  --purple-dim: rgba(139,92,246,0.15);
+  --teal:       #06b6d4;
+  --teal-dim:   rgba(6,182,212,0.12);
+  --text:       #e2e8f0;
+  --text-mid:   #94a3b8;
+  --text-dim:   #475569;
+  --mono:       'Space Mono', monospace;
+  --display:    'Syne', sans-serif;
+  --radius:     12px;
+  --radius-lg:  20px;
+  --glow-purple: 0 0 40px rgba(139,92,246,0.2);
+  --glow-teal:   0 0 40px rgba(6,182,212,0.15);
+}
+
+/* BRUTALIST OVERRIDES */
+body.brutalist {
+  --bg:        #ffffff;
+  --bg2:       #f0f0f0;
+  --bg3:       #e0e0e0;
+  --surface:   #ffffff;
+  --border:    #000000;
+  --border-hi: #000000;
+  --purple:    #000000;
+  --purple-dim:#f0f0f0;
+  --teal:      #ff0000;
+  --teal-dim:  #fff0f0;
+  --text:      #000000;
+  --text-mid:  #333333;
+  --text-dim:  #666666;
+  --glow-purple: none;
+  --glow-teal:   none;
+}
+
+/* ═══════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--display);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.brutalist {
+  background: var(--bg);
+}
+
+/* ═══════════════════════════════════════════════
+   BACKGROUND GRID
+═══════════════════════════════════════════════ */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(139,92,246,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139,92,246,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.brutalist .bg-grid {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ═══════════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(13,13,26,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+body.brutalist nav {
+  background: #000;
+  backdrop-filter: none;
+  border-bottom: 4px solid #000;
+}
+
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--purple);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+body.brutalist .nav-logo { color: #fff; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-mid);
+  text-decoration: none;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--purple); }
+
+body.brutalist .nav-links a { color: #ccc; }
+body.brutalist .nav-links a:hover { color: #ff0000; }
+
+/* Theme toggle */
+.theme-btn {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.theme-btn:hover {
+  color: var(--purple);
+  border-color: var(--border-hi);
+}
+
+body.brutalist .theme-btn {
+  background: #fff;
+  border: 3px solid #000;
+  color: #000;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 #000;
+}
+
+/* ═══════════════════════════════════════════════
+   LAYOUT HELPERS
+═══════════════════════════════════════════════ */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.section {
+  padding: 96px 0;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--purple);
+  display: block;
+}
+
+body.brutalist .section-label { color: #000; }
+body.brutalist .section-label::before { background: #000; }
+
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+
+body.brutalist .section-title {
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+}
+
+.section-sub {
+  font-size: 16px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  padding-top: 56px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+.hero-glow-1 {
+  background: rgba(139,92,246,0.12);
+  top: -100px;
+  left: -100px;
+  animation: drift1 12s ease-in-out infinite;
+}
+
+.hero-glow-2 {
+  background: rgba(6,182,212,0.08);
+  bottom: -100px;
+  right: -100px;
+  animation: drift2 15s ease-in-out infinite;
+}
+
+body.brutalist .hero-glow { display: none; }
+
+@keyframes drift1 {
+  0%,100% { transform: translate(0,0); }
+  50% { transform: translate(40px, 30px); }
+}
+
+@keyframes drift2 {
+  0%,100% { transform: translate(0,0); }
+  50% { transform: translate(-30px, -40px); }
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  padding: 60px 2rem;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 3px;
+  height: 3px;
+  background: var(--teal);
+  border-radius: 50%;
+}
+
+body.brutalist .hero-eyebrow { color: #ff0000; }
+body.brutalist .hero-eyebrow::before { background: #ff0000; }
+
+.hero-title {
+  font-family: var(--display);
+  font-size: clamp(40px, 5vw, 68px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+}
+
+.hero-title span {
+  color: var(--purple);
+}
+
+body.brutalist .hero-title {
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+}
+
+body.brutalist .hero-title span { color: #ff0000; }
+
+.hero-desc {
+  font-size: 16px;
+  color: var(--text-mid);
+  line-height: 1.75;
+  margin-bottom: 36px;
+  max-width: 480px;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 36px;
+}
+
+body.brutalist .hero-stats {
+  border: 4px solid #000;
+  border-radius: 0;
+  gap: 4px;
+  background: #000;
+}
+
+.stat {
+  background: var(--bg2);
+  padding: 16px;
+  text-align: center;
+}
+
+body.brutalist .stat {
+  background: #fff;
+  border-radius: 0;
+}
+
+.stat-num {
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--purple);
+  margin-bottom: 4px;
+}
+
+body.brutalist .stat-num { color: #000; font-size: 22px; }
+
+.stat-lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+body.brutalist .stat-lbl { color: #333; font-weight: 700; }
+
+.hero-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 12px 24px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  background: #7c3aed;
+  box-shadow: var(--glow-purple);
+  transform: translateY(-1px);
+}
+
+body.brutalist .btn-primary {
+  background: #000;
+  border-radius: 0;
+  border: 4px solid #000;
+  box-shadow: 6px 6px 0 #ff0000;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+body.brutalist .btn-primary:hover {
+  transform: translate(-3px,-3px);
+  box-shadow: 9px 9px 0 #ff0000;
+}
+
+.btn-secondary {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--text-mid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 24px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--border-hi);
+  color: var(--text);
+}
+
+body.brutalist .btn-secondary {
+  background: #fff;
+  border: 4px solid #000;
+  border-radius: 0;
+  color: #000;
+  box-shadow: 6px 6px 0 #000;
+}
+
+body.brutalist .btn-secondary:hover {
+  transform: translate(-3px,-3px);
+  box-shadow: 9px 9px 0 #000;
+  background: #ffff00;
+}
+
+/* Hero visual */
+.hero-visual {
+  position: relative;
+}
+
+.hero-screen {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--glow-purple), 0 40px 80px rgba(0,0,0,0.4);
+}
+
+body.brutalist .hero-screen {
+  border: 4px solid #000;
+  border-radius: 0;
+  box-shadow: 12px 12px 0 #000;
+}
+
+.screen-bar {
+  background: var(--bg3);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-r { background: #ef4444; }
+.dot-y { background: #f59e0b; }
+.dot-g { background: #22c55e; }
+
+.screen-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-left: auto;
+  letter-spacing: 0.08em;
+}
+
+.screen-img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+}
+
+body.brutalist .screen-bar { background: #000; }
+body.brutalist .screen-label { color: #fff; }
+
+/* ═══════════════════════════════════════════════
+   APPLE CASE STUDY SECTION
+═══════════════════════════════════════════════ */
+.apple-section {
+  padding: 96px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.apple-inner {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+body.brutalist .apple-inner {
+  border: 4px solid #000;
+  border-radius: 0;
+  box-shadow: 12px 12px 0 #000;
+}
+
+.apple-header {
+  background: linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(6,182,212,0.05) 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 48px 56px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: start;
+}
+
+body.brutalist .apple-header {
+  background: #000;
+  border-bottom: 4px solid #000;
+  padding: 40px 48px;
+}
+
+.apple-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--teal);
+  background: var(--teal-dim);
+  border: 1px solid rgba(6,182,212,0.2);
+  border-radius: 4px;
+  padding: 4px 10px;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+body.brutalist .apple-badge {
+  background: #ff0000;
+  color: #fff;
+  border: 3px solid #000;
+  border-radius: 0;
+  font-weight: 700;
+}
+
+.apple-title {
+  font-family: var(--display);
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 16px;
+}
+
+body.brutalist .apple-title {
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.apple-desc {
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  max-width: 560px;
+}
+
+body.brutalist .apple-desc { color: rgba(255,255,255,0.7); }
+
+.apple-stats-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 200px;
+}
+
+.apple-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  text-align: right;
+}
+
+body.brutalist .apple-stat {
+  background: rgba(255,255,255,0.1);
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 0;
+  text-align: left;
+}
+
+.apple-stat-num {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--purple);
+  display: block;
+}
+
+body.brutalist .apple-stat-num { color: var(--teal); }
+
+.apple-stat-lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+body.brutalist .apple-stat-lbl { color: rgba(255,255,255,0.5); }
+
+/* DoorDash highlight */
+.doordash-strip {
+  background: linear-gradient(90deg, rgba(239,68,68,0.08) 0%, transparent 60%);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 56px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+body.brutalist .doordash-strip {
+  background: #ff0000;
+  border-bottom: 4px solid #000;
+  padding: 16px 48px;
+}
+
+.dd-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ef4444;
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 4px;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+body.brutalist .dd-pill {
+  background: #000;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 0;
+}
+
+.dd-text {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.5;
+}
+
+body.brutalist .dd-text { color: #fff; font-weight: 700; }
+
+/* Issues grid */
+.apple-issues {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+
+body.brutalist .apple-issues {
+  gap: 4px;
+  background: #000;
+}
+
+.issue-card {
+  background: var(--bg2);
+  padding: 32px 28px;
+  transition: background 0.2s;
+}
+
+.issue-card:hover { background: var(--bg3); }
+
+body.brutalist .issue-card {
+  background: #fff;
+  transition: none;
+}
+
+body.brutalist .issue-card:hover { background: #f5f5f5; }
+
+.issue-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
+
+body.brutalist .issue-num { color: #999; font-weight: 700; }
+
+.issue-title {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+body.brutalist .issue-title { font-size: 18px; text-transform: uppercase; }
+
+.issue-hig {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--teal);
+  line-height: 1.5;
+  border-left: 2px solid var(--teal);
+  padding-left: 10px;
+  margin: 12px 0;
+  font-style: italic;
+}
+
+body.brutalist .issue-hig {
+  color: #ff0000;
+  border-left: 4px solid #000;
+}
+
+.issue-fixes {
+  list-style: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-mid);
+  line-height: 1.8;
+}
+
+.issue-fixes li::before {
+  content: '→ ';
+  color: var(--purple);
+}
+
+body.brutalist .issue-fixes { font-size: 12px; font-weight: 700; color: #000; }
+body.brutalist .issue-fixes li::before { color: #ff0000; }
+
+/* Apple footer CTA */
+.apple-cta {
+  padding: 28px 56px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+body.brutalist .apple-cta {
+  border-top: 4px solid #000;
+  padding: 24px 48px;
+}
+
+.apple-cta-text {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-mid);
+}
+
+body.brutalist .apple-cta-text { color: #000; font-weight: 700; }
+
+/* ═══════════════════════════════════════════════
+   CAREER TIMELINE
+═══════════════════════════════════════════════ */
+.timeline-section {
+  padding: 80px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px 48px 48px;
+  position: relative;
+}
+
+body.brutalist .timeline-wrap {
+  border: 4px solid #000;
+  border-radius: 0;
+  background: #f5f5f5;
+  box-shadow: 8px 8px 0 #000;
+}
+
+.timeline-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.timeline-title {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+body.brutalist .timeline-title { text-transform: uppercase; font-size: 24px; }
+
+.timeline-years {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  letter-spacing: 0.1em;
+}
+
+.timeline-track {
+  position: relative;
+  height: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+body.brutalist .timeline-track {
+  background: #e0e0e0;
+  border: 3px solid #000;
+  border-radius: 0;
+}
+
+.tbar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: height 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.tbar:hover {
+  height: 16px;
+  transform: translateY(-50%) translateY(-3px);
+  box-shadow: 0 8px 24px rgba(139,92,246,0.4);
+  z-index: 5;
+}
+
+body.brutalist .tbar { border-radius: 0; height: 12px; border: 2px solid #000; }
+body.brutalist .tbar:hover { height: 18px; box-shadow: 4px 4px 0 #ff0000; }
+
+.company-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.clabel {
+  cursor: pointer;
+  transition: color 0.2s;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.clabel:hover, .clabel.active { color: var(--purple); }
+
+body.brutalist .clabel { color: #666; font-weight: 700; }
+body.brutalist .clabel:hover, body.brutalist .clabel.active { color: #ff0000; }
+
+/* tooltip */
+.tooltip {
+  position: absolute;
+  left: 0;
+  top: -160px;
+  background: var(--bg3);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--radius);
+  padding: 16px;
+  width: 300px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s, top 0.15s;
+  z-index: 50;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.tooltip.active {
+  opacity: 1;
+  pointer-events: auto;
+  top: -175px;
+}
+
+body.brutalist .tooltip {
+  background: #fff;
+  border: 4px solid #000;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 #000;
+}
+
+.tip-co {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--purple);
+  margin-bottom: 4px;
+}
+
+body.brutalist .tip-co { color: #ff0000; }
+
+.tip-role {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+body.brutalist .tip-role { color: #000; font-weight: 700; }
+
+.tip-period {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+
+body.brutalist .tip-period { color: #666; }
+
+.tip-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tip-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  background: var(--purple-dim);
+  border: 1px solid rgba(139,92,246,0.2);
+  border-radius: 4px;
+  color: var(--purple);
+}
+
+body.brutalist .tip-tag {
+  background: #000;
+  color: #fff;
+  border-radius: 0;
+  border: 2px solid #000;
+}
+
+/* ═══════════════════════════════════════════════
+   PROJECTS
+═══════════════════════════════════════════════ */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 20px;
+  margin-top: 48px;
+}
+
+.project-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+
+.project-card:hover {
+  border-color: var(--border-hi);
+  box-shadow: var(--glow-purple);
+  transform: translateY(-4px);
+}
+
+body.brutalist .project-card {
+  border: 4px solid #000;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 #000;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+body.brutalist .project-card:hover {
+  transform: translate(-4px,-4px);
+  box-shadow: 12px 12px 0 #000;
+}
+
+.project-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+  background: var(--bg3);
+}
+
+body.brutalist .project-img {
+  border-bottom: 4px solid #000;
+}
+
+.project-body {
+  padding: 24px;
+}
+
+.project-title {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+body.brutalist .project-title { text-transform: uppercase; font-size: 17px; }
+
+.project-desc {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ptag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  background: var(--purple-dim);
+  border: 1px solid rgba(139,92,246,0.2);
+  border-radius: 20px;
+  color: var(--purple);
+}
+
+body.brutalist .ptag {
+  background: #000;
+  color: #fff;
+  border-radius: 0;
+  border: 2px solid #000;
+}
+
+/* ═══════════════════════════════════════════════
+   SKILLS
+═══════════════════════════════════════════════ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-top: 48px;
+}
+
+body.brutalist .skills-grid {
+  border: 4px solid #000;
+  border-radius: 0;
+  gap: 4px;
+  background: #000;
+  box-shadow: 8px 8px 0 #000;
+}
+
+.skill-cat {
+  background: var(--bg2);
+  padding: 28px 24px;
+  transition: background 0.2s;
+}
+
+.skill-cat:hover { background: var(--bg3); }
+body.brutalist .skill-cat { background: #fff; }
+body.brutalist .skill-cat:hover { background: #f5f5f5; }
+
+.skill-cat-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 16px;
+}
+
+body.brutalist .skill-cat-title { color: #000; font-weight: 700; font-size: 11px; }
+
+.skill-list {
+  list-style: none;
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 2;
+}
+
+.skill-list li {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1px;
+}
+
+.skill-list li:last-child { border-bottom: none; }
+
+body.brutalist .skill-list { color: #333; font-weight: 500; }
+body.brutalist .skill-list li { border-bottom: 1px solid #ddd; }
+
+/* ═══════════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════════ */
+.contact-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 56px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+body.brutalist .contact-wrap {
+  border: 4px solid #000;
+  border-radius: 0;
+  box-shadow: 12px 12px 0 #000;
+  background: #fff;
+}
+
+.contact-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(139,92,246,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+body.brutalist .contact-wrap::before { display: none; }
+
+.contact-title {
+  font-family: var(--display);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+body.brutalist .contact-title { text-transform: uppercase; color: #000; }
+
+.contact-sub {
+  font-size: 15px;
+  color: var(--text-mid);
+  margin-bottom: 36px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+body.brutalist .contact-sub { color: #333; }
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin: 24px auto 0;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-link {
+  font-family: var(--mono);
+  font-size: 12px;
+  text-decoration: none;
+  color: var(--text-mid);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  transition: all 0.2s;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contact-link:hover {
+  border-color: var(--border-hi);
+  color: var(--text);
+  background: var(--purple-dim);
+}
+
+body.brutalist .contact-link {
+  background: #fff;
+  border: 3px solid #000;
+  border-radius: 0;
+  color: #000;
+  font-weight: 700;
+  box-shadow: 4px 4px 0 #000;
+}
+
+body.brutalist .contact-link:hover {
+  background: #ffff00;
+  transform: translate(-2px,-2px);
+  box-shadow: 6px 6px 0 #000;
+}
+
+.contact-arrow { color: var(--text-dim); }
+body.brutalist .contact-arrow { color: #ff0000; }
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+body.brutalist footer {
+  background: #000;
+  border-top: 4px solid #000;
+}
+
+.footer-logo {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+body.brutalist .footer-logo { color: #fff; }
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+.footer-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.footer-links a:hover { color: var(--purple); }
+body.brutalist .footer-links a { color: #999; }
+body.brutalist .footer-links a:hover { color: #ff0000; }
+
+.footer-copy {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+body.brutalist .footer-copy { color: #666; }
+
+/* ═══════════════════════════════════════════════
+   FADE IN ANIMATION
+═══════════════════════════════════════════════ */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { order: -1; }
+  .apple-header { grid-template-columns: 1fr; }
+  .apple-issues { grid-template-columns: 1fr; }
+  .apple-stats-col { flex-direction: row; flex-wrap: wrap; }
+  .apple-cta { flex-direction: column; align-items: flex-start; }
+  .doordash-strip { padding: 16px 24px; flex-wrap: wrap; }
+  .apple-header { padding: 32px 24px; }
+  .apple-cta { padding: 24px; }
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hero-stats { grid-template-columns: repeat(3,1fr); }
+  .projects-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  footer { flex-direction: column; gap: 16px; text-align: center; }
+  .footer-links { flex-wrap: wrap; justify-content: center; }
+  .contact-wrap { padding: 36px 24px; }
+  .timeline-wrap { padding: 28px 20px 36px; }
+  .company-labels { font-size: 8px; gap: 2px; }
+}
+
+/* ═══════════════════════════════════════════════
+   NEUROFLOW CAROUSEL
+═══════════════════════════════════════════════ */
+.nf-carousel { position: relative; }
+.nf-slide { display: none; }
+.nf-slide.active { display: block; }
+.nf-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 5;
+}
+.nf-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.nf-dot.active {
+  background: var(--purple);
+  transform: scale(1.3);
+}
+body.brutalist .nf-dot { background: #999; border-radius: 0; }
+body.brutalist .nf-dot.active { background: #000; }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="nav-logo">◆ Athar</div>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#ai-coordination">Ai Coordination</a></li>
+    <li><a href="#apple">Apple</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="AtharHafizCV.pdf">CV</a></li>
+  </ul>
+  <button class="theme-btn" id="themeBtn">⬛ Brutalist</button>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="home">
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Berlin, Germany · Available for work</div>
+      <h1 class="hero-title">UX Engineer<br><span>Front-End</span><br>Architect</h1>
+      <p class="hero-desc">Former Apple WWDR App Review Specialist. 13+ years designing and shipping products across iOS, Android and web. Deep fluency in Human Interface Guidelines, design systems and developer collaboration.</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">600K+</div>
+          <div class="stat-lbl">Apps Reviewed</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">13+</div>
+          <div class="stat-lbl">Years XP</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">B2.2</div>
+          <div class="stat-lbl">German</div>
+        </div>
+      </div>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact" class="btn-secondary">Get in Touch</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-screen">
+        <div class="screen-bar">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+          <span class="screen-label">neuroflow · learning system</span>
+        </div>
+        <a href="https://atharux.com/cases/Neuro" target="_blank">
+          <img class="screen-img" src="cases/projectimages/Kaban.png"
+               alt="NeuroFlow Dashboard"/>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CAREER TIMELINE ═══ -->
+<section class="timeline-section container fade-up">
+  <div class="section-label">Experience</div>
+  <div class="timeline-wrap">
+    <div class="timeline-head">
+      <h2 class="timeline-title">Career Timeline</h2>
+      <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">2002 → 2026</span>
+    </div>
+    <div class="timeline-years">
+      <span>2002</span><span>2006</span><span>2010</span><span>2014</span><span>2018</span><span>2022</span><span>2026</span>
+    </div>
+    <div class="timeline-track" id="track">
+      <div class="tbar" data-job="apple-store"   style="left:0%;width:16%;background:linear-gradient(90deg,#8b5cf6,#7c3aed)"></div>
+      <div class="tbar" data-job="eastman"        style="left:16%;width:4%;background:linear-gradient(90deg,#7c3aed,#6d28d9)"></div>
+      <div class="tbar" data-job="robert-half"    style="left:20%;width:4%;background:linear-gradient(90deg,#6d28d9,#5b21b6)"></div>
+      <div class="tbar" data-job="shane"          style="left:24%;width:8%;background:linear-gradient(90deg,#5b21b6,#4c1d95)"></div>
+      <div class="tbar" data-job="apple-ux"       style="left:32%;width:25%;background:linear-gradient(90deg,#06b6d4,#0891b2)"></div>
+      <div class="tbar" data-job="tandon"         style="left:57%;width:4%;background:linear-gradient(90deg,#0891b2,#0e7490)"></div>
+      <div class="tbar" data-job="vfl"            style="left:61%;width:6%;background:linear-gradient(90deg,#22c55e,#16a34a)"></div>
+      <div class="tbar" data-job="vinder"         style="left:67%;width:6%;background:linear-gradient(90deg,#f59e0b,#d97706)"></div>
+      <div class="tbar" data-job="epik"           style="left:73%;width:4%;background:linear-gradient(90deg,#ef4444,#dc2626)"></div>
+      <div class="tbar" data-job="volt"           style="left:77%;width:2%;background:linear-gradient(90deg,#ec4899,#db2777)"></div>
+      <div class="tbar" data-job="chef-works"     style="left:79%;width:17%;background:linear-gradient(90deg,#8b5cf6,#7c3aed)"></div>
+      <div class="tbar" data-job="startup-nda"    style="left:96%;width:2%;background:linear-gradient(90deg,#06b6d4,#0891b2)"></div>
+      <div class="tbar" data-job="rising-tide"    style="left:98%;width:2%;background:linear-gradient(90deg,#22c55e,#16a34a)"></div>
+      <div class="tooltip" id="tooltip">
+        <div class="tip-co" id="tipCo"></div>
+        <div class="tip-role" id="tipRole"></div>
+        <div class="tip-period" id="tipPeriod"></div>
+        <div class="tip-tags" id="tipTags"></div>
+      </div>
+    </div>
+    <div class="company-labels">
+      <span class="clabel" data-job="apple-store">Apple Store</span>
+      <span class="clabel" data-job="eastman">Eastman</span>
+      <span class="clabel" data-job="robert-half">Robert Half</span>
+      <span class="clabel" data-job="shane">Shane Co</span>
+      <span class="clabel" data-job="apple-ux">Apple WWDR</span>
+      <span class="clabel" data-job="tandon">Tandon</span>
+      <span class="clabel" data-job="vfl">VFL</span>
+      <span class="clabel" data-job="vinder">Vinder</span>
+      <span class="clabel" data-job="epik">Epik</span>
+      <span class="clabel" data-job="volt">Volt</span>
+      <span class="clabel" data-job="chef-works">Chef Works</span>
+      <span class="clabel" data-job="startup-nda">Stealth</span>
+      <span class="clabel" data-job="rising-tide">Rising Tide</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS — AI-NATIVE ═══ -->
+<section class="section container fade-up" id="projects">
+  <div class="section-label">Work</div>
+  <h2 class="section-title">AI-Native Applications</h2>
+  <p class="section-sub">Production-ready React systems built with AI as a development partner — moving from concept to working application in hours.</p>
+
+  <div class="projects-grid">
+    <div class="project-card">
+      <a href="https://atharux.com/cases/presentationeventslanding.html" target="_blank">
+        <img class="project-img" src="public/eventDash.png"
+             onerror="this.src='https://via.placeholder.com/800x450/1a1a2e/8b5cf6?text=Event+Operations'"
+             alt="Event Operations Automation"/>
+      </a>
+      <div class="project-body">
+        <h3 class="project-title">Event Operations Automation</h3>
+        <p class="project-desc">Deterministic rules + AI advisory layer for event workflow validation and front-end UI automation.</p>
+        <div class="project-tags">
+          <span class="ptag">Prototype</span><span class="ptag">Claude</span><span class="ptag">ChatGPT</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <a href="https://atharux.com/cases/travelaipresentation.html" target="_blank">
+        <img class="project-img" src="public/travelFlights.png"
+             onerror="this.src='https://via.placeholder.com/800x450/1a1a2e/06b6d4?text=Travel+Planning'"
+             alt="Conversational Travel Planning"/>
+      </a>
+      <div class="project-body">
+        <h3 class="project-title">Conversational Travel Planning</h3>
+        <p class="project-desc">A travel orchestration layer with visible reasoning, alternatives, and adaptive recommendations.</p>
+        <div class="project-tags">
+          <span class="ptag">Prototype</span><span class="ptag">Perplexity</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <a href="https://atharux.com/cases/sequence_flow_presentation.html" target="_blank">
+        <img class="project-img" src="public/crmSequences.png"
+             onerror="this.src='https://via.placeholder.com/800x450/1a1a2e/22c55e?text=CRM+Sequences'"
+             alt="Lead Sequence Orchestration"/>
+      </a>
+      <div class="project-body">
+        <h3 class="project-title">Lead Sequence Orchestration</h3>
+        <p class="project-desc">Visibility layer across multiple live channels with conditional logic for lead progression.</p>
+        <div class="project-tags">
+          <span class="ptag">Prototype</span><span class="ptag">ChatGPT</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card neuroflow-card">
+      <div class="nf-carousel" id="nfCarousel">
+        <a href="https://atharux.com/cases/Neuro" target="_blank">
+          <img class="project-img nf-slide active" src="cases/projectimages/Kaban.png" alt="NeuroFlow Dashboard"/>
+          <img class="project-img nf-slide" src="cases/projectimages/Graph.png" alt="NeuroFlow Skills Graph"/>
+          <img class="project-img nf-slide" src="cases/projectimages/Tasks.png" alt="NeuroFlow Tasks"/>
+          <img class="project-img nf-slide" src="cases/projectimages/Path.png" alt="NeuroFlow Adaptive Path"/>
+        </a>
+        <div class="nf-dots">
+          <span class="nf-dot active" data-i="0"></span>
+          <span class="nf-dot" data-i="1"></span>
+          <span class="nf-dot" data-i="2"></span>
+          <span class="nf-dot" data-i="3"></span>
+        </div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">NeuroFlow Learning Platform</h3>
+        <p class="project-desc">React-based gamified learning platform with AI-guided paths, 3D skills graph, Monaco editor, and 82 coding exercises.</p>
+        <div class="project-tags">
+          <span class="ptag">React</span><span class="ptag">ReactFlow</span><span class="ptag">Monaco</span><span class="ptag">Gamification</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="apple-section container fade-up" id="ai-coordination">
+  <div class="section-label">Featured Case Study</div>
+  <div class="apple-inner">
+
+    <div class="apple-header">
+      <div>
+        <div class="apple-badge">AI Systems · Event Operations</div>
+        <h2 class="apple-title">AI Coordination for<br>Global Event Operations</h2>
+        <p class="apple-desc">
+          Designing an AI-powered coordination system that manages travel, logistics,
+          vendors, and staffing for enterprise teams running global pop-up events.
+          The system orchestrates real-time decision making across multiple agents
+          to streamline complex event operations.
+        </p>
+        <br/>
+        <a href="https://atharux.com/cases/ai-coordination-portfolio" class="btn-primary" style="margin-top:8px;">
+          View Full Case Study
+        </a>
+      </div>
+
+      <div class="apple-stats-col">
+        <div class="apple-stat">
+          <div class="apple-stat-num">AI</div>
+          <div class="apple-stat-lbl">Agents</div>
+        </div>
+
+        <div class="apple-stat">
+          <div class="apple-stat-num">Global</div>
+          <div class="apple-stat-lbl">Logistics</div>
+        </div>
+
+        <div class="apple-stat">
+          <div class="apple-stat-num">Enterprise</div>
+          <div class="apple-stat-lbl">Events</div>
+        </div>
+
+        <div class="apple-stat">
+          <div class="apple-stat-num">Real-time</div>
+          <div class="apple-stat-lbl">Coordination</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="apple-cta">
+      <p class="apple-cta-text">
+        Full case study covers the system architecture, AI orchestration model,
+        logistics automation, and design approach for managing complex global events.
+      </p>
+      <a href="https://atharux.com/cases/ai-coordination-portfolio" class="btn-secondary">
+        Read Full Case Study →
+      </a>
+    </div>
+
+  </div>
+</section>
+<!-- ═══ PROJECTS — DESIGN ═══ -->
+<section class="section container fade-up">
+  <div class="section-label">Design & Product</div>
+  <h2 class="section-title">UX Case Studies</h2>
+  <p class="section-sub">Foundation work in user experience, interface design, and product strategy.</p>
+
+  <div class="projects-grid">
+    <div class="project-card">
+      <a href="cases/crm.html">
+        <img class="project-img" src="cases/projectimages/CRMsequenceBuilderAH.png"
+             onerror="this.src='https://via.placeholder.com/800x450/1a1a2e/8b5cf6?text=CRM+System'"
+             alt="Complete CRM System"/>
+      </a>
+      <div class="project-body">
+        <h3 class="project-title">Complete CRM System</h3>
+        <p class="project-desc">Enterprise CRM UX for automotive dealerships, with auto dialer and marketing automation.</p>
+        <div class="project-tags"><span class="ptag">Enterprise UX</span><span class="ptag">CRM</span></div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <a href="cases/persona.html">
+        <img class="project-img" src="cases/projectimages/persona-1014x499-800x394.jpg"
+             onerror="this.src='https://via.placeholder.com/800x450/1a1a2e/06b6d4?text=Persona'"
+             alt="Chef Works Persona"/>
+      </a>
+      <div class="project-body">
+        <h3 class="project-title">Persona — Chef Works</h3>
+        <p class="project-desc">Customer personas and lifecycle analysis for global marketing campaigns.</p>
+        <div class="project-tags"><span class="ptag">UX</span><span class="ptag">Persona Mapping</span></div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <a href="cases/vinder.html">
+        <img class="project-img" src="cases/projectimages/athar-prototype-vinder-2000x1011.png"
+             onerror="this.src='https://via.placeholder.com/800x450/1a1a2e/22c55e?text=Vinder'"
+             alt="Vinder App"/>
+      </a>
+      <div class="project-body">
+        <h3 class="project-title">Vinder — Peer-to-Peer Marketplace</h3>
+        <p class="project-desc">UX design, personas, and service blueprints for B2B/B2C farmers market marketplace. Shipped on App Store & Google Play.</p>
+        <div class="project-tags"><span class="ptag">iOS</span><span class="ptag">Android</span><span class="ptag">Service Design</span></div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <a href="cases/volt480.html">
+        <img class="project-img" src="cases/projectimages/voltmobilef.png"
+             onerror="this.src='https://via.placeholder.com/800x450/1a1a2e/f59e0b?text=Volt480'"
+             alt="Volt480 Mobile App"/>
+      </a>
+      <div class="project-body">
+        <h3 class="project-title">Volt480 — Service Design Mobile App</h3>
+        <p class="project-desc">Mobile app UX case study with complete user flows and wireframes. Prototype delivered in 2 weeks for tradeshow, securing next-phase funding.</p>
+        <div class="project-tags"><span class="ptag">UX</span><span class="ptag">Mobile Design</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ APPLE CASE STUDY ═══ -->
+<section class="apple-section container fade-up" id="apple">
+  <div class="section-label">Featured Case Study</div>
+  <div class="apple-inner">
+
+    <div class="apple-header">
+      <div>
+        <div class="apple-badge">Apple · WWDR · 2010–2016</div>
+        <h2 class="apple-title">Helping Developers Build<br>Better Apple Experiences</h2>
+        <p class="apple-desc">As an App Review Specialist on Apple's Worldwide Developer Relations team, I reviewed 600,000+ iOS apps over six years — providing direct HIG-aligned UX guidance, serving on the App Review Board, and helping rejected developers successfully resubmit through the appeals process.</p>
+        <br/>
+        <a href="https://atharux.com/cases/athar_casestudy_apple.html" class="btn-primary" style="margin-top:8px;">View Full Case Study →</a>
+      </div>
+      <div class="apple-stats-col">
+        <div class="apple-stat">
+          <span class="apple-stat-num">600K+</span>
+          <span class="apple-stat-lbl">Apps Reviewed</span>
+        </div>
+        <div class="apple-stat">
+          <span class="apple-stat-num">WWDR</span>
+          <span class="apple-stat-lbl">Team</span>
+        </div>
+        <div class="apple-stat">
+          <span class="apple-stat-num">Board</span>
+          <span class="apple-stat-lbl">App Review Board</span>
+        </div>
+        <div class="apple-stat">
+          <span class="apple-stat-num">6 yrs</span>
+          <span class="apple-stat-lbl">Tenure</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="doordash-strip">
+      <span class="dd-pill">Notable Collaboration</span>
+      <p class="dd-text">Worked directly with the DoorDash team to navigate App Review, providing HIG-aligned UX guidance that helped them ship successfully on the iOS App Store.</p>
+    </div>
+
+    <div class="apple-issues">
+      <div class="issue-card">
+        <div class="issue-num">Issue 01</div>
+        <div class="issue-title">Navigation Misalignment</div>
+        <p class="issue-hig">"Navigation should be predictable and consistent with platform conventions."</p>
+        <ul class="issue-fixes">
+          <li>Use standard UITabBar components</li>
+          <li>Preserve system gesture behaviors</li>
+          <li>Maintain consistent hierarchy</li>
+        </ul>
+      </div>
+      <div class="issue-card">
+        <div class="issue-num">Issue 02</div>
+        <div class="issue-title">Visual Hierarchy Problems</div>
+        <p class="issue-hig">"Interfaces should communicate hierarchy through typography, spacing, and color."</p>
+        <ul class="issue-fixes">
+          <li>Apply SF typography scale</li>
+          <li>Use 8-point spacing system</li>
+          <li>Reduce competing visual elements</li>
+        </ul>
+      </div>
+      <div class="issue-card">
+        <div class="issue-num">Issue 03</div>
+        <div class="issue-title">Interaction Feedback</div>
+        <p class="issue-hig">"People should always understand the result of their actions."</p>
+        <ul class="issue-fixes">
+          <li>Implement visual state changes</li>
+          <li>Add micro-animations on interaction</li>
+          <li>Use system haptic feedback patterns</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="apple-cta">
+      <p class="apple-cta-text">Full case study includes before/after analysis, redesign examples, and key takeaways from 600,000+ app reviews.</p>
+      <a href="https://atharux.com/cases/athar_casestudy_apple.html" class="btn-secondary">Read Full Case Study →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<section class="section container fade-up" id="skills">
+  <div class="section-label">Capabilities</div>
+  <h2 class="section-title">Skills & Expertise</h2>
+  <p class="section-sub">Tools and methodologies for creating exceptional user experiences.</p>
+
+  <div class="skills-grid">
+    <div class="skill-cat">
+      <div class="skill-cat-title">Design & HIG</div>
+      <ul class="skill-list">
+        <li>Apple Human Interface Guidelines</li>
+        <li>Figma · Sketch · Zeplin</li>
+        <li>Design Systems</li>
+        <li>Accessibility (WCAG)</li>
+        <li>Prototyping & Wireframing</li>
+      </ul>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-title">AI Assistants</div>
+      <ul class="skill-list">
+        <li>Claude</li>
+        <li>ChatGPT</li>
+        <li>Cursor</li>
+        <li>Kiro</li>
+        <li>Perplexity</li>
+      </ul>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-title">UX Methods</div>
+      <ul class="skill-list">
+        <li>User Research</li>
+        <li>Personas & Journey Maps</li>
+        <li>Service Blueprints</li>
+        <li>Information Architecture</li>
+        <li>Gamification (Octalysis)</li>
+      </ul>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-title">Development</div>
+      <ul class="skill-list">
+        <li>React & React Hooks</li>
+        <li>HTML5 · CSS3 · JavaScript</li>
+        <li>Tailwind CSS · Shadcn/ui</li>
+        <li>ReactFlow · Vite</li>
+        <li>Git · API Integration</li>
+      </ul>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-title">Analytics & Tools</div>
+      <ul class="skill-list">
+        <li>Tableau</li>
+        <li>Dotdigital · Mapp</li>
+        <li>Storybook · Jira · Asana</li>
+      </ul>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-title">Languages & Certs</div>
+      <ul class="skill-list">
+        <li>English · Urdu — Native</li>
+        <li>German — B2.2 (active)</li>
+        <li>Hindi — Conversational</li>
+        <li>Lean Six Sigma Green Belt</li>
+        <li>Gamification — Octalysis</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section class="section container fade-up" id="contact">
+  <div class="contact-wrap">
+    <div class="section-label" style="justify-content:center">Get in Touch</div>
+    <h2 class="contact-title">Let's Work Together</h2>
+    <p class="contact-sub">Always interested in new projects, collaborations, and opportunities.<br/>Based in Berlin. Available for full-time, contract, and freelance work.</p>
+    <div style="display:flex;gap:12px;justify-content:center;position:relative;z-index:1;">
+      <a href="/cdn-cgi/l/email-protection#c5a4b1ada4b7ebada4a3acbf85a2a8a4aca9eba6aaa8" class="btn-primary">Send Email</a>
+      <a href="AtharHafizCV.pdf" class="btn-secondary">Download CV</a>
+    </div>
+    <div class="contact-links">
+      <a href="https://atharux.com/cases/travelaipresentation.html" class="contact-link" target="_blank">
+        <span>View Travel Planner Assistant</span>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://atharux.com/cases/sequence_flow_presentation.html" class="contact-link" target="_blank">
+        <span>View CRM Automation</span>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://www.linkedin.com/in/atharhafiz" class="contact-link" target="_blank">
+        <span>LinkedIn Profile</span>
+        <span class="contact-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-logo">◆ Athar Hafiz · 2026</div>
+  <ul class="footer-links">
+    <li><a href="http://www.linkedin.com/in/atharhafiz" target="_blank">LinkedIn</a></li>
+    <li><a href="https://github.com/atharux" target="_blank">GitHub</a></li>
+    <li><a href="https://soundcloud.com/aguruxm16" target="_blank">SoundCloud</a></li>
+  </ul>
+  <div class="footer-copy">Berlin, Germany · atharux.com</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>
+
+// ── THEME TOGGLE ──
+const themeBtn = document.getElementById('themeBtn');
+let isBrutalist = false;
+
+themeBtn.addEventListener('click', () => {
+  isBrutalist = !isBrutalist;
+  document.body.classList.toggle('brutalist', isBrutalist);
+  themeBtn.textContent = isBrutalist ? '◯ Default' : '⬛ Brutalist';
+  localStorage.setItem('theme', isBrutalist ? 'brutalist' : 'default');
+});
+
+if (localStorage.getItem('theme') === 'brutalist') {
+  isBrutalist = true;
+  document.body.classList.add('brutalist');
+  themeBtn.textContent = '◯ Default';
+}
+
+// ── TIMELINE ──
+const jobData = {
+  'apple-store':  { company:'Apple Inc.', role:'Store Manager', period:'Nov 2002 – Oct 2006 · San Jose, CA', tools:['Team Leadership','Operations','Customer Experience','Retail Management','Training'] },
+  'eastman':      { company:'Eastman Roofing', role:'Design Specialist', period:'2006 – 2007', tools:['CAD','Design','Client Consultation','Project Planning'] },
+  'robert-half':  { company:'Robert Half International', role:'Recruiting/Staffing Manager', period:'2007 – 2008', tools:['Recruiting','Staffing','Client Relations','Account Management'] },
+  'shane':        { company:'Shane Company', role:'Assistant Store Manager', period:'2008 – 2010', tools:['Team Management','Sales','Customer Service','Training'] },
+  'apple-ux':     { company:'Apple · WWDR', role:'App Review Specialist', period:'Sep 2010 – Jan 2016 · Cupertino, CA', tools:['HIG','App Review Board','Developer Appeals','UX Feedback','Sketch','Keynote'] },
+  'tandon':       { company:'Tandon Group', role:'User Experience Architect', period:'Jan 2016 – Oct 2016 · San Jose, CA', tools:['Sketch','WordPress','Mailchimp','HubSpot','Asana'] },
+  'vfl':          { company:'Virtual Fantasy League', role:'Technical Project Manager / Designer', period:'Nov 2016 – Sep 2017 · Remote', tools:['HTML','CSS','Sketch','Trello','Slack'] },
+  'vinder':       { company:'Vinder', role:'Product Designer · iOS & Android', period:'Sep 2017 – May 2018 · Remote', tools:['Sketch','Marvel','Zeplin','Asana','React Native'] },
+  'epik':         { company:'Epik Token', role:'Marketing Project Manager', period:'Nov 2017 – Oct 2018 · Remote', tools:['HTML','CSS','Sketch','Trello','Photoshop'] },
+  'volt':         { company:'Volt 480', role:'UX/UI Designer', period:'Sep 2018 · Remote – Contract', tools:['Sketch','Figma','Wireframing','Prototyping'] },
+  'chef-works':   { company:'Chef Works, Inc.', role:'Marketing Developer / Campaign Strategist', period:'Oct 2018 – Jan 2024 · Poway, CA', tools:['HTML','CSS','Figma','Dotdigital','Tableau','Lean Six Sigma'] },
+  'startup-nda':  { company:'Stealth Startup', role:'Fractional Director UX Design', period:'May 2024 · Remote – Contract', tools:['Figma','Shadcn/ui','Design System','SaaS'] },
+  'rising-tide':  { company:'Rising Tide Berlin', role:'Co-founder', period:'Dec 2023 – Present · Berlin, Germany', tools:['Leadership','Strategy','Community','Event Planning'] },
+};
+
+const tooltip = document.getElementById('tooltip');
+const track   = document.getElementById('track');
+
+function showTip(key, refEl) {
+  const d = jobData[key];
+  if (!d) return;
+  document.getElementById('tipCo').textContent     = d.company;
+  document.getElementById('tipRole').textContent   = d.role;
+  document.getElementById('tipPeriod').textContent = d.period;
+  document.getElementById('tipTags').innerHTML     = d.tools.map(t=>`<span class="tip-tag">${t}</span>`).join('');
+
+  const tRect = track.getBoundingClientRect();
+  const rRect = refEl.getBoundingClientRect();
+  let left    = rRect.left - tRect.left + rRect.width / 2;
+  const half  = 150;
+  const pad   = 16;
+  if (left - half < pad)                    left = half + pad;
+  if (left + half > tRect.width - pad)      left = tRect.width - half - pad;
+  tooltip.style.left = left + 'px';
+  tooltip.classList.add('active');
+
+  document.querySelectorAll('.clabel').forEach(l =>
+    l.classList.toggle('active', l.dataset.job === key));
+}
+
+function hideTip() {
+  tooltip.classList.remove('active');
+  document.querySelectorAll('.clabel').forEach(l => l.classList.remove('active'));
+}
+
+document.querySelectorAll('.tbar').forEach(bar => {
+  bar.addEventListener('mouseenter', () => showTip(bar.dataset.job, bar));
+  bar.addEventListener('mouseleave', hideTip);
+});
+
+document.querySelectorAll('.clabel').forEach(label => {
+  label.addEventListener('mouseenter', () => {
+    const bar = document.querySelector(`.tbar[data-job="${label.dataset.job}"]`);
+    if (bar) showTip(label.dataset.job, bar);
+  });
+  label.addEventListener('mouseleave', hideTip);
+});
+
+// ── FADE IN OBSERVER ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 60);
+    }
+  });
+}, { threshold: 0.06 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// ── MOBILE TOUCH TIMELINE ──
+if ('ontouchstart' in window) {
+  let activeTouchBar = null;
+  document.querySelectorAll('.tbar').forEach(bar => {
+    bar.addEventListener('touchstart', e => {
+      e.preventDefault();
+      if (activeTouchBar === bar) { hideTip(); activeTouchBar = null; return; }
+      activeTouchBar = bar;
+      showTip(bar.dataset.job, bar);
+    });
+  });
+  document.addEventListener('touchstart', e => {
+    if (!e.target.closest('.tbar') && !e.target.closest('.clabel') && !e.target.closest('.tooltip')) {
+      hideTip(); activeTouchBar = null;
+    }
+  });
+}
+
+
+// ── NEUROFLOW CAROUSEL ──
+(function() {
+  const slides = document.querySelectorAll('.nf-slide');
+  const dots   = document.querySelectorAll('.nf-dot');
+  let cur = 0;
+  function goTo(i) {
+    slides[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    cur = i;
+    slides[cur].classList.add('active');
+    dots[cur].classList.add('active');
+  }
+  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.i)));
+  setInterval(() => goTo((cur + 1) % slides.length), 3000);
+})();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"3d47dcac557b438cab3056be4ebb00c8","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
