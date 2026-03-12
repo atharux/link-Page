@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Athar Hafiz — UX Designer & Front-End Specialist</title>
+<title>Athar Hafiz — UX Engineer & Front-End Specialist</title>
 <link rel="icon" type="image/x-icon" href="icon.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
 <style>
@@ -175,6 +175,98 @@ body.brutalist .theme-btn {
   color: #000;
   border-radius: 0;
   box-shadow: 3px 3px 0 #000;
+}
+
+/* ── HAMBURGER NAV (mobile) ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px;
+  transition: border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.nav-hamburger:hover { border-color: var(--border-hi); }
+
+.nav-hamburger span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--text-mid);
+  border-radius: 2px;
+  transition: all 0.25s;
+  transform-origin: center;
+}
+
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+body.brutalist .nav-hamburger {
+  background: #000;
+  border: 2px solid #fff;
+  border-radius: 0;
+}
+body.brutalist .nav-hamburger span { background: #fff; }
+
+/* Mobile nav drawer */
+.nav-drawer {
+  display: none;
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  background: rgba(13,13,26,0.97);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  z-index: 99;
+  padding: 16px 2rem 24px;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-drawer.open { display: flex; }
+
+body.brutalist .nav-drawer {
+  background: #000;
+  border-bottom: 4px solid #fff;
+  backdrop-filter: none;
+}
+
+.nav-drawer a {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-mid);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.nav-drawer a::after { content: '→'; opacity: 0.3; }
+.nav-drawer a:hover { color: var(--purple); }
+.nav-drawer a:hover::after { opacity: 1; }
+.nav-drawer a:last-child { border-bottom: none; }
+
+body.brutalist .nav-drawer a { color: #ccc; border-bottom-color: #333; }
+body.brutalist .nav-drawer a:hover { color: #ff0000; }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -1380,14 +1472,30 @@ body.brutalist .nf-dot.active { background: #000; }
   <ul class="nav-links">
     <li><a href="#projects">Projects</a></li>
     <li><a href="#ai-coordination">Ai Coordination</a></li>
-    <li><a href="#ux-design">UX</a></li>
+    <li><a href="#neuroflow-ai">AI Methodology</a></li>
     <li><a href="#apple">Apple</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="AtharHafizCV.pdf">CV</a></li>
   </ul>
-  <button class="theme-btn" id="themeBtn">⬛ Brutalist</button>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <button class="theme-btn" id="themeBtn">⬛ Brutalist</button>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
+
+<!-- Mobile drawer -->
+<div class="nav-drawer" id="navDrawer">
+  <a href="#projects"       onclick="closeDrawer()">Projects</a>
+  <a href="#ai-coordination" onclick="closeDrawer()">AI Coordination</a>
+  <a href="#neuroflow-ai"   onclick="closeDrawer()">AI Methodology</a>
+  <a href="#apple"          onclick="closeDrawer()">Apple</a>
+  <a href="#skills"         onclick="closeDrawer()">Skills</a>
+  <a href="#contact"        onclick="closeDrawer()">Contact</a>
+  <a href="AtharHafizCV.pdf">CV</a>
+</div>
 
 <!-- ═══ HERO ═══ -->
 <section class="hero" id="home">
@@ -1617,8 +1725,94 @@ body.brutalist .nf-dot.active { background: #000; }
 
   </div>
 </section>
+<!-- ═══ AI WORK METHODOLOGY ═══ -->
+<section class="apple-section container fade-up" id="neuroflow-ai">
+  <div class="section-label">How I Work With AI</div>
+  <div class="apple-inner">
+
+    <div class="apple-header">
+      <div>
+        <div class="apple-badge">AI Work Methodology · Prompt Engineering</div>
+        <h2 class="apple-title">Working With AI</h2>
+        <p class="apple-desc">
+          This is not vibe coding. I use a structured prompting system with explicit rules, JSON-formatted prompts, guard clauses that force clarification before any execution. Less iteration, more intentional, consistent, and auditable output that holds up across sessions. The security analysis below shows how it works in practice.
+        </p>
+        <br/>
+        <a href="cases/work-with-ai.html" class="btn-primary" style="margin-top:8px;" target="_blank">
+          See the Full Process →
+        </a>
+      </div>
+
+      <div class="apple-stats-col">
+        <div class="apple-stat">
+          <span class="apple-stat-num">Contract</span>
+          <span class="apple-stat-lbl">Before Every Session</span>
+        </div>
+        <div class="apple-stat">
+          <span class="apple-stat-num">JSON</span>
+          <span class="apple-stat-lbl">Structured Prompts</span>
+        </div>
+        <div class="apple-stat">
+          <span class="apple-stat-num">Zero</span>
+          <span class="apple-stat-lbl">Blind Abstraction</span>
+        </div>
+        <div class="apple-stat">
+          <span class="apple-stat-num">7/9</span>
+          <span class="apple-stat-lbl">Local LLM Wins</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="doordash-strip">
+      <span class="dd-pill">Proof of Concept — NeuroFlow Security Analysis</span>
+      <p class="dd-text">4 structured prompts → full attack surface audit, interactive D3.js knowledge graph, and cloud vs. local LLM comparison. All produced in a single documented session.</p>
+    </div>
+
+    <div class="apple-issues">
+      <div class="issue-card">
+        <div class="issue-num">Principle 01</div>
+        <div class="issue-title">Contract-First</div>
+        <p class="issue-hig">"Define rules before you write a single prompt — scope, file integrity, no abstraction, stop conditions."</p>
+        <ul class="issue-fixes">
+          <li>Role locked to deterministic execution</li>
+          <li>Full file returns — no partial snippets</li>
+          <li>Explicit regression check on every output</li>
+        </ul>
+      </div>
+      <div class="issue-card">
+        <div class="issue-num">Principle 02</div>
+        <div class="issue-title">Structured Prompting</div>
+        <p class="issue-hig">"JSON array tuples make intent machine-readable — guard clauses force clarification before execution."</p>
+        <ul class="issue-fixes">
+          <li>["before you proceed", "constraint"] pattern</li>
+          <li>Intent and constraint paired in every prompt</li>
+          <li>Eliminates wasted cycles from ambiguity</li>
+        </ul>
+      </div>
+      <div class="issue-card">
+        <div class="issue-num">Principle 03</div>
+        <div class="issue-title">Auditable Output</div>
+        <p class="issue-hig">"Every artifact is traceable back to the prompt that created it — collaboration is documented, not assumed."</p>
+        <ul class="issue-fixes">
+          <li>Conversation journey logged prompt-by-prompt</li>
+          <li>Artifacts versioned and linked to source prompts</li>
+          <li>Process is the deliverable, not just the output</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="apple-cta">
+      <p class="apple-cta-text">
+        Full documentation includes the AI contract, prompt-by-prompt conversation log,
+        security knowledge graph, and cloud vs. local LLM analysis.
+      </p>
+      <a href="cases/neuroflow-presentation.html" class="btn-secondary" target="_blank">View Full Process →</a>
+    </div>
+
+  </div>
+</section>
 <!-- ═══ PROJECTS — DESIGN ═══ -->
-<section class="section container fade-up" id="ux-design">
+<section class="section container fade-up">
   <div class="section-label">Design & Product</div>
   <h2 class="section-title">UX Case Studies</h2>
   <p class="section-sub">Foundation work in user experience, interface design, and product strategy.</p>
@@ -1750,7 +1944,7 @@ body.brutalist .nf-dot.active { background: #000; }
     </div>
 
     <div class="apple-cta">
-      <p class="apple-cta-text">Full case study includes before/after analysis and key takeaways from 600,000+ app reviews.</p>
+      <p class="apple-cta-text">Full case study includes before/after analysis, redesign examples, and key takeaways from 600,000+ app reviews.</p>
       <a href="https://atharux.com/cases/athar_casestudy_apple.html" class="btn-secondary">Read Full Case Study →</a>
     </div>
 
@@ -1943,7 +2137,28 @@ document.querySelectorAll('.clabel').forEach(label => {
   label.addEventListener('mouseleave', hideTip);
 });
 
-// ── FADE IN OBSERVER ──
+// ── HAMBURGER NAV ──
+const hamburger = document.getElementById('navHamburger');
+const drawer    = document.getElementById('navDrawer');
+
+hamburger.addEventListener('click', () => {
+  const isOpen = drawer.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen);
+  hamburger.setAttribute('aria-expanded', isOpen);
+});
+
+function closeDrawer() {
+  drawer.classList.remove('open');
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', false);
+}
+
+// Close drawer on scroll
+window.addEventListener('scroll', () => {
+  if (drawer.classList.contains('open')) closeDrawer();
+}, { passive: true });
+
+
 const observer = new IntersectionObserver(entries => {
   entries.forEach((e, i) => {
     if (e.isIntersecting) {
