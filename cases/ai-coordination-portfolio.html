@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Coordination Infrastructure — Global Event Planning System</title>
+<title>AI Coordination Infrastructure — Research Event Planning System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
@@ -844,6 +844,166 @@ body::before {
 
 .hero { position: relative; }
 
+/* ============================
+   RESPONSIVE — TABLET (≤900px)
+   ============================ */
+@media (max-width: 900px) {
+  .header {
+    padding: 16px 20px;
+    gap: 12px;
+  }
+
+  .header-nav {
+    display: none;
+  }
+
+  .hero {
+    padding: 60px 20px 40px;
+  }
+
+  .section {
+    padding: 32px 20px 60px;
+  }
+
+  .agents-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sim-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  #sim-canvas {
+    height: 300px;
+  }
+
+  .vendor-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .output-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .approval-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .approval-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .btn-approve, .btn-revise {
+    flex: 1;
+    text-align: center;
+  }
+
+  footer > div,
+  .footer {
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+  }
+}
+
+/* ============================
+   RESPONSIVE — MOBILE (≤540px)
+   ============================ */
+@media (max-width: 540px) {
+  .header {
+    padding: 14px 16px;
+  }
+
+  .logo {
+    font-size: 11px;
+  }
+
+  .status-pill {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  .hero {
+    padding: 48px 16px 32px;
+  }
+
+  .hero h1 {
+    font-size: clamp(32px, 10vw, 48px);
+  }
+
+  .hero-desc {
+    font-size: 15px;
+  }
+
+  .hero-meta {
+    gap: 20px;
+  }
+
+  .section {
+    padding: 24px 16px 48px;
+  }
+
+  .section-title {
+    font-size: 22px;
+  }
+
+  .agents-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #knowledge-graph {
+    height: 320px;
+  }
+
+  .graph-legend {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 12px 12px;
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  .sim-controls {
+    gap: 10px;
+  }
+
+  #sim-canvas {
+    height: 240px;
+  }
+
+  .vendor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .output-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .approval-bar {
+    padding: 16px;
+  }
+
+  .btn-approve, .btn-revise {
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+
+  footer {
+    padding: 20px 16px !important;
+  }
+
+  footer > div {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
 </style>
 </head>
 
@@ -851,7 +1011,7 @@ body::before {
 
 <!-- HEADER -->
 <header class="header">
-  <div class="logo">COORD <span>//</span> Event Opes Infrastructure</div>
+  <div class="logo">COORD <span>//</span> Research Infrastructure</div>
   <nav class="header-nav">
     <a href="#agents">Agents</a>
     <a href="#graph">Knowledge Graph</a>
@@ -871,7 +1031,7 @@ body::before {
   <h1>
     Multi-Agent<br>
     <span class="highlight">Coordination Layer</span><br>
-    for Event Operations
+    for Research Events
   </h1>
   <p class="hero-desc">
     A systems-level exploration of how AI agent networks can coordinate distributed scientific gatherings — venues, travel, vendors, and schedules — while preserving human oversight at every decision point.
@@ -891,7 +1051,7 @@ body::before {
     </div>
     <div class="meta-item">
       <span class="meta-label">Domain</span>
-      <span class="meta-value" style="font-size:15px;padding-top:4px">Event Ops</span>
+      <span class="meta-value" style="font-size:15px;padding-top:4px">Research Ops</span>
     </div>
   </div>
 </section>
