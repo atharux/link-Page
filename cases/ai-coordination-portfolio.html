@@ -844,6 +844,99 @@ body::before {
 
 .hero { position: relative; }
 
+/* KNOWLEDGE GRAPH TOOLTIP */
+.kg-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: rgba(14,16,25,0.95);
+  border: 1px solid var(--border-bright);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 10;
+  transform: translate(12px, -50%);
+}
+
+.kg-tooltip.visible { opacity: 1; }
+
+/* KNOWLEDGE GRAPH INFO PANEL */
+.kg-info-panel {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  width: 220px;
+  background: rgba(14,16,25,0.96);
+  border: 1px solid var(--border-bright);
+  border-radius: 12px;
+  padding: 16px;
+  z-index: 10;
+  backdrop-filter: blur(12px);
+  animation: panel-in 0.2s ease;
+}
+
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.kg-info-panel-type {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.kg-info-panel-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.kg-info-panel-detail {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+
+.kg-info-panel-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  padding: 5px 0;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+}
+
+.kg-info-panel-row span:last-child {
+  color: var(--text-primary);
+}
+
+.kg-info-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 4px;
+  transition: color 0.15s;
+}
+
+.kg-info-close:hover { color: var(--text-primary); }
+
 /* ============================
    RESPONSIVE — TABLET (≤900px)
    ============================ */
@@ -1011,12 +1104,14 @@ body::before {
 
 <!-- HEADER -->
 <header class="header">
+  <a href="/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-secondary);text-decoration:none;opacity:0.6;transition:opacity 0.2s;white-space:nowrap;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">← atharux.com</a>
   <div class="logo">COORD <span>//</span> Research Infrastructure</div>
   <nav class="header-nav">
     <a href="#agents">Agents</a>
     <a href="#graph">Knowledge Graph</a>
     <a href="#simulation">Simulation</a>
     <a href="#vendors">Marketplace</a>
+    <a href="#casestudy">Case Study</a>
     <a href="#output">Planning Output</a>
   </nav>
   <div class="status-pill">
@@ -1123,6 +1218,15 @@ body::before {
 
   <div class="graph-container">
     <canvas id="knowledge-graph"></canvas>
+    <div id="kg-tooltip" class="kg-tooltip"></div>
+    <div id="kg-info-panel" class="kg-info-panel" style="display:none">
+      <button class="kg-info-close" onclick="deselectKGNode()">✕</button>
+      <div class="kg-info-panel-type" id="kgp-type"></div>
+      <div class="kg-info-panel-label" id="kgp-label"></div>
+      <div class="kg-info-panel-detail" id="kgp-detail"></div>
+      <div class="kg-info-panel-row"><span>Agent</span><span id="kgp-agent"></span></div>
+      <div class="kg-info-panel-row"><span>Connections</span><span id="kgp-conns"></span></div>
+    </div>
     <div class="graph-legend">
       <div class="legend-item"><div class="legend-dot" style="background:var(--accent-cyan)"></div>Event Core</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--agent-venue)"></div>Venue</div>
@@ -1294,6 +1398,77 @@ body::before {
 
 </section>
 
+<!-- NEUROFLOW CASE STUDY -->
+<hr class="divider">
+
+<section class="section" id="casestudy">
+  <div class="section-label">Related Work</div>
+  <div class="section-title">NeuroFlow — AI Execution Case Study</div>
+  <div class="section-sub">A documented prompt engineering collaboration: security audit, knowledge graph, and comparative LLM analysis produced through structured JSON prompting.</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent-violet),var(--accent-cyan));border-radius:16px 16px 0 0;"></div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:12px;">Case Study</div>
+      <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.01em;margin-bottom:10px;">Human–AI Execution Framework</div>
+      <div style="font-size:13px;color:var(--text-secondary);line-height:1.65;margin-bottom:24px;">
+        How a 4-prompt JSON-structured conversation produced a full security audit, an interactive attack surface graph, and a cloud vs. local LLM comparison for the NeuroFlow app.
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:28px;">
+        <div style="display:flex;align-items:center;gap:10px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text-secondary);">
+          <span style="color:var(--accent-violet);">→</span> AI Contract · strict-mode execution rules
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text-secondary);">
+          <span style="color:var(--accent-violet);">→</span> Conversation Journey · prompt-by-prompt breakdown
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text-secondary);">
+          <span style="color:var(--accent-violet);">→</span> Security Knowledge Graph · D3.js force-directed
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text-secondary);">
+          <span style="color:var(--accent-violet);">→</span> Cloud vs. Local LLM · comparative analysis
+        </div>
+      </div>
+      <a href="neuroflow-presentation.html" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;background:rgba(155,107,255,0.1);border:1px solid rgba(155,107,255,0.35);color:var(--accent-violet);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.06em;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(155,107,255,0.18)'" onmouseout="this.style.background='rgba(155,107,255,0.1)'">
+        Open Case Study ↗
+      </a>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;flex:1;">
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px;">Prompt Technique</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <span style="color:var(--text-secondary);">Format</span>
+            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent-violet);">JSON Array Tuples</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <span style="color:var(--text-secondary);">Guard Clause</span>
+            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent-cyan);">"before you proceed"</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <span style="color:var(--text-secondary);">Prompts</span>
+            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-primary);">4</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:8px 0;">
+            <span style="color:var(--text-secondary);">Key Finding</span>
+            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent-green);">Local LLM wins 7/9</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px;">Artifacts Produced</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span style="font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;background:rgba(155,107,255,0.08);border:1px solid rgba(155,107,255,0.2);color:var(--accent-violet);">AI Contract</span>
+          <span style="font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);color:var(--accent-cyan);">Security Graph</span>
+          <span style="font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);color:var(--accent-green);">Comparison Report</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer style="border-top:1px solid var(--border);padding:30px 40px;">
   <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;">
@@ -1327,6 +1502,24 @@ let kgNodes = [];
 let kgEdges = [];
 let kgAnimFrame;
 let kgT = 0;
+let kgHoveredNode = null;
+let kgSelectedNode = null;
+
+const KG_NODE_INFO = {
+  event:    { role: 'Event Core',        detail: '40 participants · 3 days · Berlin, DE. Central coordination node for all agent activity.',           agent: 'All Agents',     conns: 8 },
+  venue1:   { role: 'Venue Candidate',   detail: 'AXICA Berlin. Modern conference center near Brandenburg Gate. Score: 94/100 · €12,400 / 3 days.',    agent: 'Venue Agent',    conns: 3 },
+  venue2:   { role: 'Venue Candidate',   detail: 'Radialsystem V. Cultural riverside space. 120 capacity, natural light, flexible layout. Score: 88.',  agent: 'Venue Agent',    conns: 1 },
+  hotel1:   { role: 'Lodging Node',      detail: 'Aparthotel Adagio. 48 units, breakfast included. Group block rate, direct billing available.',        agent: 'Travel Agent',   conns: 2 },
+  flights:  { role: 'Travel Node',       detail: 'Lufthansa group corridor. 3 clustered arrival windows optimised for CO₂ and ground transfer cost.',   agent: 'Travel Agent',   conns: 2 },
+  catering: { role: 'Vendor Node',       detail: 'Spice Kitchen GmbH. Full-service catering, vegan/halal/GF standard. Score: 91/100 · €4,200 / 3 days.', agent: 'Vendor Agent',   conns: 2 },
+  av:       { role: 'Vendor Node',       detail: 'AVTech Berlin. Simultaneous streaming, live captioning, hybrid setup. Score: 89/100 · €3,600 / 3 days.', agent: 'Vendor Agent',   conns: 2 },
+  agenda:   { role: 'Schedule Node',     detail: 'Agenda v1 draft. 4 sessions across 3 days, 0 conflicts detected. Integrates all timezone offsets.',    agent: 'Schedule Agent', conns: 2 },
+  tz:       { role: 'Constraint Node',   detail: 'Timezone offset map. Covers UTC-8 → UTC+9. Used to resolve session timing and async participation.',   agent: 'Schedule Agent', conns: 2 },
+  p1:       { role: 'Participant',       detail: 'Origin: Western Europe. Arrival cluster A. No dietary flags. Accessibility: standard.',                agent: 'Travel Agent',   conns: 1 },
+  p2:       { role: 'Participant',       detail: 'Origin: North America. Arrival cluster B. Visa: not required. CO₂ offset applied.',                   agent: 'Travel Agent',   conns: 1 },
+  p3:       { role: 'Participant',       detail: 'Origin: East Asia. Arrival cluster C. Earliest arrival window. Timezone delta: +7h.',                  agent: 'Travel Agent',   conns: 1 },
+  p4:       { role: 'Participant',       detail: 'Origin: Central Europe. Arrival cluster A. Speaker slot Day 2 · 11:00. Flagged for session lead.',     agent: 'Schedule Agent', conns: 1 },
+};
 
 function initKnowledgeGraph() {
   const W = kgCanvas.parentElement.clientWidth;
@@ -1338,19 +1531,19 @@ function initKnowledgeGraph() {
   const cy = H / 2;
 
   kgNodes = [
-    { id: 'event', label: 'Event', type: 'event', x: cx, y: cy, vx: 0, vy: 0 },
-    { id: 'venue1', label: 'AXICA Berlin', type: 'venue', x: cx - 220, y: cy - 100, vx: 0, vy: 0 },
-    { id: 'venue2', label: 'Radialsystem', type: 'venue', x: cx - 240, y: cy + 60, vx: 0, vy: 0 },
-    { id: 'hotel1', label: 'Hotel Sch.', type: 'travel', x: cx - 120, y: cy + 200, vx: 0, vy: 0 },
-    { id: 'flights', label: 'Lufthansa', type: 'travel', x: cx + 200, y: cy - 160, vx: 0, vy: 0 },
-    { id: 'catering', label: 'Spice Kitchen', type: 'vendor', x: cx + 220, y: cy + 80, vx: 0, vy: 0 },
-    { id: 'av', label: 'AVTech Berlin', type: 'vendor', x: cx + 80, y: cy + 200, vx: 0, vy: 0 },
-    { id: 'agenda', label: 'Agenda v1', type: 'schedule', x: cx - 60, y: cy - 200, vx: 0, vy: 0 },
-    { id: 'tz', label: 'Timezone Map', type: 'schedule', x: cx + 160, y: cy - 60, vx: 0, vy: 0 },
-    { id: 'p1', label: 'Participant A', type: 'person', x: cx - 320, y: cy - 30, vx: 0, vy: 0 },
-    { id: 'p2', label: 'Participant B', type: 'person', x: cx + 320, y: cy + 40, vx: 0, vy: 0 },
-    { id: 'p3', label: 'Participant C', type: 'person', x: cx + 10, y: cy - 300, vx: 0, vy: 0 },
-    { id: 'p4', label: 'Participant D', type: 'person', x: cx - 80, y: cy + 300, vx: 0, vy: 0 },
+    { id: 'event',    label: 'Berlin Retreat',  type: 'event',    x: cx,        y: cy,        vx: 0, vy: 0 },
+    { id: 'venue1',   label: 'AXICA Berlin',    type: 'venue',    x: cx - 220,  y: cy - 100,  vx: 0, vy: 0 },
+    { id: 'venue2',   label: 'Radialsystem',    type: 'venue',    x: cx - 240,  y: cy + 60,   vx: 0, vy: 0 },
+    { id: 'hotel1',   label: 'Adagio Hotel',    type: 'travel',   x: cx - 120,  y: cy + 200,  vx: 0, vy: 0 },
+    { id: 'flights',  label: 'Lufthansa',       type: 'travel',   x: cx + 200,  y: cy - 160,  vx: 0, vy: 0 },
+    { id: 'catering', label: 'Spice Kitchen',   type: 'vendor',   x: cx + 220,  y: cy + 80,   vx: 0, vy: 0 },
+    { id: 'av',       label: 'AVTech Berlin',   type: 'vendor',   x: cx + 80,   y: cy + 200,  vx: 0, vy: 0 },
+    { id: 'agenda',   label: 'Agenda v1',       type: 'schedule', x: cx - 60,   y: cy - 200,  vx: 0, vy: 0 },
+    { id: 'tz',       label: 'Timezone Map',    type: 'schedule', x: cx + 160,  y: cy - 60,   vx: 0, vy: 0 },
+    { id: 'p1',       label: 'Participant A',   type: 'person',   x: cx - 320,  y: cy - 30,   vx: 0, vy: 0 },
+    { id: 'p2',       label: 'Participant B',   type: 'person',   x: cx + 320,  y: cy + 40,   vx: 0, vy: 0 },
+    { id: 'p3',       label: 'Participant C',   type: 'person',   x: cx + 10,   y: cy - 300,  vx: 0, vy: 0 },
+    { id: 'p4',       label: 'Participant D',   type: 'person',   x: cx - 80,   y: cy + 300,  vx: 0, vy: 0 },
   ];
 
   kgEdges = [
@@ -1373,6 +1566,88 @@ function initKnowledgeGraph() {
   ];
 
   renderKG();
+
+  // Attach mouse events (only once)
+  kgCanvas.onmousemove = kgOnMouseMove;
+  kgCanvas.onclick     = kgOnClick;
+  kgCanvas.onmouseleave = kgOnMouseLeave;
+}
+
+function kgHitTest(mx, my) {
+  for (let i = kgNodes.length - 1; i >= 0; i--) {
+    const n = kgNodes[i];
+    const r = NODE_TYPES[n.type].r + 4;
+    const dx = mx - n.x, dy = my - n.y;
+    if (dx * dx + dy * dy <= r * r) return n;
+  }
+  return null;
+}
+
+function kgOnMouseMove(e) {
+  const rect = kgCanvas.getBoundingClientRect();
+  const scaleX = kgCanvas.width / rect.width;
+  const scaleY = kgCanvas.height / rect.height;
+  const mx = (e.clientX - rect.left) * scaleX;
+  const my = (e.clientY - rect.top)  * scaleY;
+
+  const hit = kgHitTest(mx, my);
+  kgHoveredNode = hit;
+  kgCanvas.style.cursor = hit ? 'pointer' : 'default';
+
+  const tooltip = document.getElementById('kg-tooltip');
+  if (hit) {
+    // Position relative to canvas element (not scaled coords)
+    const rx = (hit.x / scaleX) + (rect.left - kgCanvas.getBoundingClientRect().left);
+    const ry = (hit.y / scaleY);
+    tooltip.style.left = (hit.x / scaleX + 14) + 'px';
+    tooltip.style.top  = (hit.y / scaleY) + 'px';
+    tooltip.textContent = hit.label;
+    tooltip.style.borderColor = NODE_TYPES[hit.type].color + '66';
+    tooltip.classList.add('visible');
+  } else {
+    tooltip.classList.remove('visible');
+  }
+}
+
+function kgOnMouseLeave() {
+  kgHoveredNode = null;
+  kgCanvas.style.cursor = 'default';
+  document.getElementById('kg-tooltip').classList.remove('visible');
+}
+
+function kgOnClick(e) {
+  const rect = kgCanvas.getBoundingClientRect();
+  const scaleX = kgCanvas.width / rect.width;
+  const scaleY = kgCanvas.height / rect.height;
+  const mx = (e.clientX - rect.left) * scaleX;
+  const my = (e.clientY - rect.top)  * scaleY;
+
+  const hit = kgHitTest(mx, my);
+  if (!hit) { deselectKGNode(); return; }
+  if (kgSelectedNode && kgSelectedNode.id === hit.id) { deselectKGNode(); return; }
+
+  kgSelectedNode = hit;
+  hit.pinned = true;
+
+  const info = KG_NODE_INFO[hit.id];
+  if (!info) return;
+
+  const color = NODE_TYPES[hit.type].color;
+  const panel = document.getElementById('kg-info-panel');
+  document.getElementById('kgp-type').textContent   = info.role;
+  document.getElementById('kgp-type').style.color   = color;
+  document.getElementById('kgp-label').textContent  = hit.label;
+  document.getElementById('kgp-detail').textContent = info.detail;
+  document.getElementById('kgp-agent').textContent  = info.agent;
+  document.getElementById('kgp-conns').textContent  = info.conns;
+  panel.style.display = 'block';
+  panel.style.borderColor = color + '44';
+}
+
+function deselectKGNode() {
+  if (kgSelectedNode) kgSelectedNode.pinned = false;
+  kgSelectedNode = null;
+  document.getElementById('kg-info-panel').style.display = 'none';
 }
 
 function renderKG() {
@@ -1392,25 +1667,39 @@ function renderKG() {
     kgCtx.beginPath(); kgCtx.moveTo(0, y); kgCtx.lineTo(W, y); kgCtx.stroke();
   }
 
-  // Apply gentle force-directed drift
+  // Apply gentle force-directed drift (skip pinned/selected nodes)
   kgNodes.forEach(n => {
     if (n.type === 'event') return;
+    if (n.pinned) return;
     n.x += Math.sin(kgT * 0.7 + n.id.length) * 0.3;
     n.y += Math.cos(kgT * 0.5 + n.id.length * 1.3) * 0.3;
   });
 
+  // Determine which edges are connected to the selected node
+  const selectedEdgeSet = new Set();
+  if (kgSelectedNode) {
+    kgEdges.forEach((e, i) => {
+      if (e.from === kgSelectedNode.id || e.to === kgSelectedNode.id) selectedEdgeSet.add(i);
+    });
+  }
+
   // Draw edges
-  kgEdges.forEach(e => {
+  kgEdges.forEach((e, i) => {
     const a = kgNodes.find(n => n.id === e.from);
     const b = kgNodes.find(n => n.id === e.to);
     if (!a || !b) return;
 
+    const isHighlighted = selectedEdgeSet.has(i);
+    const isDimmed = kgSelectedNode && !isHighlighted;
+
     const pulse = (Math.sin(kgT * 3 + e.strength * 10) + 1) / 2;
-    const alpha = 0.1 + pulse * 0.12 * e.strength;
+    let alpha = 0.1 + pulse * 0.12 * e.strength;
+    if (isHighlighted) alpha = 0.7;
+    if (isDimmed) alpha = 0.03;
 
     kgCtx.beginPath();
-    kgCtx.strokeStyle = `rgba(120,150,255,${alpha})`;
-    kgCtx.lineWidth = e.strength * 1.5;
+    kgCtx.strokeStyle = isHighlighted ? `rgba(0,212,255,${alpha})` : `rgba(120,150,255,${alpha})`;
+    kgCtx.lineWidth = isHighlighted ? 2 : e.strength * 1.5;
     kgCtx.setLineDash([4, 6]);
     kgCtx.lineDashOffset = -kgT * 8;
     kgCtx.moveTo(a.x, a.y);
@@ -1423,38 +1712,62 @@ function renderKG() {
   kgNodes.forEach(n => {
     const t = NODE_TYPES[n.type];
     const pulse = (Math.sin(kgT * 2 + n.x * 0.01) + 1) / 2;
+    const isSelected = kgSelectedNode && kgSelectedNode.id === n.id;
+    const isHovered  = kgHoveredNode  && kgHoveredNode.id  === n.id;
+    const isDimmed   = kgSelectedNode && !isSelected;
+
+    kgCtx.globalAlpha = isDimmed ? 0.3 : 1;
 
     // Glow
     const grd = kgCtx.createRadialGradient(n.x, n.y, 0, n.x, n.y, t.r * 3);
-    grd.addColorStop(0, t.color + '22');
+    grd.addColorStop(0, t.color + (isSelected ? '44' : '22'));
     grd.addColorStop(1, 'transparent');
     kgCtx.beginPath();
     kgCtx.arc(n.x, n.y, t.r * 3, 0, Math.PI * 2);
     kgCtx.fillStyle = grd;
     kgCtx.fill();
 
+    // Selection / hover outer ring
+    if (isSelected) {
+      kgCtx.beginPath();
+      kgCtx.arc(n.x, n.y, t.r + 7 + Math.sin(kgT * 4) * 2, 0, Math.PI * 2);
+      kgCtx.strokeStyle = t.color + 'aa';
+      kgCtx.lineWidth = 1.5;
+      kgCtx.setLineDash([3, 4]);
+      kgCtx.stroke();
+      kgCtx.setLineDash([]);
+    } else if (isHovered) {
+      kgCtx.beginPath();
+      kgCtx.arc(n.x, n.y, t.r + 5, 0, Math.PI * 2);
+      kgCtx.strokeStyle = t.color + '55';
+      kgCtx.lineWidth = 1;
+      kgCtx.stroke();
+    }
+
     // Node circle
     kgCtx.beginPath();
     kgCtx.arc(n.x, n.y, t.r, 0, Math.PI * 2);
     kgCtx.fillStyle = '#13151f';
     kgCtx.fill();
-    kgCtx.strokeStyle = t.color;
-    kgCtx.lineWidth = 1.5 + pulse * 0.5;
+    kgCtx.strokeStyle = isSelected ? t.color : (isHovered ? t.color + 'dd' : t.color);
+    kgCtx.lineWidth = isSelected ? 2.5 : (1.5 + pulse * 0.5);
     kgCtx.stroke();
 
     // Inner dot
     kgCtx.beginPath();
     kgCtx.arc(n.x, n.y, t.r * 0.35, 0, Math.PI * 2);
     kgCtx.fillStyle = t.color;
-    kgCtx.globalAlpha = 0.6 + pulse * 0.4;
+    kgCtx.globalAlpha = isDimmed ? 0.3 : (0.6 + pulse * 0.4);
     kgCtx.fill();
     kgCtx.globalAlpha = 1;
 
     // Label
-    kgCtx.font = `11px "DM Mono", monospace`;
-    kgCtx.fillStyle = 'rgba(220,225,255,0.7)';
+    kgCtx.globalAlpha = isDimmed ? 0.2 : 1;
+    kgCtx.font = `${isSelected ? 'bold ' : ''}11px "DM Mono", monospace`;
+    kgCtx.fillStyle = isSelected ? 'rgba(220,225,255,1)' : 'rgba(220,225,255,0.7)';
     kgCtx.textAlign = 'center';
     kgCtx.fillText(n.label, n.x, n.y + t.r + 14);
+    kgCtx.globalAlpha = 1;
   });
 
   kgAnimFrame = requestAnimationFrame(renderKG);
@@ -1863,6 +2176,7 @@ window.addEventListener('load', () => {
 window.addEventListener('resize', () => {
   cancelAnimationFrame(kgAnimFrame);
   cancelAnimationFrame(simAnimFrame);
+  deselectKGNode();
   initKnowledgeGraph();
   initSim();
 });

@@ -50,42 +50,51 @@ body::before {
   opacity: 0.4;
 }
 
-/* BACK LINK */
-.back-bar {
+/* HEADER */
+.header {
   position: sticky;
   top: 0;
   z-index: 100;
   background: rgba(13,13,26,0.92);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
-  padding: 12px 2rem;
+  padding: 0 2rem;
+  height: 56px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 24px;
 }
 
-.back-link {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-dim);
-  text-decoration: none;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: color 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.back-link::before { content: '←'; }
-.back-link:hover { color: var(--purple); }
-
-.back-bar-label {
+.header-back {
   font-family: var(--mono);
   font-size: 10px;
-  color: var(--text-dim);
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.header-back:hover { color: var(--purple); }
+
+.header-logo {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  flex: 1;
+}
+
+.header-logo span { color: var(--teal); }
+
+.header-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
 }
 
 /* HERO */
@@ -614,11 +623,12 @@ footer {
 </head>
 <body>
 
-<!-- BACK BAR -->
-<div class="back-bar">
-  <a href="/" class="back-link">atharux.com</a>
-  <span class="back-bar-label">Apple · Case Study</span>
-</div>
+<!-- HEADER -->
+<header class="header">
+  <a href="/" class="header-back">← atharux.com</a>
+  <div class="header-logo">Apple <span>//</span> Case Study</div>
+  <span class="header-label">WWDR · App Review</span>
+</header>
 
 <!-- HERO -->
 <section class="hero">
