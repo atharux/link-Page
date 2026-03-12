@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Execution — A Documented Process</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #07080f;
+  --surface: #0e1019;
+  --surface2: #13151f;
+  --border: rgba(255,255,255,0.07);
+  --border-bright: rgba(255,255,255,0.14);
+  --accent-blue: #4f8cff;
+  --accent-cyan: #00d4ff;
+  --accent-violet: #9b6bff;
+  --accent-green: #00e5a0;
+  --accent-amber: #f5a623;
+  --text-primary: #eceef5;
+  --text-secondary: #7e8299;
+  --text-dim: #3d4058;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* GRAIN OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* HEADER */
+.header {
+  border-bottom: 1px solid var(--border);
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: rgba(7,8,15,0.92);
+  backdrop-filter: blur(20px);
+  z-index: 100;
+  gap: 20px;
+}
+
+.logo {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.logo span { color: var(--accent-cyan); }
+
+.nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nav-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-item:hover { border-color: var(--border-bright); color: var(--text-primary); }
+.nav-item.active {
+  background: rgba(0,212,255,0.08);
+  border-color: rgba(0,212,255,0.35);
+  color: var(--accent-cyan);
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--accent-violet);
+  border: 1px solid rgba(155,107,255,0.2);
+  border-radius: 100px;
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-violet);
+}
+
+/* HERO */
+.hero {
+  padding: 80px 40px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse at center, rgba(155,107,255,0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--accent-violet);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 32px; height: 1px;
+  background: var(--accent-violet);
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(36px, 5vw, 62px);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+.hero h1 .highlight {
+  background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-desc {
+  font-size: 16px;
+  color: var(--text-secondary);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+.hero-meta {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.meta-item { display: flex; flex-direction: column; gap: 4px; }
+.meta-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.meta-value {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* SECTION */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 40px 80px;
+}
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.section-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* VIEW SWITCHING */
+.view { display: none; }
+.view.active { display: block; }
+
+/* CONTRACT */
+.contract-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 32px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  line-height: 2;
+  color: var(--text-secondary);
+  overflow: auto;
+  max-height: 600px;
+}
+.contract-line { display: flex; margin-bottom: 2px; }
+.line-number {
+  width: 40px;
+  text-align: right;
+  padding-right: 20px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  user-select: none;
+}
+.keyword { color: #ff6b6b; font-weight: 500; }
+.keyword-green { color: var(--accent-green); font-weight: 500; }
+
+/* CONVERSATION */
+.conversation-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 16px;
+  min-height: 560px;
+}
+.message-list {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  overflow-y: auto;
+}
+.message-item {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  line-height: 1.5;
+}
+.message-item:hover { border-color: var(--border-bright); color: var(--text-primary); }
+.message-item.active {
+  background: rgba(155,107,255,0.08);
+  border-color: rgba(155,107,255,0.35);
+  color: var(--accent-violet);
+}
+.message-detail {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 32px;
+  overflow-y: auto;
+}
+.detail-header {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.detail-body {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* BADGES */
+.detail-role-badge {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 18px;
+}
+.badge-user {
+  background: rgba(79,140,255,0.1);
+  border: 1px solid rgba(79,140,255,0.3);
+  color: var(--accent-blue);
+}
+.badge-ai {
+  background: rgba(155,107,255,0.1);
+  border: 1px solid rgba(155,107,255,0.3);
+  color: var(--accent-violet);
+}
+.badge-insight {
+  background: rgba(0,229,160,0.1);
+  border: 1px solid rgba(0,229,160,0.3);
+  color: var(--accent-green);
+}
+
+/* JSON BLOCK */
+.json-block {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-violet);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  line-height: 1.9;
+  overflow-x: auto;
+}
+.json-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-violet);
+  margin-bottom: 10px;
+}
+.j-bracket { color: var(--text-dim); }
+.j-string { color: var(--accent-cyan); }
+.j-string-value { color: var(--accent-amber); }
+.j-key { color: var(--accent-violet); }
+
+/* PROSE BLOCK */
+.prose-block {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-blue);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text-primary);
+}
+.prose-quote { font-style: italic; color: var(--text-primary); }
+
+/* AI RESPONSE */
+.response-section-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-violet);
+  margin-bottom: 8px;
+  margin-top: 20px;
+}
+.response-list { list-style: none; padding: 0; }
+.response-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.response-list li:last-child { border-bottom: none; }
+.response-list li::before {
+  content: '→';
+  color: var(--accent-cyan);
+  flex-shrink: 0;
+  margin-top: 2px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
+
+/* INSIGHT BOX */
+.insight-box {
+  margin-top: 20px;
+  padding: 20px 24px;
+  border-radius: 14px;
+  background: rgba(0,229,160,0.04);
+  border: 1px solid rgba(0,229,160,0.15);
+}
+.insight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.insight-item:last-child { border-bottom: none; }
+.insight-num {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(0,229,160,0.12);
+  border: 1px solid rgba(0,229,160,0.3);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-green);
+  margin-top: 1px;
+}
+
+/* SCHEMA NOTE */
+.schema-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 10px;
+  letter-spacing: 0.04em;
+}
+
+/* ARTIFACT REFERENCE PANELS */
+.artifact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.artifact-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.artifact-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 16px 16px 0 0;
+}
+.artifact-panel.violet::before { background: var(--accent-violet); }
+.artifact-panel.cyan::before   { background: var(--accent-cyan); }
+.artifact-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
+.artifact-filename {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+.artifact-panel.violet .artifact-filename { color: var(--accent-violet); }
+.artifact-panel.cyan   .artifact-filename { color: var(--accent-cyan); }
+.artifact-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.artifact-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.artifact-features {
+  list-style: none;
+  padding: 0;
+}
+.artifact-features li {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  gap: 8px;
+}
+.artifact-features li:last-child { border-bottom: none; }
+.artifact-features li::before {
+  content: '↳';
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* RESPONSIVE */
+@media (max-width: 860px) {
+  .header { padding: 16px 20px; flex-wrap: wrap; gap: 12px; }
+  .hero { padding: 48px 20px 32px; }
+  .section { padding: 28px 20px 52px; }
+  .conversation-layout { grid-template-columns: 1fr; }
+  .message-list { max-height: 220px; }
+  .artifact-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 540px) {
+  .nav { display: none; }
+  .hero h1 { font-size: clamp(30px, 9vw, 44px); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">AI Execution <span>//</span> A Documented Process</div>
+  <nav class="nav">
+    <div class="nav-item active" onclick="switchView('contract', this)">AI Contract</div>
+    <div class="nav-item" onclick="switchView('conversation', this)">Conversation Journey</div>
+    <div class="nav-item" onclick="switchView('comparison', this)">Comparison Analysis</div>
+    <div class="nav-item" onclick="switchView('graph', this)">Knowledge Graph</div>
+  </nav>
+  <div class="status-pill">
+    <div class="status-dot"></div>
+    Case Study
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Prompt Engineering · Security Analysis</div>
+  <h1>
+    <span class="highlight">Working With AI</span><br>
+    
+  </h1>
+  <p class="hero-desc">
+    A documented collaboration: how structured prompting, guard clauses, and iterative JSON directives produced a full security audit, knowledge graph, and comparative analysis of cloud vs. local LLM deployment.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="meta-label">Prompts</span>
+      <span class="meta-value">4</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Artifacts</span>
+      <span class="meta-value">3</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Prompt Format</span>
+      <span class="meta-value" style="font-size:14px;padding-top:5px">JSON Array</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Domain</span>
+      <span class="meta-value" style="font-size:14px;padding-top:5px">Security Ops</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTRACT VIEW -->
+<section class="section">
+<div id="contract" class="view active">
+  <div class="section-label">Execution Rules</div>
+  <div class="section-title">AI Contract</div>
+  <div class="section-sub">The operating constraints governing all AI interactions in this project — defined once, applied to every prompt.</div>
+  <div class="contract-container" id="contractContent"></div>
+</div>
+
+<!-- CONVERSATION JOURNEY VIEW -->
+<div id="conversation" class="view">
+  <div class="section-label">Prompt–Response Log</div>
+  <div class="section-title">Conversation Journey</div>
+  <div class="section-sub">Each exchange documented — from opening brief through iterative JSON refinements to final approval artifacts.</div>
+  <div class="conversation-layout">
+    <div class="message-list" id="messageList"></div>
+    <div class="message-detail" id="messageDetail"></div>
+  </div>
+</div>
+
+<!-- COMPARISON IFRAME VIEW -->
+<div id="comparison" class="view">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+    <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent-violet);">Artifact 01</span>
+    <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);">SECURITY_COMPARISON.html</span>
+  </div>
+  <div style="border:1px solid var(--border);border-radius:16px;overflow:hidden;height:700px;">
+    <iframe src="SECURITY_COMPARISON.html" style="width:100%;height:100%;border:none;display:block;"></iframe>
+  </div>
+</div>
+
+<!-- KNOWLEDGE GRAPH IFRAME VIEW -->
+<div id="graph" class="view">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+    <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent-cyan);">Artifact 02</span>
+    <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);">SECURITY_KNOWLEDGE_GRAPH.html</span>
+  </div>
+  <div style="border:1px solid var(--border);border-radius:16px;overflow:hidden;height:700px;">
+    <iframe src="SECURITY_KNOWLEDGE_GRAPH.html" style="width:100%;height:100%;border:none;display:block;"></iframe>
+  </div>
+</div>
+
+</section>
+
+<!-- FOOTER -->
+<footer style="border-top:1px solid var(--border);padding:30px 40px;">
+  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)">
+      AI Execution Framework · A Documented Process · Prompt Engineering
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)">
+      4 prompts · 3 artifacts · 1 contract
+    </div>
+  </div>
+</footer>
+
+<script>
+function switchView(viewId, el){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById(viewId).classList.add('active');
+  el.classList.add('active');
+}
+
+/* CONTRACT RENDER */
+const contractText = `AI EXECUTION CONTRACT (STRICT MODE)
+
+1. Role Definition (Non-Negotiable)
+You are a deterministic execution assistant, not a creative or advisory agent.
+Your primary responsibility is correctness, completeness, and non-regression.
+You must prioritize preserving existing work over improving or refactoring it.
+
+2. File Integrity Contract
+You MUST:
+Return complete, full files.
+Preserve all existing content.
+Treat pasted files as immutable ground truth.
+You MUST NOT:
+Remove content.
+Return partial snippets.
+Ask the user to merge or manually adjust code.
+Assume missing context.
+
+3. Change Scope Contract
+Before making any change, you must explicitly state:
+What will be changed.
+What will not be changed.
+Where the change will occur.
+
+4. No Abstraction Rule (Hard Stop)
+You MUST NOT:
+Abstract.
+Reinterpret.
+Simplify.
+Improve.
+Normalize.
+Re-architect.
+Refactor.
+
+If abstraction required:
+STOP and request clarification.
+
+5. UI & Visual Evidence Rule
+UI is evidence, not decoration.
+Visual output must remain pixel-identical unless requested.
+
+6. Regression Safety Check (Mandatory)
+All original sections must remain.
+No classes or styles removed.
+Explicit confirmation required.
+
+7. Responsibility Boundary
+Label user work.
+Label AI assistance.
+Label reference artifacts.
+
+8. Stop Condition
+STOP if:
+Scope unclear.
+Risk of breaking code.
+Full file cannot be returned.
+
+9. Output Format Contract
+Scope Confirmation.
+Exact Changes.
+Full Verified File.
+Regression Confirmation.
+
+10. User Authority Clause
+User directives override optimization goals.
+`;
+
+const lines = contractText.split("\n");
+const container = document.getElementById("contractContent");
+lines.forEach((line,index)=>{
+  const div=document.createElement("div");
+  div.className="contract-line";
+  const ln=document.createElement("div");
+  ln.className="line-number";
+  ln.textContent=index+1;
+  const content=document.createElement("div");
+  content.innerHTML=line
+    .replace(/MUST NOT/g,'<span class="keyword">MUST NOT</span>')
+    .replace(/MUST/g,'<span class="keyword-green">MUST</span>')
+    .replace(/STOP/g,'<span class="keyword">STOP</span>');
+  div.appendChild(ln);
+  div.appendChild(content);
+  container.appendChild(div);
+});
+
+/* DEVELOPMENT JOURNEY — structured data */
+const journey = [
+  {
+    title: "User Prompt #1",
+    type: "user-prose",
+    badge: "User Prompt",
+    context: "Opening request — natural language, no JSON structure yet.",
+    quote: "I need you to map the entire attack surface as a knowledge graph, find every vulnerability and implement protections against them.",
+    note: "Initial request for comprehensive security analysis with visual representation."
+  },
+  {
+    title: "AI Response #1",
+    type: "ai-clarify",
+    badge: "AI Response",
+    context: "Before executing, the AI surfaced ambiguity across four dimensions.",
+    sections: [
+      {
+        heading: "Customer Data Scope",
+        items: ["Task progress (localStorage)", "Code snippets (localStorage)", "Notes (localStorage)", "XP scores (localStorage)"]
+      },
+      {
+        heading: "Deployment Context",
+        items: ["Is this deployed publicly or internally?", "Single-user or multi-user environment?", "Is there a backend planned?"]
+      },
+      {
+        heading: "Threat Model Priority",
+        items: ["XSS (Cross-Site Scripting)?", "Data exfiltration via localStorage?", "Code injection in task workspace?", "AI assistant API key exposure?"]
+      },
+      {
+        heading: "Compliance Requirements",
+        items: ["GDPR, CCPA, or other regulations?", "Data retention policies?", "Audit logging needs?"]
+      }
+    ]
+  },
+  {
+    title: "User Prompt #2",
+    type: "user-json",
+    badge: "User Prompt",
+    context: "The user shifts to structured JSON prompting — embedding intent and constraint as an array of directives.",
+    schemaNote: "Prompt structure: Array of instruction tuples [ [\"guard\", \"request\"] ]",
+    json: [
+      ["before you proceed", "Is it possible to compare this with the same potential assessment of using this only with a personal LLM living on mac mini or equivalent? — how would you secure that?"]
+    ]
+  },
+  {
+    title: "AI Response #2",
+    type: "ai-output",
+    badge: "AI Response",
+    context: "AI honoured the guard clause (\u201cbefore you proceed\u201d) and produced a comparative analysis artifact.",
+    artifact: "SECURITY_COMPARISON.html",
+    items: ["Side-by-side architecture comparison", "Risk matrices for Cloud vs Local", "Vulnerability analysis per vector", "Local LLM implementation guide"]
+  },
+  {
+    title: "User Prompt #3",
+    type: "user-json",
+    badge: "User Prompt",
+    context: "Prompt continues using JSON array structure. Two paired directives refine the output format and design requirement.",
+    schemaNote: "Prompt structure: Nested array of refinement instructions [ [\"request\", \"constraint\"] ]",
+    json: [
+      ["this is a good start but I need to see a better way to visualize this stuff — can you use a knowledge graph visualization for this?", "this needs the same beautiful styling and visual sophistication as the app"]
+    ]
+  },
+  {
+    title: "AI Response #3",
+    type: "ai-output",
+    badge: "AI Response",
+    context: "AI matched the design language of the parent app and delivered an interactive graph artifact.",
+    artifact: "SECURITY_KNOWLEDGE_GRAPH.html",
+    items: ["D3.js force-directed graph", "Interactive nodes with hover detail", "Animated data flow paths", "Toggle: Cloud vs Local view", "Glassmorphism styling to match app"]
+  },
+  {
+    title: "User Prompt #4",
+    type: "user-json",
+    badge: "User Prompt",
+    context: "User requests a presentation-layer artifact — making the collaboration itself visible for a live talk.",
+    schemaNote: "Prompt structure: Single directive array — output target + purpose declaration",
+    json: [
+      ["I need you to show what we just discussed including the prompts I used to work together with you to get from the first page to this — on a new one so that I can use this as a speaking point in my talk"]
+    ]
+  },
+  {
+    title: "AI Response #4",
+    type: "ai-output",
+    badge: "AI Response",
+    context: "AI produced a unified presentation shell that surfaces the full collaboration as a navigable artifact.",
+    artifact: "index.html (this file)",
+    items: ["Navigation between all views", "Conversation journey documentation", "Speaker-ready presentation format"]
+  },
+  {
+    title: "Key Insights",
+    type: "insights",
+    badge: "Insights",
+    items: [
+      { num: "1", text: "Clarification before execution prevents wasted cycles." },
+      { num: "2", text: "JSON array prompting makes intent explicit and machine-readable." },
+      { num: "3", text: "Iterative refinement through structured prompts improves output quality." },
+      { num: "4", text: "Design consistency as a constraint produces more cohesive artifacts." },
+      { num: "5", text: "Security finding: Local LLM wins 7 of 9 evaluated metrics — trade-off is performance and model quality." }
+    ]
+  }
+];
+
+const list = document.getElementById("messageList");
+const detail = document.getElementById("messageDetail");
+
+journey.forEach((item, index) => {
+  const div = document.createElement("div");
+  div.className = "message-item";
+  div.innerHTML = `<span style="opacity:.45;font-size:11px;display:block;margin-bottom:3px;">${index + 1} of ${journey.length}</span>${item.title}`;
+  div.onclick = () => showDetail(index);
+  list.appendChild(div);
+});
+
+function renderJson(arr) {
+  const lines = [];
+  lines.push(`<span class="j-bracket">[</span>`);
+  arr.forEach((tuple, ti) => {
+    lines.push(`&nbsp;&nbsp;<span class="j-bracket">[</span>`);
+    tuple.forEach((val, vi) => {
+      const comma = vi < tuple.length - 1 ? '<span class="j-bracket">,</span>' : '';
+      lines.push(`&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-string-value">"${val}"</span>${comma}`);
+    });
+    const outerComma = ti < arr.length - 1 ? '<span class="j-bracket">,</span>' : '';
+    lines.push(`&nbsp;&nbsp;<span class="j-bracket">]</span>${outerComma}`);
+  });
+  lines.push(`<span class="j-bracket">]</span>`);
+  return lines.join('<br>');
+}
+
+function showDetail(i) {
+  document.querySelectorAll('.message-item').forEach(m => m.classList.remove('active'));
+  list.children[i].classList.add('active');
+  const item = journey[i];
+  let html = '';
+
+  // Badge
+  const badgeClass = item.type === 'insights' ? 'badge-insight' : item.type.startsWith('user') ? 'badge-user' : 'badge-ai';
+  html += `<div class="detail-header">${item.title}</div>`;
+  html += `<span class="detail-role-badge ${badgeClass}">${item.badge}</span>`;
+
+  // Context line
+  if (item.context) {
+    html += `<div class="detail-body" style="margin-bottom:18px;">${item.context}</div>`;
+  }
+
+  if (item.type === 'user-prose') {
+    html += `<div class="prose-block"><span class="prose-quote">"${item.quote}"</span></div>`;
+    html += `<div class="detail-body">${item.note}</div>`;
+  }
+
+  if (item.type === 'user-json') {
+    if (item.schemaNote) {
+      html += `<div class="schema-note">${item.schemaNote}</div>`;
+    }
+    html += `<div class="json-block"><div class="json-label">JSON Prompt Payload</div>${renderJson(item.json)}</div>`;
+  }
+
+  if (item.type === 'ai-clarify') {
+    item.sections.forEach(section => {
+      html += `<div class="response-section-title">${section.heading}</div>`;
+      html += `<ul class="response-list">`;
+      section.items.forEach(it => {
+        html += `<li>${it}</li>`;
+      });
+      html += `</ul>`;
+    });
+  }
+
+  if (item.type === 'ai-output') {
+    if (item.artifact) {
+      html += `<div style="display:inline-flex;align-items:center;gap:8px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);border-radius:8px;padding:8px 14px;margin-bottom:18px;font-size:12px;font-weight:600;color:#a5b4fc;">
+        <span style="opacity:.6;">artifact</span> ${item.artifact}
+      </div>`;
+    }
+    html += `<ul class="response-list">`;
+    item.items.forEach(it => {
+      html += `<li>${it}</li>`;
+    });
+    html += `</ul>`;
+  }
+
+  if (item.type === 'insights') {
+    html += `<div class="insight-box" style="padding:22px;">`;
+    item.items.forEach(it => {
+      html += `<div class="insight-item">
+        <div class="insight-num">${it.num}</div>
+        <div>${it.text}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  detail.innerHTML = html;
+}
+
+showDetail(0);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Analysis: Cloud AI vs Local LLM</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #16161d;
+      --surface-raised: #1e1e28;
+      --border: #2a2a35;
+      --text: #e4e4e7;
+      --text-dim: #a1a1aa;
+      --primary: #a020f0;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --success: #10b981;
+      --info: #3b82f6;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--primary), #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: var(--text-dim);
+      font-size: 14px;
+      margin-bottom: 40px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .architecture-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .architecture-card h2 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .section h3 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      background: var(--surface-raised);
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .metric-label {
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .metric-value {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .risk-high { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+    .risk-medium { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+    .risk-low { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+    .risk-none { background: rgba(59, 130, 246, 0.2); color: var(--info); }
+
+    .vulnerability-list {
+      list-style: none;
+    }
+
+    .vulnerability-item {
+      padding: 12px;
+      background: var(--surface-raised);
+      border-left: 3px solid var(--border);
+      border-radius: 4px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .vulnerability-item.high { border-left-color: var(--danger); }
+    .vulnerability-item.medium { border-left-color: var(--warning); }
+    .vulnerability-item.low { border-left-color: var(--success); }
+
+    .vulnerability-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .vulnerability-desc {
+      color: var(--text-dim);
+      font-size: 12px;
+    }
+
+    .data-flow {
+      background: var(--surface-raised);
+      padding: 16px;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .flow-arrow {
+      color: var(--primary);
+    }
+
+    .recommendation-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .recommendation-card h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: var(--primary);
+    }
+
+    .recommendation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .recommendation-item {
+      background: var(--surface-raised);
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 3px solid var(--primary);
+    }
+
+    .recommendation-item h4 {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .recommendation-item p {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .comparison-table th {
+      background: var(--surface-raised);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+    }
+
+    .comparison-table td:first-child {
+      font-weight: 500;
+    }
+
+    .check { color: var(--success); }
+    .cross { color: var(--danger); }
+    .partial { color: var(--warning); }
+
+    .attack-surface-graph {
+      background: var(--surface-raised);
+      padding: 24px;
+      border-radius: 8px;
+      margin-top: 16px;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .node {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .node.critical { border-color: var(--danger); }
+    .node.warning { border-color: var(--warning); }
+    .node.safe { border-color: var(--success); }
+
+    .graph-layer {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .graph-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      min-width: 100px;
+    }
+
+    code {
+      background: rgba(160, 32, 240, 0.1);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Architecture Comparison -->
+    <div class="comparison-grid">
+      <!-- Cloud AI Architecture -->
+      <div class="architecture-card">
+        <h2><span class="icon">☁️</span> Cloud AI (Current)</h2>
+        
+        <div class="section">
+          <h3>Data Flow</h3>
+          <div class="data-flow">
+            <div class="flow-step">
+              <span>1. User Code</span>
+              <span class="flow-arrow">→</span>
+              <span>Browser</span>
+            </div>
+            <div class="flow-step">
+              <span>2. Browser</span>
+              <span class="flow-arrow">→</span>
+              <span>HTTPS</span>
+              <span class="flow-arrow">→</span>
+              <span>Anthropic API</span>
+            </div>
+            <div class="flow-step">
+              <span>3. API Response</span>
+              <span class="flow-arrow">→</span>
+              <span>Browser</span>
+            </div>
+            <div class="flow-step">
+              <span>4. localStorage</span>
+              <span class="flow-arrow">→</span>
+              <span>Persistence</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Risk Assessment</h3>
+          <div class="metric-row">
+            <span class="metric-label">Data Exfiltration</span>
+            <span class="metric-value risk-high">HIGH</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">API Key Exposure</span>
+            <span class="metric-value risk-high">HIGH</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Network Interception</span>
+            <span class="metric-value risk-medium">MEDIUM</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Third-Party Access</span>
+            <span class="metric-value risk-high">HIGH</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">XSS Vulnerability</span>
+            <span class="metric-value risk-medium">MEDIUM</span>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Key Vulnerabilities</h3>
+          <ul class="vulnerability-list">
+            <li class="vulnerability-item high">
+              <div class="vulnerability-title">🔴 API Key in Client Code</div>
+              <div class="vulnerability-desc">Hardcoded API key visible in browser DevTools and network requests</div>
+            </li>
+            <li class="vulnerability-item high">
+              <div class="vulnerability-title">🔴 Data Sent to Third Party</div>
+              <div class="vulnerability-desc">User code and prompts transmitted to Anthropic servers</div>
+            </li>
+            <li class="vulnerability-item medium">
+              <div class="vulnerability-title">🟡 No Request Sanitization</div>
+              <div class="vulnerability-desc">User input sent directly to API without validation</div>
+            </li>
+            <li class="vulnerability-item medium">
+              <div class="vulnerability-title">🟡 localStorage Exposure</div>
+              <div class="vulnerability-desc">All data accessible via browser console or XSS</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Local LLM Architecture -->
+      <div class="architecture-card">
+        <h2><span class="icon">🖥️</span> Local LLM (Proposed)</h2>
+        
+        <div class="section">
+          <h3>Data Flow</h3>
+          <div class="data-flow">
+            <div class="flow-step">
+              <span>1. User Code</span>
+              <span class="flow-arrow">→</span>
+              <span>Browser</span>
+            </div>
+            <div class="flow-step">
+              <span>2. Browser</span>
+              <span class="flow-arrow">→</span>
+              <span>localhost:11434</span>
+            </div>
+            <div class="flow-step">
+              <span>3. Ollama/LM Studio</span>
+              <span class="flow-arrow">→</span>
+              <span>Local Model</span>
+            </div>
+            <div class="flow-step">
+              <span>4. Response</span>
+              <span class="flow-arrow">→</span>
+              <span>Browser</span>
+            </div>
+            <div class="flow-step">
+              <span>5. localStorage</span>
+              <span class="flow-arrow">→</span>
+              <span>Persistence</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Risk Assessment</h3>
+          <div class="metric-row">
+            <span class="metric-label">Data Exfiltration</span>
+            <span class="metric-value risk-none">NONE</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">API Key Exposure</span>
+            <span class="metric-value risk-none">N/A</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Network Interception</span>
+            <span class="metric-value risk-low">LOW</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Third-Party Access</span>
+            <span class="metric-value risk-none">NONE</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">XSS Vulnerability</span>
+            <span class="metric-value risk-medium">MEDIUM</span>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Key Vulnerabilities</h3>
+          <ul class="vulnerability-list">
+            <li class="vulnerability-item medium">
+              <div class="vulnerability-title">🟡 localhost CORS</div>
+              <div class="vulnerability-desc">Requires CORS configuration for browser access</div>
+            </li>
+            <li class="vulnerability-item low">
+              <div class="vulnerability-title">🟢 Local Network Exposure</div>
+              <div class="vulnerability-desc">LLM accessible to other devices on same network if not firewalled</div>
+            </li>
+            <li class="vulnerability-item medium">
+              <div class="vulnerability-title">🟡 localStorage Exposure</div>
+              <div class="vulnerability-desc">All data accessible via browser console or XSS (same as cloud)</div>
+            </li>
+            <li class="vulnerability-item low">
+              <div class="vulnerability-title">🟢 Model Poisoning</div>
+              <div class="vulnerability-desc">Low risk if using trusted model sources (Ollama, HuggingFace)</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed Comparison Table -->
+    <div class="recommendation-card">
+      <h2>Security Comparison Matrix</h2>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Security Aspect</th>
+            <th>Cloud AI</th>
+            <th>Local LLM</th>
+            <th>Winner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Data Privacy</td>
+            <td><span class="cross">✗</span> Data sent to third party</td>
+            <td><span class="check">✓</span> All data stays local</td>
+            <td><strong>Local LLM</strong></td>
+          </tr>
+          <tr>
+            <td>API Key Security</td>
+            <td><span class="cross">✗</span> Exposed in client</td>
+            <td><span class="check">✓</span> No API key needed</td>
+            <td><strong>Local LLM</strong></td>
+          </tr>
+          <tr>
+            <td>Network Security</td>
+            <td><span class="partial">~</span> HTTPS but external</td>
+            <td><span class="check">✓</span> localhost only</td>
+            <td><strong>Local LLM</strong></td>
+          </tr>
+          <tr>
+            <td>Compliance (GDPR/CCPA)</td>
+            <td><span class="cross">✗</span> Third-party processing</td>
+            <td><span class="check">✓</span> No data transfer</td>
+            <td><strong>Local LLM</strong></td>
+          </tr>
+          <tr>
+            <td>Cost</td>
+            <td><span class="cross">✗</span> Per-request pricing</td>
+            <td><span class="check">✓</span> One-time hardware</td>
+            <td><strong>Local LLM</strong></td>
+          </tr>
+          <tr>
+            <td>Performance</td>
+            <td><span class="check">✓</span> Fast, cloud-scale</td>
+            <td><span class="partial">~</span> Depends on hardware</td>
+            <td><strong>Cloud AI</strong></td>
+          </tr>
+          <tr>
+            <td>Model Quality</td>
+            <td><span class="check">✓</span> State-of-the-art</td>
+            <td><span class="partial">~</span> Good but smaller</td>
+            <td><strong>Cloud AI</strong></td>
+          </tr>
+          <tr>
+            <td>Offline Capability</td>
+            <td><span class="cross">✗</span> Requires internet</td>
+            <td><span class="check">✓</span> Works offline</td>
+            <td><strong>Local LLM</strong></td>
+          </tr>
+          <tr>
+            <td>Setup Complexity</td>
+            <td><span class="check">✓</span> Simple API call</td>
+            <td><span class="partial">~</span> Requires installation</td>
+            <td><strong>Cloud AI</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Attack Surface Visualization -->
+    <div class="recommendation-card">
+      <h2>Attack Surface Map</h2>
+      <div class="attack-surface-graph">
+        <div class="graph-layer">
+          <span class="graph-label">Entry Points</span>
+          <span class="node critical">User Input (Code Editor)</span>
+          <span class="node critical">localStorage</span>
+          <span class="node warning">URL Parameters</span>
+        </div>
+        <div class="graph-layer">
+          <span class="graph-label">Processing</span>
+          <span class="node warning">Monaco Editor</span>
+          <span class="node critical">eval() / Function()</span>
+          <span class="node warning">AI Assistant</span>
+        </div>
+        <div class="graph-layer">
+          <span class="graph-label">External</span>
+          <span class="node critical">Anthropic API (Cloud)</span>
+          <span class="node safe">localhost:11434 (Local)</span>
+        </div>
+        <div class="graph-layer">
+          <span class="graph-label">Storage</span>
+          <span class="node warning">localStorage (Unencrypted)</span>
+          <span class="node warning">Browser Memory</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Implementation Recommendations -->
+    <div class="recommendation-card">
+      <h2>🛡️ Security Hardening Recommendations</h2>
+      <div class="recommendation-grid">
+        <div class="recommendation-item">
+          <h4>1. Switch to Local LLM</h4>
+          <p>Use Ollama or LM Studio on Mac Mini. Eliminates data exfiltration risk and API key exposure. Recommended models: <code>llama3.1:8b</code>, <code>codellama:13b</code></p>
+        </div>
+        <div class="recommendation-item">
+          <h4>2. Implement CSP Headers</h4>
+          <p>Add Content Security Policy to prevent XSS: <code>script-src 'self'; connect-src 'self' http://localhost:11434</code></p>
+        </div>
+        <div class="recommendation-item">
+          <h4>3. Sanitize User Input</h4>
+          <p>Use DOMPurify to sanitize all user-generated content before rendering. Prevent script injection in task notes and code.</p>
+        </div>
+        <div class="recommendation-item">
+          <h4>4. Encrypt localStorage</h4>
+          <p>Use crypto-js to encrypt sensitive data before storing. Derive key from user session or device fingerprint.</p>
+        </div>
+        <div class="recommendation-item">
+          <h4>5. Firewall Local LLM</h4>
+          <p>Configure Mac Mini firewall to only accept connections from <code>127.0.0.1</code>. Block external network access to port 11434.</p>
+        </div>
+        <div class="recommendation-item">
+          <h4>6. Code Execution Sandbox</h4>
+          <p>Replace <code>eval()</code> with Web Workers or iframe sandbox for safer code execution. Limit available APIs.</p>
+        </div>
+        <div class="recommendation-item">
+          <h4>7. Rate Limiting</h4>
+          <p>Implement client-side rate limiting for AI requests to prevent abuse even in local setup.</p>
+        </div>
+        <div class="recommendation-item">
+          <h4>8. Audit Logging</h4>
+          <p>Log all AI interactions locally for security auditing. Store in encrypted format with timestamps.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Local LLM Setup Guide -->
+    <div class="recommendation-card">
+      <h2>🚀 Local LLM Implementation Guide</h2>
+      <div class="section">
+        <h3>Step 1: Install Ollama on Mac Mini</h3>
+        <div class="data-flow">
+          <div class="flow-step">
+            <code>curl -fsSL https://ollama.com/install.sh | sh</code>
+          </div>
+          <div class="flow-step">
+            <code>ollama pull llama3.1:8b</code>
+          </div>
+          <div class="flow-step">
+            <code>ollama serve</code> (runs on localhost:11434)
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Step 2: Update Application Code</h3>
+        <div class="data-flow">
+          <div class="flow-step">Replace Anthropic API endpoint:</div>
+          <div class="flow-step">
+            <code>const API_URL = 'http://localhost:11434/api/generate'</code>
+          </div>
+          <div class="flow-step">Remove API key requirement</div>
+          <div class="flow-step">Update request format for Ollama API</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Step 3: Configure Firewall</h3>
+        <div class="data-flow">
+          <div class="flow-step">System Preferences → Security & Privacy → Firewall</div>
+          <div class="flow-step">Block incoming connections to port 11434 except from localhost</div>
+          <div class="flow-step">Enable stealth mode</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Step 4: Test Security</h3>
+        <div class="data-flow">
+          <div class="flow-step">✓ Verify no external network requests in DevTools</div>
+          <div class="flow-step">✓ Confirm localhost-only access</div>
+          <div class="flow-step">✓ Test offline functionality</div>
+          <div class="flow-step">✓ Validate response quality</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final Recommendation -->
+    <div class="recommendation-card" style="border: 2px solid var(--success);">
+      <h2>✅ Final Recommendation</h2>
+      <p style="font-size: 14px; line-height: 1.8; margin-bottom: 16px;">
+        <strong>Switch to Local LLM (Ollama on Mac Mini)</strong> for maximum security and privacy. This architecture:
+      </p>
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="padding: 8px 0; font-size: 13px;">✓ Eliminates all third-party data transmission</li>
+        <li style="padding: 8px 0; font-size: 13px;">✓ Removes API key exposure vulnerability</li>
+        <li style="padding: 8px 0; font-size: 13px;">✓ Ensures GDPR/CCPA compliance</li>
+        <li style="padding: 8px 0; font-size: 13px;">✓ Provides offline capability</li>
+        <li style="padding: 8px 0; font-size: 13px;">✓ Reduces long-term costs</li>
+        <li style="padding: 8px 0; font-size: 13px;">✓ Maintains acceptable performance with modern hardware</li>
+      </ul>
+      <p style="font-size: 13px; color: var(--text-dim); margin-top: 16px;">
+        <strong>Trade-off:</strong> Slightly lower model quality compared to Claude, but significantly better security posture. For a learning application with sensitive student code, this is the right choice.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
