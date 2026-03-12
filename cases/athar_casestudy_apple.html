@@ -4,471 +4,621 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Case Study — Apple App Review & Developer Collaboration</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --white:   #FFFFFF;
-    --off:     #F5F5F7;
-    --light:   #E8E8ED;
-    --mid:     #86868B;
-    --dark:    #1D1D1F;
-    --black:   #000000;
-    --accent:  #0071E3;
-    --accent2: #BF5AF2;
-    --success: #30D158;
-    --warn:    #FF9F0A;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', -apple-system, sans-serif;
-    background: var(--white);
-    color: var(--dark);
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-
-  /* ── HERO ── */
-  .hero {
-    background: var(--black);
-    color: var(--white);
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-    text-align: center;
-    padding: 80px 40px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 20% 50%, rgba(0,113,227,0.12) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 80% at 80% 30%, rgba(191,90,242,0.10) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-eyebrow {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-  }
-
-  .hero-eyebrow::before,
-  .hero-eyebrow::after {
-    content: '';
-    width: 32px;
-    height: 1px;
-    background: var(--accent);
-    opacity: 0.6;
-  }
-
-  .hero h1 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(42px, 7vw, 88px);
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    max-width: 900px;
-    margin: 0 auto 28px;
-  }
-
-  .hero h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
-
-  .hero-sub {
-    font-size: 18px;
-    font-weight: 300;
-    color: rgba(255,255,255,0.6);
-    max-width: 560px;
-    margin: 0 auto 60px;
-    line-height: 1.6;
-  }
-
-  .hero-meta {
-    display: flex;
-    gap: 48px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .meta-item {
-    text-align: center;
-  }
-
-  .meta-label {
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--mid);
-    margin-bottom: 6px;
-  }
-
-  .meta-value {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--white);
-  }
-
-  /* ── DOORDASH CALLOUT ── */
-  .doordash-banner {
-    background: linear-gradient(135deg, #FF3008 0%, #CC0000 100%);
-    color: white;
-    padding: 64px 40px;
-    text-align: center;
-  }
-
-  .doordash-banner .dd-label {
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 16px;
-  }
-
-  .doordash-banner h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 4vw, 48px);
-    font-weight: 700;
-    margin-bottom: 20px;
-    line-height: 1.15;
-  }
-
-  .doordash-banner p {
-    font-size: 17px;
-    font-weight: 300;
-    opacity: 0.85;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.65;
-  }
-
-  /* ── SECTIONS ── */
-  .section {
-    padding: 100px 40px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .section-label {
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 500;
-    margin-bottom: 16px;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(30px, 4vw, 52px);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 20px;
-    color: var(--dark);
-  }
-
-  .section-intro {
-    font-size: 17px;
-    color: var(--mid);
-    max-width: 640px;
-    line-height: 1.7;
-    margin-bottom: 64px;
-  }
-
-  /* ── ISSUE CARDS ── */
-  .issues-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2px;
-    background: var(--light);
-    border-radius: 20px;
-    overflow: hidden;
-  }
-
-  .issue-card {
-    background: var(--white);
-    padding: 48px 40px;
-    position: relative;
-    transition: background 0.25s;
-  }
-
-  .issue-card:hover { background: var(--off); }
-
-  .issue-number {
-    font-family: 'Playfair Display', serif;
-    font-size: 72px;
-    font-weight: 700;
-    color: var(--light);
-    line-height: 1;
-    margin-bottom: 8px;
-    letter-spacing: -0.04em;
-  }
-
-  .issue-title {
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--dark);
-    margin-bottom: 12px;
-    line-height: 1.2;
-  }
-
-  .issue-problem {
-    font-size: 14px;
-    color: var(--mid);
-    line-height: 1.6;
-    margin-bottom: 28px;
-  }
-
-  .tag-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 28px;
-  }
-
-  .tag {
-    font-size: 12px;
-    font-weight: 500;
-    padding: 5px 12px;
-    border-radius: 20px;
-    background: var(--off);
-    color: var(--dark);
-    border: 1px solid var(--light);
-  }
-
-  .tag.bad  { background: rgba(255,59,48,0.07);  color: #FF3B30; border-color: rgba(255,59,48,0.15); }
-  .tag.good { background: rgba(48,209,88,0.08);  color: #1A8C3A; border-color: rgba(48,209,88,0.2); }
-
-  .hig-principle {
-    font-size: 13px;
-    font-style: italic;
-    color: var(--accent);
-    border-left: 2px solid var(--accent);
-    padding-left: 14px;
-    line-height: 1.5;
-    margin-bottom: 24px;
-  }
-
-  .solution-list {
-    list-style: none;
-    font-size: 14px;
-    color: var(--dark);
-    line-height: 1.7;
-  }
-
-  .solution-list li {
-    padding-left: 20px;
-    position: relative;
-    margin-bottom: 4px;
-  }
-
-  .solution-list li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--success);
-    font-size: 13px;
-  }
-
-  /* ── BEFORE / AFTER ── */
-  .redesign {
-    background: var(--black);
-    padding: 100px 40px;
-  }
-
-  .redesign-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .redesign .section-label { color: var(--accent2); }
-  .redesign .section-title { color: var(--white); }
-  .redesign .section-intro { color: rgba(255,255,255,0.45); }
-
-  .ba-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    border-radius: 20px;
-    overflow: hidden;
-  }
-
-  @media (max-width: 640px) { .ba-grid { grid-template-columns: 1fr; } }
-
-  .ba-card {
-    padding: 48px 40px;
-  }
-
-  .ba-card.before { background: #1A1A1A; }
-  .ba-card.after  { background: #0A0A0A; }
-
-  .ba-label {
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    font-weight: 500;
-  }
-
-  .ba-card.before .ba-label { color: #FF453A; }
-  .ba-card.after  .ba-label { color: var(--success); }
-
-  .ba-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    color: var(--white);
-    margin-bottom: 24px;
-    line-height: 1.2;
-  }
-
-  .ba-list {
-    list-style: none;
-    font-size: 15px;
-    line-height: 1.8;
-  }
-
-  .ba-card.before .ba-list li { color: rgba(255,255,255,0.45); }
-  .ba-card.after  .ba-list li { color: rgba(255,255,255,0.85); }
-
-  .ba-card.before .ba-list li::before { content: '✕  '; color: #FF453A; }
-  .ba-card.after  .ba-list li::before { content: '✓  '; color: var(--success); }
-
-  /* ── RESULT STATS ── */
-  .results {
-    background: var(--off);
-    padding: 100px 40px;
-  }
-
-  .results-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    margin-top: 60px;
-    border-radius: 20px;
-    overflow: hidden;
-  }
-
-  @media (max-width: 640px) { .stats-row { grid-template-columns: 1fr; } }
-
-  .stat-card {
-    background: var(--white);
-    padding: 52px 32px;
-    text-align: center;
-  }
-
-  .stat-number {
-    font-family: 'Playfair Display', serif;
-    font-size: 56px;
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 12px;
-    letter-spacing: -0.03em;
-  }
-
-  .stat-label {
-    font-size: 15px;
-    color: var(--mid);
-    font-weight: 400;
-    line-height: 1.5;
-  }
-
-  /* ── TAKEAWAYS ── */
-  .takeaways {
-    padding: 100px 40px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .takeaway-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2px;
-    background: var(--light);
-    border-radius: 20px;
-    overflow: hidden;
-    margin-top: 56px;
-  }
-
-  .takeaway-card {
-    background: var(--white);
-    padding: 40px 32px;
-    transition: background 0.2s;
-  }
-
-  .takeaway-card:hover { background: var(--off); }
-
-  .takeaway-icon {
-    font-family: 'Playfair Display', serif;
-    font-size: 52px;
-    font-weight: 700;
-    color: var(--light);
-    line-height: 1;
-    margin-bottom: 20px;
-    letter-spacing: -0.04em;
-  }
-
-  .takeaway-title {
-    font-size: 17px;
-    font-weight: 500;
-    color: var(--dark);
-    margin-bottom: 10px;
-  }
-
-  .takeaway-body {
-    font-size: 14px;
-    color: var(--mid);
-    line-height: 1.65;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--black);
-    color: rgba(255,255,255,0.3);
-    text-align: center;
-    padding: 48px 40px;
-    font-size: 13px;
-  }
-
-  footer strong { color: rgba(255,255,255,0.7); }
-
-  /* ── FADE IN ── */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:         #0d0d1a;
+  --bg2:        #12121f;
+  --bg3:        #1a1a2e;
+  --surface:    #13131f;
+  --surface2:   #1c1c2e;
+  --border:     rgba(255,255,255,0.07);
+  --border-hi:  rgba(255,255,255,0.14);
+  --purple:     #8b5cf6;
+  --purple-dim: rgba(139,92,246,0.15);
+  --teal:       #06b6d4;
+  --teal-dim:   rgba(6,182,212,0.12);
+  --text:       #eceef5;
+  --text-mid:   #8b8fa8;
+  --text-dim:   #4a4d63;
+  --mono:       'Space Mono', monospace;
+  --display:    'Syne', sans-serif;
+  --success:    #22c55e;
+  --danger:     #ef4444;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* GRAIN */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* BACK LINK */
+.back-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13,13,26,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.back-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-decoration: none;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-link::before { content: '←'; }
+.back-link:hover { color: var(--purple); }
+
+.back-bar-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* HERO */
+.hero {
+  background: var(--bg);
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 80px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 50%, rgba(139,92,246,0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 80% 30%, rgba(6,182,212,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+}
+
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--purple);
+  opacity: 0.4;
+}
+
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(40px, 6.5vw, 84px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  max-width: 900px;
+  margin: 0 auto 28px;
+  position: relative;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--purple);
+}
+
+.hero-sub {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--text-mid);
+  max-width: 560px;
+  margin: 0 auto 60px;
+  line-height: 1.65;
+  position: relative;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.meta-item { text-align: center; }
+
+.meta-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.meta-value {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text);
+}
+
+/* DOORDASH CALLOUT */
+.doordash-banner {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 64px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.doordash-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 100% at 50% 0%, rgba(139,92,246,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.doordash-banner .dd-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.doordash-banner h2 {
+  font-family: var(--display);
+  font-size: clamp(26px, 3.5vw, 44px);
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.15;
+  color: var(--text);
+  position: relative;
+}
+
+.doordash-banner p {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-mid);
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.7;
+  position: relative;
+}
+
+/* SECTIONS */
+.section {
+  padding: 100px 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--purple);
+  font-weight: 400;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--purple);
+  display: inline-block;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(28px, 4vw, 50px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.section-intro {
+  font-size: 16px;
+  color: var(--text-mid);
+  max-width: 640px;
+  line-height: 1.7;
+  margin-bottom: 56px;
+}
+
+/* ISSUE CARDS */
+.issues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.issue-card {
+  background: var(--surface);
+  padding: 44px 36px;
+  position: relative;
+  transition: background 0.25s;
+}
+
+.issue-card:hover { background: var(--surface2); }
+
+.issue-number {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 20px;
+}
+
+.issue-title {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.issue-problem {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 400;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: var(--surface2);
+  color: var(--text-mid);
+  border: 1px solid var(--border);
+  letter-spacing: 0.04em;
+}
+
+.tag.bad  { background: rgba(239,68,68,0.08); color: #f87171; border-color: rgba(239,68,68,0.2); }
+.tag.good { background: rgba(34,197,94,0.08); color: #4ade80; border-color: rgba(34,197,94,0.2); }
+
+.hig-principle {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--purple);
+  border-left: 2px solid var(--purple);
+  padding-left: 14px;
+  line-height: 1.6;
+  margin-bottom: 22px;
+  opacity: 0.85;
+}
+
+.solution-list {
+  list-style: none;
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.8;
+}
+
+.solution-list li {
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 2px;
+}
+
+.solution-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--teal);
+  font-size: 12px;
+}
+
+/* BEFORE / AFTER */
+.redesign {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 100px 40px;
+}
+
+.redesign-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.redesign .section-label { color: var(--teal); }
+.redesign .section-label::before { background: var(--teal); }
+
+.ba-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--border);
+}
+
+@media (max-width: 640px) { .ba-grid { grid-template-columns: 1fr; } }
+
+.ba-card {
+  padding: 48px 40px;
+}
+
+.ba-card.before { background: var(--bg2); }
+.ba-card.after  { background: var(--bg3); }
+
+.ba-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+
+.ba-card.before .ba-label { color: #f87171; }
+.ba-card.after  .ba-label { color: #4ade80; }
+
+.ba-title {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.ba-list {
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.ba-card.before .ba-list li { color: var(--text-dim); }
+.ba-card.after  .ba-list li { color: var(--text-mid); }
+
+.ba-card.before .ba-list li::before { content: '✕  '; color: #f87171; }
+.ba-card.after  .ba-list li::before { content: '✓  '; color: #4ade80; }
+
+/* RESULTS */
+.results {
+  padding: 100px 40px;
+}
+
+.results-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.results .section-label {
+  justify-content: center;
+}
+
+.results .section-label::before { display: none; }
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 60px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--border);
+}
+
+@media (max-width: 640px) { .stats-row { grid-template-columns: 1fr; } }
+
+.stat-card {
+  background: var(--surface);
+  padding: 52px 32px;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.stat-card:hover { background: var(--surface2); }
+
+.stat-number {
+  font-family: var(--display);
+  font-size: 52px;
+  font-weight: 800;
+  color: var(--purple);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--text-mid);
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+/* TAKEAWAYS */
+.takeaways {
+  padding: 100px 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.takeaway-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-top: 56px;
+}
+
+.takeaway-card {
+  background: var(--surface);
+  padding: 40px 32px;
+  transition: background 0.2s;
+}
+
+.takeaway-card:hover { background: var(--surface2); }
+
+.takeaway-icon {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 20px;
+}
+
+.takeaway-title {
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.takeaway-body {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-logo {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+.footer-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.footer-links a:hover { color: var(--purple); }
+
+.footer-copy {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+/* FADE IN */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .hero-meta { gap: 24px; }
+  .section { padding: 72px 24px; }
+  .doordash-banner, .redesign, .results { padding: 72px 24px; }
+  .takeaways { padding: 72px 24px; }
+  footer { flex-direction: column; gap: 16px; text-align: center; }
+  .footer-links { flex-wrap: wrap; justify-content: center; }
+}
 </style>
 </head>
 <body>
+
+<!-- BACK BAR -->
+<div class="back-bar">
+  <a href="/" class="back-link">atharux.com</a>
+  <span class="back-bar-label">Apple · Case Study</span>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -506,7 +656,7 @@
   <div class="dd-label">Notable Collaboration</div>
   <h2>Working with DoorDash to Ship on the App Store</h2>
   <p>As part of Apple's Worldwide Developer Relations team, I collaborated directly with the DoorDash engineering and product team — providing HIG-aligned UX guidance that helped them navigate the App Review process and launch successfully on the iOS App Store.</p>
-  <p style="margin-top: 20px; opacity: 0.7; font-size: 15px;">As a member of the App Review Board, I also worked with developers whose apps had been rejected — helping them understand the issues, resolve compliance and UX problems, and successfully resubmit.</p>
+  <p style="margin-top: 20px; font-size: 14px; color: var(--text-dim);">As a member of the App Review Board, I also worked with developers whose apps had been rejected — helping them understand the issues, resolve compliance and UX problems, and successfully resubmit.</p>
 </div>
 
 <!-- COMMON ISSUES -->
@@ -517,9 +667,8 @@
 
   <div class="issues-grid">
 
-    <!-- Issue 1 -->
     <div class="issue-card">
-      <div class="issue-number">01</div>
+      <div class="issue-number">01 — Navigation</div>
       <div class="issue-title">Navigation Misalignment</div>
       <p class="issue-problem">Developers often implement custom navigation patterns that conflict with native iOS behaviors, creating disorientation for users accustomed to platform conventions.</p>
       <div class="tag-row">
@@ -535,9 +684,8 @@
       </ul>
     </div>
 
-    <!-- Issue 2 -->
     <div class="issue-card">
-      <div class="issue-number">02</div>
+      <div class="issue-number">02 — Hierarchy</div>
       <div class="issue-title">Visual Hierarchy Problems</div>
       <p class="issue-problem">Many apps fail to establish clear hierarchy, making interfaces difficult to scan. Competing visual elements fragment attention and slow task completion.</p>
       <div class="tag-row">
@@ -553,9 +701,8 @@
       </ul>
     </div>
 
-    <!-- Issue 3 -->
     <div class="issue-card">
-      <div class="issue-number">03</div>
+      <div class="issue-number">03 — Feedback</div>
       <div class="issue-title">Interaction Feedback</div>
       <p class="issue-problem">Users often receive insufficient feedback for actions, leaving them uncertain whether an interaction registered — a critical trust failure in consumer apps.</p>
       <div class="tag-row">
@@ -639,22 +786,22 @@
 
   <div class="takeaway-grid">
     <div class="takeaway-card">
-      <div class="takeaway-icon">I</div>
+      <div class="takeaway-icon">I · HIG</div>
       <div class="takeaway-title">Follow the HIG</div>
       <div class="takeaway-body">Human Interface Guidelines exist because Apple has studied how people use their devices for decades. Working with the platform — not against it — always wins.</div>
     </div>
     <div class="takeaway-card">
-      <div class="takeaway-icon">II</div>
+      <div class="takeaway-icon">II · Convention</div>
       <div class="takeaway-title">Respect Conventions</div>
       <div class="takeaway-body">Users build muscle memory with native patterns. Deviating from platform conventions creates friction, increases cognitive load, and erodes trust.</div>
     </div>
     <div class="takeaway-card">
-      <div class="takeaway-icon">III</div>
+      <div class="takeaway-icon">III · Feedback</div>
       <div class="takeaway-title">Prioritize Feedback</div>
       <div class="takeaway-body">Every action a user takes deserves a response. State changes, haptics, and micro-animations are not decoration — they are the grammar of a trustworthy interface.</div>
     </div>
     <div class="takeaway-card">
-      <div class="takeaway-icon">IV</div>
+      <div class="takeaway-icon">IV · Access</div>
       <div class="takeaway-title">Design for Accessibility</div>
       <div class="takeaway-body">Accessibility is not a checklist item added at the end. Apps designed with Dynamic Type, sufficient contrast, and reachable targets are better for every user.</div>
     </div>
@@ -663,8 +810,13 @@
 
 <!-- FOOTER -->
 <footer>
-  <strong>Athar Hafiz</strong> — Senior UX Designer &amp; Apple Platform Specialist<br>
-  <span style="margin-top:8px; display:block;">atharux.com &nbsp;·&nbsp; linkedin.com/in/atharhafiz &nbsp;·&nbsp; Berlin, Germany</span>
+  <div class="footer-logo">◆ Athar Hafiz · 2026</div>
+  <ul class="footer-links">
+    <li><a href="http://www.linkedin.com/in/atharhafiz" target="_blank">LinkedIn</a></li>
+    <li><a href="https://github.com/atharux" target="_blank">GitHub</a></li>
+    <li><a href="https://soundcloud.com/aguruxm16" target="_blank">SoundCloud</a></li>
+  </ul>
+  <div class="footer-copy">Berlin, Germany · atharux.com</div>
 </footer>
 
 <script>
@@ -678,7 +830,6 @@
 
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-  // Stagger issue cards
   document.querySelectorAll('.issue-card, .takeaway-card, .stat-card, .ba-card').forEach((el, i) => {
     el.style.transitionDelay = `${i * 60}ms`;
   });
