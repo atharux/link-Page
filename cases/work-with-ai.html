@@ -527,6 +527,10 @@ body::before {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
+/* NAV SCROLL WRAP — desktop: invisible passthrough */
+.nav-scroll-wrap { display: contents; }
+.nav-swipe-hint { display: none; }
+
 /* RESPONSIVE */
 @media (max-width: 860px) {
   .header { padding: 16px 20px; flex-wrap: wrap; gap: 12px; }
@@ -535,9 +539,39 @@ body::before {
   .conversation-layout { grid-template-columns: 1fr; }
   .message-list { max-height: 220px; }
   .artifact-grid { grid-template-columns: 1fr; }
+  .nav { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; padding-bottom: 2px; scrollbar-width: none; }
+  .nav::-webkit-scrollbar { display: none; }
 }
 @media (max-width: 540px) {
-  .nav { display: none; }
+  .nav-scroll-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    order: 3;
+    width: 100%;
+  }
+  .nav-scroll-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 48px;
+    height: calc(100% - 18px); /* stop above swipe hint */
+    background: linear-gradient(to right, transparent, rgba(7,8,15,0.92));
+    pointer-events: none;
+    border-radius: 0 100px 100px 0;
+  }
+  .nav { display: flex; width: 100%; overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+  .nav-swipe-hint {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--text-dim);
+    margin-top: 5px;
+    padding-left: 2px;
+  }
+  .status-pill { display: none; }
   .hero h1 { font-size: clamp(30px, 9vw, 44px); }
 }
 </style>
@@ -549,12 +583,15 @@ body::before {
 <header class="header">
   <a href="/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-secondary);text-decoration:none;opacity:0.6;transition:opacity 0.2s;white-space:nowrap;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">← atharux.com</a>
   <div class="logo"><span>//</span> AI Execution</div>
-  <nav class="nav">
-    <div class="nav-item active" onclick="switchView('contract', this)">AI Contract</div>
-    <div class="nav-item" onclick="switchView('conversation', this)">Conversation Journey</div>
-    <div class="nav-item" onclick="switchView('comparison', this)">Comparison Analysis</div>
-    <div class="nav-item" onclick="switchView('graph', this)">Knowledge Graph</div>
-  </nav>
+  <div class="nav-scroll-wrap">
+    <nav class="nav">
+      <div class="nav-item active" onclick="switchView('contract', this)">AI Contract</div>
+      <div class="nav-item" onclick="switchView('conversation', this)">Conversation Journey</div>
+      <div class="nav-item" onclick="switchView('comparison', this)">Comparison Analysis</div>
+      <div class="nav-item" onclick="switchView('graph', this)">Knowledge Graph</div>
+    </nav>
+    <span class="nav-swipe-hint">swipe ›</span>
+  </div>
   <div class="status-pill">
     <div class="status-dot"></div>
     Case Study
