@@ -56,11 +56,11 @@ body.brutalist {
 ═══════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; background: #0a0d16; }
 
 body {
   font-family: var(--display);
-  background: var(--bg);
+  background: transparent;
   color: var(--text);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -83,14 +83,26 @@ body.brutalist {
   background-size: 48px 48px;
   pointer-events: none;
   z-index: 0;
+  display: none;
 }
 
 body.brutalist .bg-grid {
+  display: block;
   background-image:
     linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
   background-size: 32px 32px;
 }
+
+#constellation-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+body.brutalist #constellation-canvas { display: none; }
 
 /* ═══════════════════════════════════════════════
    NAVBAR
@@ -458,7 +470,9 @@ body.brutalist .hero-stats {
 }
 
 .stat {
-  background: var(--bg2);
+  background: rgba(10,13,22,0.62);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   padding: 16px;
   text-align: center;
 }
@@ -625,8 +639,10 @@ body.brutalist .screen-label { color: #fff; }
 }
 
 .apple-inner {
-  background: var(--bg2);
-  border: 1px solid var(--border);
+  background: rgba(10,13,22,0.60);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
@@ -1087,8 +1103,10 @@ body.brutalist .tip-tag {
 }
 
 .project-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
+  background: rgba(10,13,22,0.60);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
@@ -1193,12 +1211,14 @@ body.brutalist .skills-grid {
 }
 
 .skill-cat {
-  background: var(--bg2);
+  background: rgba(10,13,22,0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   padding: 28px 24px;
   transition: background 0.2s;
 }
 
-.skill-cat:hover { background: var(--bg3); }
+.skill-cat:hover { background: rgba(26,26,46,0.65); }
 body.brutalist .skill-cat { background: #fff; }
 body.brutalist .skill-cat:hover { background: #f5f5f5; }
 
@@ -1234,8 +1254,10 @@ body.brutalist .skill-list li { border-bottom: 1px solid #ddd; }
    CONTACT
 ═══════════════════════════════════════════════ */
 .contact-wrap {
-  background: var(--bg2);
-  border: 1px solid var(--border);
+  background: rgba(10,13,22,0.62);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: var(--radius-lg);
   padding: 56px;
   text-align: center;
@@ -1465,6 +1487,7 @@ body.brutalist .nf-dot.active { background: #000; }
 <body>
 
 <div class="bg-grid"></div>
+<canvas id="constellation-canvas"></canvas>
 
 <!-- ═══ NAV ═══ -->
 <nav>
@@ -2078,6 +2101,108 @@ if (localStorage.getItem('theme') === 'brutalist') {
   document.body.classList.add('brutalist');
   themeBtn.textContent = '◯ Default';
 }
+
+// ── CONSTELLATION + SHOOTING STARS ──
+(function () {
+  const canvas = document.getElementById('constellation-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let particles = [], shooters = [];
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    particles = [];
+    const n = Math.min(55, Math.floor(canvas.width * canvas.height / 18000));
+    for (let i = 0; i < n; i++) {
+      particles.push({
+        x:  Math.random() * canvas.width,
+        y:  Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.22,
+        vy: (Math.random() - 0.5) * 0.22,
+        r:  Math.random() * 1.4 + 0.7,
+        a:  Math.random() * 0.45 + 0.28,
+      });
+    }
+  }
+
+  function spawnShooter() {
+    const fromTop = Math.random() < 0.65;
+    const angle   = 0.52 + Math.random() * 0.35;
+    const speed   = 7 + Math.random() * 5;
+    shooters.push({
+      x:   fromTop ? Math.random() * canvas.width  * 0.75 : 0,
+      y:   fromTop ? 0 : Math.random() * canvas.height * 0.45,
+      vx:  speed * Math.cos(angle),
+      vy:  speed * Math.sin(angle),
+      len: 90 + Math.random() * 60,
+      a:   1,
+      dec: 0.016 + Math.random() * 0.012,
+    });
+    setTimeout(spawnShooter, 3800 + Math.random() * 4600);
+  }
+
+  function draw() {
+    const w = canvas.width, h = canvas.height;
+    const bg = ctx.createRadialGradient(w * 0.5, h * 0.5, 0, w * 0.5, h * 0.5, Math.max(w, h) * 0.75);
+    bg.addColorStop(0, '#0a0d16');
+    bg.addColorStop(1, '#050609');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
+
+    const D = 110;
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      for (let j = i + 1; j < particles.length; j++) {
+        const q = particles[j];
+        const dx = p.x - q.x, dy = p.y - q.y;
+        const d  = Math.sqrt(dx * dx + dy * dy);
+        if (d < D) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = `rgba(148,163,184,${(1 - d / D) * 0.07})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(148,163,184,${p.a})`;
+      ctx.fill();
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx = -p.vx;
+      if (p.y < 0 || p.y > h) p.vy = -p.vy;
+    }
+
+    shooters = shooters.filter(s => s.a > 0);
+    for (const s of shooters) {
+      const tail = ctx.createLinearGradient(s.x, s.y, s.x - s.vx * (s.len / 8), s.y - s.vy * (s.len / 8));
+      tail.addColorStop(0,   `rgba(226,232,240,${s.a})`);
+      tail.addColorStop(0.4, `rgba(139,92,246,${s.a * 0.45})`);
+      tail.addColorStop(1,   'rgba(139,92,246,0)');
+      ctx.beginPath();
+      ctx.moveTo(s.x, s.y);
+      ctx.lineTo(s.x - s.vx * (s.len / 8), s.y - s.vy * (s.len / 8));
+      ctx.strokeStyle = tail;
+      ctx.lineWidth = 1.6;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, 1.8, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(226,232,240,${s.a})`;
+      ctx.fill();
+      s.x += s.vx; s.y += s.vy;
+      s.a -= s.dec;
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  draw();
+  setTimeout(spawnShooter, 2200);
+})();
 
 // ── TIMELINE ──
 const jobData = {
