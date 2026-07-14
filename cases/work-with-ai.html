@@ -664,7 +664,7 @@ body::before {
 <hr class="divider">
 
 <!-- CONTRACT VIEW -->
-<section class="section">
+<section class="section" id="content-section">
 <div id="contract" class="view active">
   <div class="section-label">Execution Rules</div>
   <div class="section-title">AI Contract</div>
@@ -721,11 +721,11 @@ body::before {
 
 <script>
 function switchView(viewId, el){
-  window.scrollTo({top: 0, behavior: 'smooth'});
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById(viewId).classList.add('active');
   el.classList.add('active');
+  document.getElementById('content-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 /* CONTRACT RENDER */
