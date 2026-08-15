@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athar Hafiz — UX Engineer & AI Product Designer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #1c1c1e;
+    background: #f7f7f5;
+  }
+
+  .page {
+    max-width: 820px;
+    margin: 48px auto;
+    background: #fff;
+    border: 1px solid #e4e4e0;
+    border-radius: 6px;
+    padding: 56px 64px;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 20px;
+    border-bottom: 2.5px solid #1a3a5c;
+    margin-bottom: 24px;
+    gap: 24px;
+  }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1a3a5c;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 5px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    font-weight: 500;
+    color: #555;
+  }
+
+  .contact {
+    text-align: right;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.8;
+    flex-shrink: 0;
+  }
+
+  .contact a {
+    color: #1a3a5c;
+    text-decoration: none;
+  }
+
+  .contact a:hover { text-decoration: underline; }
+
+  /* ── Section headings ── */
+  h2 {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #1a3a5c;
+    border-bottom: 1px solid #d0d8e4;
+    padding-bottom: 6px;
+    margin: 32px 0 14px;
+  }
+
+  /* ── Profile ── */
+  .profile {
+    font-size: 14.5px;
+    color: #2c2c2e;
+    line-height: 1.7;
+  }
+
+  /* ── Job block ── */
+  .job { margin-bottom: 20px; }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 5px;
+  }
+
+  .job-left {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .job-title {
+    font-weight: 700;
+    font-size: 14.5px;
+    color: #1c1c1e;
+  }
+
+  .job-co {
+    font-size: 13.5px;
+    color: #666;
+    font-style: italic;
+  }
+
+  .job-date {
+    font-size: 12.5px;
+    color: #888;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  ul li {
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: #2c2c2e;
+  }
+
+  ul li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: #bbb;
+  }
+
+  .job-desc {
+    font-size: 14px;
+    color: #2c2c2e;
+    margin-top: 2px;
+  }
+
+  .stack {
+    font-size: 12px;
+    color: #999;
+    font-style: italic;
+    margin-top: 6px;
+  }
+
+  .vol-row { margin-bottom: 4px; font-size: 14px; color: #2c2c2e; }
+
+  hr.divider {
+    border: none;
+    border-top: 1px solid #f0f0ee;
+    margin: 16px 0;
+  }
+
+  /* ── Earlier career ── */
+  .earlier-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 32px;
+  }
+
+  .earlier-item {}
+
+  .earlier-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .earlier-title {
+    font-weight: 600;
+    font-size: 13.5px;
+    color: #1c1c1e;
+  }
+
+  .earlier-date {
+    font-size: 12px;
+    color: #888;
+  }
+
+  .earlier-detail {
+    font-size: 13px;
+    color: #666;
+    margin-top: 2px;
+  }
+
+  /* ── Skills ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 32px;
+  }
+
+  .skill-group-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #333;
+    margin-bottom: 4px;
+  }
+
+  .skill-list {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  /* ── Bottom row ── */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 2fr 1.1fr 0.9fr;
+    gap: 0 32px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #d0d8e4;
+  }
+
+  .bottom-row h2 { margin-top: 0; }
+
+  .meta-item {
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+
+  .meta-name { font-weight: 600; color: #1c1c1e; }
+  .meta-detail { color: #777; font-size: 12px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 680px) {
+    .page { margin: 0; border-radius: 0; padding: 32px 24px; }
+    .header { flex-direction: column; align-items: flex-start; }
+    .contact { text-align: left; }
+    .earlier-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .bottom-row { grid-template-columns: 1fr; gap: 0; }
+    .job-header { flex-direction: column; gap: 2px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <h1>Athar Hafiz</h1>
+      <div class="subtitle">UX Engineer &amp; AI Product Designer</div>
+    </div>
+    <div class="contact">
+      Berlin, Germany &nbsp;·&nbsp; +49 177 276 3088<br>
+      <a href="mailto:athar.hafiz@gmail.com">athar.hafiz@gmail.com</a><br>
+      <a href="https://linkedin.com/in/atharhafiz" target="_blank">linkedin.com/in/atharhafiz</a> &nbsp;·&nbsp;
+      <a href="https://atharux.com" target="_blank">atharux.com</a><br>
+      <a href="https://atharux.com/cases/" target="_blank" style="display:inline-block; margin-top:8px; padding:5px 14px; background:#1a3a5c; color:#fff; border-radius:4px; font-size:12px; font-weight:600; letter-spacing:0.03em; text-decoration:none;">View Case Studies →</a>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <p class="profile">
+    UX Engineer and AI Product Designer with 13+ years across B2B SaaS, developer tooling, and agent-native product design. Shipped a 9-subagent job application pipeline with human-in-the-loop oversight and 3 active users. Volunteer organiser of AgentCon Berlin 2026, partnered with Neo4j and Microsoft. Specialise in designing operator-facing interfaces for AI systems — complex async state, multi-agent workflows, and transparent control surfaces. Previously at Apple (twice). React, TypeScript, Figma, Supabase, Cloudflare Pages. B2 German, Berlin-based.
+  </p>
+
+  <!-- EXPERIENCE -->
+  <h2>Experience</h2>
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-left">
+        <span class="job-title">AI Product Design &amp; Engineering — Founder</span>
+        <span class="job-co">atharux</span>
+      </div>
+      <span class="job-date">2024 – Present &nbsp;·&nbsp; Berlin</span>
+    </div>
+    <ul>
+      <li><strong>Job Tracker</strong> — 9-subagent hiring pipeline (Scout → Classifier → CV Selector → Resume Tailor → Cover Letter → Form Mapper → Screenshot → Gatekeeper → Tracker) that reduced application friction enough to get a stuck job seeker applying consistently again. Human-in-the-loop review gate before every submission, never bypassable. 3 active users.</li>
+      <li><strong>NeuroFlow</strong> — Full-stack portfolio project demonstrating design systems thinking, gamification architecture, and React engineering. Dark brutalist design system, token-first architecture, 4-category module registry, 11 interactive lesson nodes across 6 skill tiers.</li>
+      <li><strong>EventFlow + Venue Outreach DB</strong> — Agent-orchestrated event ops platform. ScrapeGraphAI venue database targeting decision-makers across 9 EU regions + Dubai. Deployed as live startup POC.</li>
+    </ul>
+    <p class="stack">React · Vite · TypeScript · Supabase · Anthropic API · Groq · Cloudflare Pages · ScrapeGraphAI · Langfuse</p>
+  </div>
+
+  <hr class="divider">
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-left">
+        <span class="job-title">Community &amp; Events — Volunteer</span>
+      </div>
+      <span class="job-date">2026 – Present &nbsp;·&nbsp; Berlin</span>
+    </div>
+    <div class="vol-row"><strong>AgentCon Berlin 2026</strong> — Co-organiser. Agentic AI conference at CODE University; speakers from Neo4j and Microsoft.</div>
+    <div class="vol-row"><strong>Global AI Berlin</strong> — Organiser. Berlin's Global AI chapter, 120+ members. Registration, AV, speaker logistics.</div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-left">
+        <span class="job-title">Fractional Director of UX Design</span>
+        <span class="job-co">NDA Client · B2B SaaS Startup</span>
+      </div>
+      <span class="job-date">May 2024 &nbsp;·&nbsp; Remote</span>
+    </div>
+    <p class="job-desc">Architected 30-page Figma design system using Shadcn/ui. Delivered a dev-ready component library with full interaction states and engineering-handoff specs for a complex SaaS desktop application.</p>
+  </div>
+
+  <hr class="divider">
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-left">
+        <span class="job-title">Co-founder &amp; Technical Lead</span>
+        <span class="job-co">Rising Tide Berlin</span>
+      </div>
+      <span class="job-date">Dec 2023 – Present &nbsp;·&nbsp; Berlin</span>
+    </div>
+    <p class="job-desc">Brand identity, React website, and component library. Sustainable pop-up events and artist residencies across Berlin and California.</p>
+  </div>
+
+  <hr class="divider">
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-left">
+        <span class="job-title">Marketing Developer &amp; Campaign Strategist</span>
+        <span class="job-co">Chef Works, Inc.</span>
+      </div>
+      <span class="job-date">Oct 2018 – Jan 2024 &nbsp;·&nbsp; Poway, CA</span>
+    </div>
+    <ul>
+      <li>HTML/CSS email templates and landing pages — click rates 9% → 45%, generating $150K+ annual sales growth</li>
+      <li>Gamified shipping dashboard UI — increased team productivity by 25%</li>
+      <li>Tableau dashboards for campaign performance; GDPR-compliant data segmentation for email automation</li>
+      <li>Customer journey mapping and persona frameworks across 4 revenue streams</li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-left">
+        <span class="job-title">UX/UI Designer &amp; Prototyper</span>
+        <span class="job-co">Volt 480</span>
+      </div>
+      <span class="job-date">Sept 2018 &nbsp;·&nbsp; Remote</span>
+    </div>
+    <p class="job-desc">Delivered interactive prototype in 2 weeks for tradeshow; secured next-phase funding.</p>
+  </div>
+
+  <hr class="divider">
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-left">
+        <span class="job-title">Marketing Project Manager</span>
+        <span class="job-co">Epik Token</span>
+      </div>
+      <span class="job-date">Nov 2017 – Oct 2018 &nbsp;·&nbsp; Remote</span>
+    </div>
+    <p class="job-desc">Prototyped concepts and managed the designer and developer team that built the product website and whitepaper for a blockchain startup. Digital assets and presentations contributed to $2M investment raise.</p>
+  </div>
+
+  <hr class="divider">
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-left">
+        <span class="job-title">Product Designer &amp; UI Developer</span>
+        <span class="job-co">Vinder</span>
+      </div>
+      <span class="job-date">Sep 2017 – May 2018 &nbsp;·&nbsp; Remote</span>
+    </div>
+    <p class="job-desc">Agile design sprints and design-to-dev handoff. Design system with reusable React Native components for Android and iOS.</p>
+  </div>
+
+  <hr class="divider">
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-left">
+        <span class="job-title">Technical PM &amp; Designer</span>
+        <span class="job-co">Virtual Fantasy League</span>
+      </div>
+      <span class="job-date">Nov 2016 – Sep 2017 &nbsp;·&nbsp; Remote</span>
+    </div>
+    <p class="job-desc">Complete product delivered in 9 months. Cross-functional team leadership; established design and development SOPs.</p>
+  </div>
+
+  <!-- EARLIER CAREER -->
+  <h2>Earlier Career</h2>
+  <div class="earlier-grid">
+    <div class="earlier-item">
+      <div class="earlier-header">
+        <span class="earlier-title">UX Architect — Tandon Group</span>
+        <span class="earlier-date">2016</span>
+      </div>
+      <div class="earlier-detail">B2B medical + RFID sites → 3 contracts and $250K sale. WordPress, SEO, email campaigns.</div>
+    </div>
+    <div class="earlier-item">
+      <div class="earlier-header">
+        <span class="earlier-title">iOS App Review &amp; UX Designer — Apple</span>
+        <span class="earlier-date">2010 – 2016</span>
+      </div>
+      <div class="earlier-detail">Reviewed 100K+ apps/year. Internal productivity tool +25% efficiency. UX policy documentation.</div>
+    </div>
+    <div class="earlier-item">
+      <div class="earlier-header">
+        <span class="earlier-title">Asst. Store Manager — Shane Company</span>
+        <span class="earlier-date">2008 – 2010</span>
+      </div>
+      <div class="earlier-detail">Record-breaking sales; top-3 store nationally. Customer experience design and live training.</div>
+    </div>
+    <div class="earlier-item">
+      <div class="earlier-header">
+        <span class="earlier-title">Recruiting Manager — Robert Half Intl.</span>
+        <span class="earlier-date">2008</span>
+      </div>
+      <div class="earlier-detail">CRM, cold outreach, candidate sourcing across technical and creative disciplines.</div>
+    </div>
+    <div class="earlier-item">
+      <div class="earlier-header">
+        <span class="earlier-title">Design Consultant — Eastman Roofing</span>
+        <span class="earlier-date">2006 – 2007</span>
+      </div>
+      <div class="earlier-detail">In-home consultations, structural assessment, build design, contract negotiation.</div>
+    </div>
+    <div class="earlier-item">
+      <div class="earlier-header">
+        <span class="earlier-title">Sr. Asst. Store Manager — Apple</span>
+        <span class="earlier-date">2002 – 2006</span>
+      </div>
+      <div class="earlier-detail">150+ employees, two locations, top-3 nationally. Early Apple Retail UX design and planogram testing.</div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <h2>Skills</h2>
+  <div class="skills-grid">
+    <div>
+      <div class="skill-group-title">Design</div>
+      <div class="skill-list">UX/UI · Design Systems · Figma · Wireframing · Prototyping · Information Architecture · User Research · WCAG Accessibility · Agentic UI Patterns</div>
+    </div>
+    <div>
+      <div class="skill-group-title">Frontend Engineering</div>
+      <div class="skill-list">React · Vite · TypeScript · JavaScript ES2023 · HTML5/CSS3 · Tailwind CSS · Shadcn/ui · Framer Motion · React Router</div>
+    </div>
+    <div>
+      <div class="skill-group-title">Backend &amp; Infrastructure</div>
+      <div class="skill-list">Supabase · Cloudflare Pages · Cloudflare Workers · Git · GitHub</div>
+    </div>
+    <div>
+      <div class="skill-group-title">AI &amp; Agent Systems</div>
+      <div class="skill-list">Anthropic API · Groq · Multi-agent pipeline design · ScrapeGraphAI · Langfuse · OpenRouter · Operator UI Design</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="bottom-row">
+    <div>
+      <h2>Certifications</h2>
+      <div class="meta-item"><span class="meta-name">Deutsch B1.2</span> <span class="meta-detail">· vhs Pankow, Berlin · 2025</span></div>
+      <div class="meta-item"><span class="meta-name">Lean Six Sigma — Green Belt</span> <span class="meta-detail">· Lean Wright, Inc. · 2019</span></div>
+      <div class="meta-item"><span class="meta-name">Gamification Design</span> <span class="meta-detail">· Octalysis Group · 2017</span></div>
+      <div class="meta-item"><span class="meta-name">UX/UI Design</span> <span class="meta-detail">· General Assembly, SF · 2016</span></div>
+    </div>
+    <div>
+      <h2>Education</h2>
+      <div class="meta-item"><span class="meta-name">BFA Digital Media Art</span><br><span class="meta-detail">SJSU, San Jose, CA · 2005</span></div>
+      <div class="meta-item" style="margin-top:6px"><span class="meta-name">A.A. Liberal Arts</span><br><span class="meta-detail">De Anza College, CA · 1999</span></div>
+    </div>
+    <div>
+      <h2>Languages</h2>
+      <div class="meta-item"><span class="meta-name">English</span> <span class="meta-detail">· Native</span></div>
+      <div class="meta-item"><span class="meta-name">Urdu</span> <span class="meta-detail">· Native</span></div>
+      <div class="meta-item"><span class="meta-name">German</span> <span class="meta-detail">· B2 working proficiency</span></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
