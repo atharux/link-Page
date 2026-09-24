@@ -5,350 +5,458 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Coordination Infrastructure — Event Planning System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!--
+  lightMuseum — house system no. III ("explanation is exhibition").
+  Same plate language as Orbit's About exhibit (orbit/src/about/AboutExhibit.tsx):
+  warm paper, ink line-work, numbered plates, italic figure captions,
+  dotted-underline terms with a hover definition. Canonical tokens:
+  dashboard/lightmuseum-tokens.css — values are inlined here.
+
+  On this plate the four class hues mark the four agents:
+  teal = Venue · purple = Travel · sienna = Vendor · verdigris = Schedule.
+  Ink marks what is human: the event, the participants, the approval gate.
+-->
 
 <style>
 :root {
-  --bg: #07080f;
-  --surface: #0e1019;
-  --surface2: #13151f;
-  --border: rgba(255,255,255,0.07);
-  --border-bright: rgba(255,255,255,0.14);
-  --accent-blue: #4f8cff;
-  --accent-cyan: #00d4ff;
-  --accent-violet: #9b6bff;
-  --accent-green: #00e5a0;
-  --accent-amber: #f5a623;
-  --text-primary: #eceef5;
-  --text-secondary: #7e8299;
-  --text-dim: #3d4058;
-  --agent-venue: #4f8cff;
-  --agent-travel: #00d4ff;
-  --agent-vendor: #9b6bff;
-  --agent-schedule: #00e5a0;
-  --agent-human: #f5a623;
+  --paper: #efeadd;
+  --plate: #f6f2e7;
+  --plate-hi: #fbf8ef;
+  --ink: #201e18;
+  --body: #47433a;
+  --prose-2: #56514a;
+  --muted: #8b8677;
+  --caption: #7c7565;
+  --faint: #a89f89;
+  --rule-soft: #ddd5c2;
+  --rule: #d3cbb8;
+  --rule-firm: #c3bba6;
+  --dim: #cfc7b5;
+
+  --teal: #2f7d84;
+  --purple: #6a5aa6;
+  --sienna: #b5622a;
+  --verdigris: #4d7a46;
+  --rust: #a1442f;
+
+  --agent-venue: var(--teal);
+  --agent-travel: var(--purple);
+  --agent-vendor: var(--sienna);
+  --agent-schedule: var(--verdigris);
+  --agent-human: var(--ink);
+
+  --mono: 'DM Mono', 'Space Mono', ui-monospace, SFMono-Regular, monospace;
+  --disp: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --radius: 1px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text-primary);
+  font-family: var(--mono);
+  background: var(--paper);
+  color: var(--ink);
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
-/* GRAIN OVERLAY */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.4;
+::selection { background: var(--ink); color: var(--paper); }
+
+/* REVEAL */
+[data-reveal] { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+[data-reveal].ax-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .flow-edge, .ax-pipe-dot { animation: none; }
 }
 
 /* HEADER */
 .header {
-  border-bottom: 1px solid var(--border);
-  padding: 20px 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   position: sticky;
   top: 0;
-  background: rgba(7,8,15,0.92);
-  backdrop-filter: blur(20px);
   z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 26px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule-soft);
 }
+
+.back-link {
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color .2s;
+}
+.back-link:hover { color: var(--ink); }
 
 .logo {
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  color: var(--text-secondary);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  white-space: nowrap;
 }
-
-.logo span {
-  color: var(--accent-cyan);
+.logo-brand {
+  font-family: var(--disp);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.logo-sub {
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: var(--muted);
+  font-style: italic;
 }
 
 .header-nav {
   display: flex;
-  gap: 28px;
-  font-size: 12px;
-  font-family: 'DM Mono', monospace;
-  color: var(--text-secondary);
+  gap: 20px;
+  margin-left: auto;
+  font-size: 11px;
 }
-
 .header-nav a {
-  color: inherit;
+  color: var(--muted);
   text-decoration: none;
-  letter-spacing: 0.08em;
-  transition: color 0.2s;
+  letter-spacing: .06em;
+  transition: color .2s;
 }
-
-.header-nav a:hover { color: var(--accent-cyan); }
+.header-nav a:hover { color: var(--ink); }
 
 .status-pill {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  color: var(--accent-green);
-  border: 1px solid rgba(0,229,160,0.2);
-  border-radius: 100px;
-  padding: 4px 12px;
+  gap: 7px;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 1px solid var(--rule-firm);
+  border-radius: var(--radius);
+  padding: 5px 10px;
+  white-space: nowrap;
 }
-
 .status-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent-green);
-  animation: pulse-green 2s infinite;
+  border: 1px solid var(--verdigris);
+  background: var(--verdigris);
+  animation: dot-breathe 2.4s ease-in-out infinite;
 }
+@keyframes dot-breathe { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
 
-@keyframes pulse-green {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,229,160,0.4); }
-  50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(0,229,160,0); }
-}
-
-/* HERO */
-.hero {
-  padding: 100px 40px 60px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.hero-eyebrow {
-  font-family: 'DM Mono', monospace;
+/* TYPE PRIMITIVES */
+.kicker {
   font-size: 11px;
-  color: var(--accent-cyan);
-  letter-spacing: 0.25em;
+  letter-spacing: .3em;
   text-transform: uppercase;
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  color: var(--muted);
 }
 
-.hero-eyebrow::before {
-  content: '';
-  width: 32px;
-  height: 1px;
-  background: var(--accent-cyan);
+/* HERO — frontispiece */
+.hero {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 84px 26px 60px;
 }
-
 .hero h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(42px, 6vw, 72px);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  margin-bottom: 24px;
+  font-family: var(--disp);
+  font-weight: 600;
+  font-size: clamp(36px, 6vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 18px 0 26px;
 }
-
 .hero h1 .highlight {
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--teal);
 }
-
 .hero-desc {
-  font-size: 17px;
-  color: var(--text-secondary);
-  max-width: 580px;
-  line-height: 1.7;
-  margin-bottom: 48px;
+  font-family: var(--disp);
+  font-size: 18px;
+  line-height: 1.68;
+  color: var(--body);
+  max-width: 640px;
 }
-
+.hero-point {
+  font-family: var(--disp);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink);
+  max-width: 620px;
+  margin-top: 20px;
+  padding-left: 16px;
+  border-left: 2px solid var(--teal);
+}
+.hero-rule { height: 1px; background: var(--rule); margin: 42px 0 18px; }
 .hero-meta {
-  display: flex;
-  gap: 32px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--plate);
 }
-
 .meta-item {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  padding: 16px 18px;
+  border-left: 1px solid var(--rule);
 }
-
+.meta-item:first-child { border-left: none; }
 .meta-label {
-  font-family: 'DM Mono', monospace;
   font-size: 10px;
-  color: var(--text-dim);
-  letter-spacing: 0.15em;
+  color: var(--faint);
+  letter-spacing: .16em;
   text-transform: uppercase;
 }
-
 .meta-value {
-  font-family: 'Syne', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--text-primary);
+  font-family: var(--disp);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--ink);
 }
-
-/* SECTION WRAPPER */
-.section {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 40px 40px 80px;
-}
-
-.section-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  color: var(--text-dim);
-  letter-spacing: 0.2em;
+.hero-foot {
+  margin-top: 14px;
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: var(--muted);
   text-transform: uppercase;
-  margin-bottom: 10px;
+  font-style: italic;
 }
 
-.section-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-bottom: 6px;
-}
-
-.section-sub {
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-bottom: 32px;
-}
-
-/* DIVIDER */
-.divider {
-  border: none;
-  border-top: 1px solid var(--border);
-  max-width: 1100px;
+/* SECTION — a plate */
+.section {
+  max-width: 880px;
   margin: 0 auto;
+  padding: 66px 26px;
+  border-top: 1px solid var(--rule-soft);
+}
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.section-label {
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--faint);
+  min-width: 74px;
+}
+.section-rule { width: 30px; height: 1px; background: var(--rule-firm); flex-shrink: 0; }
+.section-title {
+  font-family: var(--disp);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.section-sub {
+  font-family: var(--disp);
+  font-size: 16px;
+  line-height: 1.72;
+  color: var(--prose-2);
+  max-width: 700px;
+  margin-bottom: 30px;
+}
+.section-sub b { color: var(--ink); font-weight: 600; }
+
+.fig {
+  font-family: var(--disp);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--caption);
+  margin-top: 12px;
+  text-align: center;
 }
 
-/* AGENT CARDS */
+/* TERMS — interpretive annotations */
+.term {
+  position: relative;
+  color: var(--ink);
+  border-bottom: 1px dotted var(--faint);
+  cursor: help;
+}
+.term:hover, .term:focus { border-bottom-color: var(--teal); outline: none; }
+.tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  width: 250px;
+  background: var(--plate-hi);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #3a362e;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .16s ease, transform .16s ease;
+  z-index: 50;
+  box-shadow: 3px 3px 0 rgba(32,30,24,.12);
+}
+.tip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--ink);
+}
+.term:hover .tip, .term:focus .tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* AGENT CARDS — specimens a–d */
 .agents-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: 0;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--plate);
+  box-shadow: 4px 4px 0 rgba(32,30,24,.06);
 }
 
 .agent-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
+  --c: var(--ink);
+  padding: 20px 18px 18px;
   position: relative;
-  overflow: hidden;
-  transition: border-color 0.3s, transform 0.2s;
+  border-left: 1px solid var(--rule);
+  transition: background .3s;
   cursor: default;
 }
+.agent-card:first-child { border-left: none; }
+.agent-card.venue { --c: var(--agent-venue); }
+.agent-card.travel { --c: var(--agent-travel); }
+.agent-card.vendor { --c: var(--agent-vendor); }
+.agent-card.schedule { --c: var(--agent-schedule); }
 
-.agent-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  border-radius: 12px 12px 0 0;
-}
-
-.agent-card.venue::before { background: var(--agent-venue); }
-.agent-card.travel::before { background: var(--agent-travel); }
-.agent-card.vendor::before { background: var(--agent-vendor); }
-.agent-card.schedule::before { background: var(--agent-schedule); }
-
-.agent-card.active {
-  border-color: var(--border-bright);
-  transform: translateY(-2px);
-}
-
-.agent-card.venue.active { border-color: rgba(79,140,255,0.4); box-shadow: 0 8px 32px rgba(79,140,255,0.12); }
-.agent-card.travel.active { border-color: rgba(0,212,255,0.4); box-shadow: 0 8px 32px rgba(0,212,255,0.12); }
-.agent-card.vendor.active { border-color: rgba(155,107,255,0.4); box-shadow: 0 8px 32px rgba(155,107,255,0.12); }
-.agent-card.schedule.active { border-color: rgba(0,229,160,0.4); box-shadow: 0 8px 32px rgba(0,229,160,0.12); }
+.agent-card.active { background: var(--plate-hi); }
+.agent-card.constraint-hit { background: #f3e2d6; }
 
 .agent-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid var(--c);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
   margin-bottom: 14px;
+  position: relative;
+}
+.agent-icon::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  border: 1px solid var(--c);
+  opacity: .45;
+}
+.agent-icon::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--c);
 }
 
-.venue .agent-icon { background: rgba(79,140,255,0.12); }
-.travel .agent-icon { background: rgba(0,212,255,0.12); }
-.vendor .agent-icon { background: rgba(155,107,255,0.12); }
-.schedule .agent-icon { background: rgba(0,229,160,0.12); }
-
+.agent-fig {
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 4px;
+}
 .agent-name {
-  font-family: 'Syne', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 6px;
+  font-family: var(--disp);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
 }
-
 .agent-desc {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.5;
+  font-family: var(--disp);
+  font-size: 13px;
+  color: var(--caption);
+  line-height: 1.55;
   margin-bottom: 16px;
 }
 
 .agent-status {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-family: 'DM Mono', monospace;
+  gap: 7px;
   font-size: 11px;
 }
-
 .agent-dot {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--text-dim);
-  transition: background 0.3s;
+  border: 1px solid var(--faint);
+  background: transparent;
+  transition: background .3s, border-color .3s;
 }
-
-.agent-card.active .venue-dot { background: var(--agent-venue); animation: pulse-dot 1s infinite; }
-.agent-card.active .travel-dot { background: var(--agent-travel); animation: pulse-dot 1s infinite; }
-.agent-card.active .vendor-dot { background: var(--agent-vendor); animation: pulse-dot 1s infinite; }
-.agent-card.active .schedule-dot { background: var(--agent-schedule); animation: pulse-dot 1s infinite; }
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+.agent-card.active .agent-dot {
+  background: var(--c);
+  border-color: var(--c);
+  animation: pulse-dot 1s infinite;
 }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-.agent-status-text {
-  color: var(--text-secondary);
-  transition: color 0.3s;
+.agent-status-text { color: var(--muted); transition: color .3s; }
+.agent-card.active .agent-status-text { color: var(--ink); }
+
+/* PROGRESS — an engraved rule filling with ink */
+.progress-track {
+  height: 1px;
+  background: var(--rule-firm);
+  margin-top: 8px;
+  position: relative;
 }
-
-.agent-card.active .agent-status-text { color: var(--text-primary); }
+.progress-fill {
+  position: absolute;
+  left: 0;
+  top: -1px;
+  height: 3px;
+  width: 0%;
+  background: var(--c);
+  transition: width .4s ease;
+}
 
 /* KNOWLEDGE GRAPH */
 .graph-container {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
+  background: var(--plate);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
   overflow: hidden;
   position: relative;
+  box-shadow: 4px 4px 0 rgba(32,30,24,.06);
 }
-
 #knowledge-graph {
   width: 100%;
   height: 480px;
@@ -357,269 +465,373 @@ body::before {
 
 .graph-legend {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(14,16,25,0.9);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 16px;
+  top: 14px;
+  right: 14px;
+  background: var(--plate-hi);
+  border: 1px solid var(--rule-firm);
+  border-radius: var(--radius);
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
 }
-
+.legend-title {
+  font-size: 9.5px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 2px;
+}
 .legend-item {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 11px;
-  color: var(--text-secondary);
-  font-family: 'DM Mono', monospace;
+  color: var(--body);
 }
-
 .legend-dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
+  border: 1.5px solid currentColor;
+  position: relative;
+  flex-shrink: 0;
+}
+.legend-dot::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: currentColor;
 }
 
-/* SIMULATION PANEL */
+.kg-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--plate-hi);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 5px 10px;
+  font-size: 11px;
+  color: var(--ink);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 10;
+  transform: translate(12px, -50%);
+  box-shadow: 2px 2px 0 rgba(32,30,24,.1);
+}
+.kg-tooltip.visible { opacity: 1; }
+
+.kg-info-panel {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  width: 232px;
+  background: var(--plate-hi);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 16px;
+  z-index: 10;
+  box-shadow: 3px 3px 0 rgba(32,30,24,.12);
+  animation: panel-in 0.2s ease;
+}
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.kg-info-panel-type {
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.kg-info-panel-label {
+  font-family: var(--disp);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.kg-info-panel-detail {
+  font-family: var(--disp);
+  font-size: 12.5px;
+  color: var(--caption);
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+.kg-info-panel-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  padding: 6px 0;
+  border-top: 1px solid var(--rule-soft);
+  color: var(--muted);
+}
+.kg-info-panel-row span:last-child { color: var(--ink); }
+.kg-info-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 4px;
+  transition: color .15s;
+}
+.kg-info-close:hover { color: var(--ink); }
+
+/* SIMULATION */
 .sim-wrapper {
   display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 20px;
+  grid-template-columns: 1fr 300px;
+  gap: 18px;
 }
-
 .sim-canvas-wrap {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
+  background: var(--plate);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
   overflow: hidden;
   position: relative;
+  box-shadow: 4px 4px 0 rgba(32,30,24,.06);
 }
-
 #sim-canvas {
   display: block;
   width: 100%;
   height: 400px;
 }
-
 .sim-controls {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
-
 .sim-panel {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 18px;
+  background: var(--plate);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 16px;
 }
-
 .sim-panel-title {
-  font-family: 'DM Mono', monospace;
   font-size: 10px;
-  color: var(--text-dim);
-  letter-spacing: 0.15em;
+  color: var(--faint);
+  letter-spacing: .18em;
   text-transform: uppercase;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .ctrl-btn {
   width: 100%;
-  padding: 10px 16px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--surface2);
-  color: var(--text-primary);
-  font-family: 'DM Mono', monospace;
+  padding: 9px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule-firm);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--mono);
   font-size: 12px;
+  letter-spacing: .04em;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background .2s, color .2s, border-color .2s;
   text-align: left;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
-
-.ctrl-btn:hover {
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
-}
-
+.ctrl-btn .ctrl-glyph { width: 14px; text-align: center; color: var(--muted); }
+.ctrl-btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.ctrl-btn:hover .ctrl-glyph { color: var(--paper); }
 .ctrl-btn.primary {
-  background: linear-gradient(135deg, rgba(79,140,255,0.2), rgba(155,107,255,0.2));
-  border-color: rgba(79,140,255,0.4);
-  color: var(--accent-blue);
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
 }
+.ctrl-btn.primary .ctrl-glyph { color: var(--paper); }
+.ctrl-btn.primary:hover { background: var(--teal); border-color: var(--teal); }
 
-.ctrl-btn.primary:hover {
-  background: linear-gradient(135deg, rgba(79,140,255,0.3), rgba(155,107,255,0.3));
-  color: var(--text-primary);
-}
-
-/* LOG */
+/* LOG — a field notebook */
 .log-area {
-  font-family: 'DM Mono', monospace;
   font-size: 11px;
-  line-height: 1.8;
+  line-height: 1.75;
   max-height: 200px;
   overflow-y: auto;
-  color: var(--text-secondary);
+  color: var(--muted);
   scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  scrollbar-color: var(--rule-firm) transparent;
 }
-
 .log-entry {
   display: flex;
-  gap: 10px;
-  padding: 2px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.02);
+  flex-wrap: wrap;
+  column-gap: 8px;
+  padding: 3px 0;
+  border-bottom: 1px dotted var(--rule-soft);
   animation: log-in 0.3s ease;
 }
-
 @keyframes log-in {
   from { opacity: 0; transform: translateX(-6px); }
   to { opacity: 1; transform: translateX(0); }
 }
-
-.log-time { color: var(--text-dim); flex-shrink: 0; }
-.log-agent { flex-shrink: 0; min-width: 80px; }
-.log-msg { color: var(--text-primary); }
+.log-time { color: var(--faint); flex-shrink: 0; }
+.log-agent { flex-shrink: 0; min-width: 76px; }
+.log-msg { color: var(--body); flex-basis: 100%; }
 
 .log-agent.venue { color: var(--agent-venue); }
 .log-agent.travel { color: var(--agent-travel); }
 .log-agent.vendor { color: var(--agent-vendor); }
 .log-agent.schedule { color: var(--agent-schedule); }
-.log-agent.system { color: var(--accent-amber); }
-.log-agent.human { color: var(--agent-human); }
+.log-agent.system { color: var(--muted); font-style: italic; }
+.log-agent.constraint { color: var(--rust); }
+.log-agent.human { color: var(--agent-human); font-weight: 500; }
+.log-agent.participant { color: var(--agent-human); }
 
-/* VENDOR MARKETPLACE */
+/* VENDOR MARKETPLACE — a specimen drawer */
 .vendor-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
-
 .vendor-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 18px;
-  transition: border-color 0.2s, transform 0.2s;
+  --c: var(--ink);
+  background: var(--plate);
+  border: 1px solid var(--rule-firm);
+  border-radius: var(--radius);
+  padding: 16px;
+  transition: border-color .2s, box-shadow .2s, background .2s;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
-
-.vendor-card:hover {
-  border-color: var(--border-bright);
-  transform: translateY(-1px);
-}
-
+.vendor-card:hover { border-color: var(--ink); }
 .vendor-card.selected {
-  border-color: rgba(0,229,160,0.4);
-  background: rgba(0,229,160,0.03);
+  border-color: var(--ink);
+  background: var(--plate-hi);
+  box-shadow: 3px 3px 0 rgba(32,30,24,.1);
 }
+.vendor-card.venue { --c: var(--agent-venue); }
+.vendor-card.catering, .vendor-card.av { --c: var(--agent-vendor); }
+.vendor-card.transport, .vendor-card.hotel { --c: var(--agent-travel); }
 
-.vendor-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  padding: 3px 8px;
-  border-radius: 4px;
+.vendor-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
   margin-bottom: 10px;
-  display: inline-block;
 }
-
-.vendor-tag.venue { background: rgba(79,140,255,0.12); color: var(--agent-venue); }
-.vendor-tag.catering { background: rgba(245,166,35,0.12); color: var(--accent-amber); }
-.vendor-tag.av { background: rgba(155,107,255,0.12); color: var(--agent-vendor); }
-.vendor-tag.transport { background: rgba(0,212,255,0.12); color: var(--agent-travel); }
-.vendor-tag.hotel { background: rgba(0,229,160,0.12); color: var(--agent-schedule); }
-
+.vendor-tag {
+  font-size: 10px;
+  letter-spacing: .14em;
+  color: var(--c);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.vendor-tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--c);
+  background: var(--c);
+}
+.vendor-no {
+  font-size: 10px;
+  color: var(--faint);
+  letter-spacing: .08em;
+}
 .vendor-name {
-  font-family: 'Syne', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
+  font-family: var(--disp);
+  font-size: 15px;
+  font-weight: 600;
   margin-bottom: 4px;
+  color: var(--ink);
 }
-
 .vendor-detail {
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-bottom: 12px;
-  line-height: 1.4;
+  font-family: var(--disp);
+  font-size: 12.5px;
+  color: var(--caption);
+  margin-bottom: 14px;
+  line-height: 1.5;
+  flex: 1;
 }
-
 .vendor-footer {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule-soft);
 }
-
-.vendor-price {
-  font-family: 'DM Mono', monospace;
-  font-size: 13px;
-  color: var(--text-primary);
-}
-
+.vendor-price { font-size: 12.5px; color: var(--ink); }
 .vendor-score {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  color: var(--accent-green);
+  gap: 6px;
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-top: 4px;
 }
-
+.vendor-score-bar {
+  width: 40px;
+  height: 1px;
+  background: var(--rule-firm);
+  position: relative;
+}
+.vendor-score-bar i {
+  position: absolute;
+  left: 0;
+  top: -1px;
+  height: 3px;
+  background: var(--c);
+}
 .vendor-select-btn {
-  font-family: 'DM Mono', monospace;
+  font-family: var(--mono);
   font-size: 11px;
-  padding: 5px 12px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule-firm);
   background: transparent;
-  color: var(--text-secondary);
+  color: var(--ink);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all .2s;
+  white-space: nowrap;
 }
-
-.vendor-select-btn:hover, .vendor-card.selected .vendor-select-btn {
-  border-color: var(--accent-green);
-  color: var(--accent-green);
-  background: rgba(0,229,160,0.06);
-}
+.vendor-select-btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.vendor-card.selected .vendor-select-btn { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
 /* PLANNING OUTPUT */
 .output-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 18px;
 }
-
 .output-panel {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  background: var(--plate);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
   overflow: hidden;
+  box-shadow: 4px 4px 0 rgba(32,30,24,.06);
 }
-
 .output-header {
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--border);
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule);
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
+  gap: 10px;
 }
-
 .output-header-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
+  font-family: var(--disp);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
 }
-
-.output-body {
-  padding: 16px 20px;
+.output-header-by {
+  font-size: 10px;
+  letter-spacing: .14em;
+  color: var(--faint);
 }
+.output-body { padding: 16px 18px; }
 
 .timeline-item {
   display: flex;
@@ -627,476 +839,391 @@ body::before {
   margin-bottom: 16px;
   position: relative;
 }
-
+.timeline-item:last-child { margin-bottom: 0; }
 .timeline-item:not(:last-child)::after {
   content: '';
   position: absolute;
-  left: 15px;
-  top: 30px;
-  bottom: -8px;
+  left: 12px;
+  top: 28px;
+  bottom: -12px;
   width: 1px;
-  background: var(--border);
+  background: var(--rule-firm);
 }
-
 .timeline-dot {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
-  border: 1px solid var(--border);
+  border: 1px solid var(--agent-schedule);
+  color: var(--agent-schedule);
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  background: var(--surface2);
+  font-size: 11px;
+  background: var(--plate);
   z-index: 1;
 }
-
-.timeline-content {
-  flex: 1;
-  padding-top: 4px;
-}
-
+.timeline-content { flex: 1; padding-top: 3px; }
 .timeline-time {
-  font-family: 'DM Mono', monospace;
   font-size: 10px;
-  color: var(--text-dim);
+  letter-spacing: .1em;
+  color: var(--faint);
   margin-bottom: 3px;
 }
-
 .timeline-title {
-  font-size: 13px;
-  color: var(--text-primary);
+  font-family: var(--disp);
+  font-size: 14px;
+  color: var(--ink);
   font-weight: 500;
 }
-
 .timeline-detail {
-  font-size: 11px;
-  color: var(--text-secondary);
+  font-family: var(--disp);
+  font-size: 12.5px;
+  color: var(--caption);
   margin-top: 2px;
 }
 
 .stat-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
-  font-size: 13px;
+  align-items: baseline;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px dotted var(--rule);
+  font-size: 12.5px;
 }
-
 .stat-row:last-child { border-bottom: none; }
+.stat-key { font-family: var(--disp); color: var(--prose-2); }
+.stat-val { color: var(--ink); text-align: right; }
+.stat-val.good { color: var(--verdigris); }
+.stat-val.warn { color: var(--sienna); }
 
-.stat-key { color: var(--text-secondary); }
-.stat-val {
-  font-family: 'DM Mono', monospace;
-  color: var(--text-primary);
-}
-
-.stat-val.good { color: var(--accent-green); }
-.stat-val.warn { color: var(--accent-amber); }
-
-/* APPROVAL BAR */
+/* APPROVAL — the human gate */
 .approval-bar {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px 28px;
+  background: var(--plate-hi);
+  border: 1px solid var(--ink);
+  border-left: 3px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 22px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  margin-top: 24px;
+  margin-top: 22px;
+  box-shadow: 4px 4px 0 rgba(32,30,24,.08);
 }
-
-.approval-text {
-  flex: 1;
+.approval-text { flex: 1; }
+.approval-kicker {
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 6px;
 }
-
 .approval-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
+  font-family: var(--disp);
+  font-size: 17px;
+  font-weight: 600;
   margin-bottom: 4px;
+  color: var(--ink);
 }
-
 .approval-desc {
+  font-family: var(--disp);
   font-size: 13px;
-  color: var(--text-secondary);
+  color: var(--caption);
 }
-
-.approval-actions {
-  display: flex;
-  gap: 12px;
-}
+.approval-actions { display: flex; gap: 10px; }
 
 .btn-approve {
-  padding: 10px 24px;
-  border-radius: 8px;
-  border: none;
-  background: linear-gradient(135deg, var(--accent-green), rgba(0,229,160,0.7));
-  color: #07080f;
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: var(--radius);
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .06em;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background .2s, border-color .2s;
 }
-
-.btn-approve:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,229,160,0.3); }
+.btn-approve:hover { background: var(--verdigris); border-color: var(--verdigris); }
 
 .btn-revise {
-  padding: 10px 24px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
+  padding: 10px 22px;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule-firm);
   background: transparent;
-  color: var(--text-secondary);
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .06em;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all .2s;
 }
+.btn-revise:hover { border-color: var(--sienna); color: var(--sienna); }
 
-.btn-revise:hover { border-color: var(--accent-amber); color: var(--accent-amber); }
-
-/* APPROVED STATE */
 .approved-badge {
   display: none;
   align-items: center;
   gap: 8px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  background: rgba(0,229,160,0.1);
-  border: 1px solid rgba(0,229,160,0.3);
-  color: var(--accent-green);
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--verdigris);
+  color: var(--verdigris);
+  font-size: 12px;
+  letter-spacing: .06em;
 }
 
-/* FOOTER */
-.footer {
-  border-top: 1px solid var(--border);
-  padding: 30px 40px;
+/* THE GATES — three approvals, drawn as a pipe */
+.ax-pipe { display: flex; align-items: stretch; margin-top: 26px; }
+.ax-stage {
+  flex: 1;
+  background: var(--plate);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 16px 12px;
+  text-align: center;
+}
+.ax-stage-no {
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  margin: 0 auto 10px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--ink);
+}
+.ax-stage-title { font-size: 11.5px; font-weight: 500; letter-spacing: .1em; color: var(--ink); }
+.ax-stage-sub { font-family: var(--disp); font-size: 12px; color: var(--muted); margin-top: 6px; }
+.ax-pipe-seg { position: relative; width: 44px; align-self: center; height: 1px; background: var(--rule-firm); flex-shrink: 0; }
+.ax-pipe-dot {
+  position: absolute; top: -2.5px; left: 0; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--ink); animation: ax-travel 2.1s linear infinite;
+}
+@keyframes ax-travel { from { left: -3px; opacity: 0 } 12% { opacity: 1 } 88% { opacity: 1 } to { left: 40px; opacity: 0 } }
+
+/* RELATED WORK */
+.related-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.related-main {
+  background: var(--plate);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 26px;
+  box-shadow: 4px 4px 0 rgba(32,30,24,.06);
+}
+.related-kicker {
+  font-size: 10px;
+  color: var(--faint);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.related-title {
+  font-family: var(--disp);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+.related-desc {
+  font-family: var(--disp);
+  font-size: 14px;
+  color: var(--prose-2);
+  line-height: 1.65;
+  margin-bottom: 22px;
+}
+.related-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 26px; }
+.related-list div {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 11.5px;
+  color: var(--body);
+}
+.related-list span { color: var(--purple); }
+.related-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-size: 12px;
+  letter-spacing: .06em;
+  text-decoration: none;
+  transition: background .2s, color .2s;
+}
+.related-cta:hover { background: var(--ink); color: var(--paper); }
+
+.related-side { display: flex; flex-direction: column; gap: 12px; }
+.related-panel {
+  background: var(--plate);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+.related-panel.grow { flex: 1; }
+.related-row {
+  display: flex;
   justify-content: space-between;
-  max-width: 1100px;
-  margin: 0 auto;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dotted var(--rule);
+}
+.related-row:last-child { border-bottom: none; }
+.related-row .k { font-family: var(--disp); font-size: 13px; color: var(--prose-2); }
+.related-row .v { font-size: 11px; color: var(--ink); text-align: right; }
+.chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  font-size: 10.5px;
+  padding: 5px 10px;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule-firm);
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.chip::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--c, var(--ink));
 }
 
-.footer-note {
-  font-family: 'DM Mono', monospace;
+/* FOOTER — colophon */
+.footer {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 58px 26px 90px;
+  border-top: 1px solid var(--rule-soft);
+}
+.colophon {
   font-size: 11px;
-  color: var(--text-dim);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 18px;
+}
+.principles {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  font-family: var(--disp);
+  font-size: 14px;
+  color: var(--body);
+}
+.mk { font-weight: 700; margin-right: 8px; }
+.footer-meta {
+  margin-top: 34px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+  letter-spacing: .04em;
 }
 
 /* SCROLLBAR */
-::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-/* ANIMATED CONNECTIONS */
-@keyframes flow-edge {
-  0% { stroke-dashoffset: 20; }
-  100% { stroke-dashoffset: 0; }
-}
-
-.flow-edge {
-  stroke-dasharray: 4 4;
-  animation: flow-edge 0.6s linear infinite;
-}
-
-/* PROGRESS BAR */
-.progress-track {
-  height: 2px;
-  background: var(--surface2);
-  border-radius: 2px;
-  margin-top: 8px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 2px;
-  width: 0%;
-  transition: width 0.4s ease;
-}
-
-.venue .progress-fill { background: var(--agent-venue); }
-.travel .progress-fill { background: var(--agent-travel); }
-.vendor .progress-fill { background: var(--agent-vendor); }
-.schedule .progress-fill { background: var(--agent-schedule); }
-
-/* GLOW BACKGROUNDS */
-.hero::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 600px;
-  height: 400px;
-  background: radial-gradient(ellipse at center, rgba(79,140,255,0.06) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: -1;
-}
-
-.hero { position: relative; }
-
-/* KNOWLEDGE GRAPH TOOLTIP */
-.kg-tooltip {
-  position: absolute;
-  pointer-events: none;
-  background: rgba(14,16,25,0.95);
-  border: 1px solid var(--border-bright);
-  border-radius: 6px;
-  padding: 5px 10px;
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  color: var(--text-primary);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.15s;
-  z-index: 10;
-  transform: translate(12px, -50%);
-}
-
-.kg-tooltip.visible { opacity: 1; }
-
-/* KNOWLEDGE GRAPH INFO PANEL */
-.kg-info-panel {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  width: 220px;
-  background: rgba(14,16,25,0.96);
-  border: 1px solid var(--border-bright);
-  border-radius: 12px;
-  padding: 16px;
-  z-index: 10;
-  backdrop-filter: blur(12px);
-  animation: panel-in 0.2s ease;
-}
-
-@keyframes panel-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.kg-info-panel-type {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-
-.kg-info-panel-label {
-  font-family: 'Syne', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: var(--text-primary);
-}
-
-.kg-info-panel-detail {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.55;
-  margin-bottom: 10px;
-}
-
-.kg-info-panel-row {
-  display: flex;
-  justify-content: space-between;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  padding: 5px 0;
-  border-top: 1px solid rgba(255,255,255,0.04);
-  color: var(--text-secondary);
-}
-
-.kg-info-panel-row span:last-child {
-  color: var(--text-primary);
-}
-
-.kg-info-close {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  font-size: 14px;
-  cursor: pointer;
-  line-height: 1;
-  padding: 2px 4px;
-  transition: color 0.15s;
-}
-
-.kg-info-close:hover { color: var(--text-primary); }
+::-webkit-scrollbar-thumb { background: var(--rule-firm); border-radius: 1px; }
 
 /* ============================
    RESPONSIVE — TABLET (≤900px)
    ============================ */
 @media (max-width: 900px) {
-  .header {
-    padding: 16px 20px;
-    gap: 12px;
-  }
+  .header { padding: 12px 20px; gap: 12px; }
+  .header-nav { display: none; }
+  .status-pill { margin-left: auto; }
+  .logo-sub { display: none; }
 
-  .header-nav {
-    display: none;
-  }
+  .hero { padding: 60px 20px 40px; }
+  .hero-meta { grid-template-columns: repeat(2, 1fr); }
+  .meta-item:nth-child(3) { border-left: none; }
+  .meta-item:nth-child(n+3) { border-top: 1px solid var(--rule); }
 
-  .hero {
-    padding: 60px 20px 40px;
-  }
+  .section { padding: 48px 20px; }
 
-  .section {
-    padding: 32px 20px 60px;
-  }
+  .agents-grid { grid-template-columns: repeat(2, 1fr); }
+  .agent-card:nth-child(3) { border-left: none; }
+  .agent-card:nth-child(n+3) { border-top: 1px solid var(--rule); }
 
-  .agents-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .sim-wrapper { grid-template-columns: 1fr; }
+  #sim-canvas { height: 300px; }
 
-  .sim-wrapper {
-    grid-template-columns: 1fr;
-  }
+  .vendor-grid { grid-template-columns: repeat(2, 1fr); }
+  .output-grid { grid-template-columns: 1fr; }
+  .related-grid { grid-template-columns: 1fr; }
 
-  #sim-canvas {
-    height: 300px;
-  }
-
-  .vendor-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .output-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .approval-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .approval-actions {
-    width: 100%;
-    flex-wrap: wrap;
-  }
-
-  .btn-approve, .btn-revise {
-    flex: 1;
-    text-align: center;
-  }
-
-  footer > div,
-  .footer {
-    flex-direction: column;
-    gap: 8px;
-    padding: 20px;
-  }
+  .approval-bar { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .approval-actions { width: 100%; flex-wrap: wrap; }
+  .btn-approve, .btn-revise { flex: 1; text-align: center; }
 }
 
 /* ============================
    RESPONSIVE — MOBILE (≤540px)
    ============================ */
 @media (max-width: 540px) {
-  .header {
-    padding: 14px 16px;
-  }
+  .header { padding: 12px 16px; }
+  .back-link { display: none; }
+  .logo-brand { font-size: 14px; }
+  .status-pill { font-size: 9px; padding: 4px 8px; }
 
-  .logo {
-    font-size: 11px;
-  }
+  .hero { padding: 44px 16px 32px; }
+  .hero-desc { font-size: 16px; }
+  .meta-value { font-size: 22px; }
 
-  .status-pill {
-    font-size: 10px;
-    padding: 4px 10px;
-  }
+  .section { padding: 40px 16px; }
+  .section-head { flex-wrap: wrap; gap: 8px 14px; }
+  .section-title { font-size: 22px; width: 100%; }
+  .section-sub { font-size: 15px; }
 
-  .hero {
-    padding: 48px 16px 32px;
-  }
+  .agents-grid { grid-template-columns: 1fr; }
+  .agent-card { border-left: none !important; border-top: 1px solid var(--rule); }
+  .agent-card:first-child { border-top: none; }
 
-  .hero h1 {
-    font-size: clamp(32px, 10vw, 48px);
-  }
-
-  .hero-desc {
-    font-size: 15px;
-  }
-
-  .hero-meta {
-    gap: 20px;
-  }
-
-  .section {
-    padding: 24px 16px 48px;
-  }
-
-  .section-title {
-    font-size: 22px;
-  }
-
-  .agents-grid {
-    grid-template-columns: 1fr;
-  }
-
-  #knowledge-graph {
-    height: 320px;
-  }
-
+  #knowledge-graph { height: 340px; }
   .graph-legend {
     position: static;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 6px;
-    margin: 0 12px 12px;
+    gap: 6px 12px;
+    margin: 0;
     background: transparent;
     border: none;
-    padding: 0;
+    border-top: 1px solid var(--rule);
+    padding: 12px 14px;
   }
+  .legend-title { width: 100%; }
+  .kg-info-panel { left: 10px; right: 10px; width: auto; bottom: 10px; }
 
-  .sim-controls {
-    gap: 10px;
-  }
+  #sim-canvas { height: 260px; }
+  .vendor-grid { grid-template-columns: 1fr; }
 
-  #sim-canvas {
-    height: 240px;
-  }
+  .ax-pipe { flex-direction: column; }
+  .ax-pipe-seg { width: 1px; height: 26px; align-self: center; }
+  .ax-pipe-dot { display: none; }
 
-  .vendor-grid {
-    grid-template-columns: 1fr;
-  }
+  .approval-bar { padding: 16px; }
+  .btn-approve, .btn-revise { padding: 10px 14px; font-size: 11px; }
 
-  .output-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .approval-bar {
-    padding: 16px;
-  }
-
-  .btn-approve, .btn-revise {
-    padding: 10px 16px;
-    font-size: 12px;
-  }
-
-  footer {
-    padding: 20px 16px !important;
-  }
-
-  footer > div {
-    flex-direction: column;
-    gap: 8px;
-  }
+  .footer { padding: 44px 16px 70px; }
+  .tip { width: 210px; }
 }
-
 </style>
 </head>
 
@@ -1104,33 +1231,42 @@ body::before {
 
 <!-- HEADER -->
 <header class="header">
-  <a href="/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-secondary);text-decoration:none;opacity:0.6;transition:opacity 0.2s;white-space:nowrap;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">← atharux.com</a>
-  <div class="logo"> <span>//</span> Event Infrastructure</div>
+  <a href="/" class="back-link">← atharux.com</a>
+  <div class="logo">
+    <span class="logo-brand">Coordination</span>
+    <span class="logo-sub">Tabula · a field guide</span>
+  </div>
   <nav class="header-nav">
     <a href="#agents">Agents</a>
-    <a href="#graph">Knowledge Graph</a>
+    <a href="#graph">Graph</a>
     <a href="#simulation">Simulation</a>
     <a href="#vendors">Marketplace</a>
-    <a href="#casestudy">Case Study</a>
-    <a href="#output">Planning Output</a>
+    <a href="#output">Plan</a>
+    <a href="#casestudy">Related</a>
   </nav>
   <div class="status-pill">
     <div class="status-dot"></div>
-    System Online
+    Live simulation
   </div>
 </header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-eyebrow">Speculative Infrastructure Design</div>
+<!-- HERO — FRONTISPIECE -->
+<section class="hero" data-reveal>
+  <div class="kicker">Frontispiece · Speculative Infrastructure Design</div>
   <h1>
     Multi-Agent<br>
     <span class="highlight">Coordination Layer</span><br>
     for Events Operations
   </h1>
   <p class="hero-desc">
-    A systems-level exploration of how AI agent networks can coordinate distributed scientific gatherings — venues, travel, vendors, and schedules — while preserving human oversight at every decision point.
+    A systems-level exploration of how AI agent networks can coordinate distributed scientific gatherings — venues, travel, vendors, and schedules — while preserving
+    <span class="term" tabindex="0">human oversight<span class="tip" role="tooltip">A person reviews and approves the plan before anything executes. The agents propose; they never decide on their own.</span></span>
+    at every decision point.
   </p>
+  <p class="hero-point">
+    The point: each agent owns a constrained domain, and coordination runs through a shared knowledge graph — so the work between domains finally has an owner.
+  </p>
+  <div class="hero-rule"></div>
   <div class="hero-meta">
     <div class="meta-item">
       <span class="meta-label">Agents</span>
@@ -1146,160 +1282,199 @@ body::before {
     </div>
     <div class="meta-item">
       <span class="meta-label">Domain</span>
-      <span class="meta-value" style="font-size:15px;padding-top:4px">Event Ops</span>
+      <span class="meta-value" style="font-size:17px;padding-top:6px">Event Ops</span>
     </div>
   </div>
+  <div class="hero-foot">Plates I – VI · a coordination-layer concept, not a product</div>
 </section>
 
-<hr class="divider">
-
-<!-- AGENTS SECTION -->
-<section class="section" id="agents">
-  <div class="section-label">Architecture</div>
-  <div class="section-title">Specialized Planning Agents</div>
-  <div class="section-sub">Each agent operates on a constrained domain. Coordination happens through a shared knowledge graph.</div>
+<!-- PLATE I — AGENTS -->
+<section class="section" id="agents" data-reveal>
+  <div class="section-head">
+    <span class="section-label">Plate I</span>
+    <span class="section-rule"></span>
+    <h2 class="section-title">Specialized Planning Agents</h2>
+  </div>
+  <p class="section-sub">
+    Each agent operates on a constrained domain. Coordination happens through a shared
+    <span class="term" tabindex="0">knowledge graph<span class="tip" role="tooltip">Data modelled as nodes (things) and edges (the relationships between them), rather than rows in tables.</span></span>.
+    No agent works outside its domain — which is what makes each one's output checkable.
+  </p>
 
   <div class="agents-grid">
 
     <div class="agent-card venue" id="card-venue">
-      <div class="agent-icon">🏛</div>
+      <div class="agent-icon"></div>
+      <div class="agent-fig">Fig. a</div>
       <div class="agent-name">Venue Agent</div>
       <div class="agent-desc">Queries capacity, availability, and accessibility constraints. Cross-checks participant counts and accessibility needs.</div>
       <div class="progress-track"><div class="progress-fill" id="prog-venue"></div></div>
-      <div class="agent-status" style="margin-top:10px">
+      <div class="agent-status" style="margin-top:12px">
         <div class="agent-dot venue-dot"></div>
         <span class="agent-status-text" id="status-venue">Standby</span>
       </div>
     </div>
 
     <div class="agent-card travel" id="card-travel">
-      <div class="agent-icon">✈️</div>
+      <div class="agent-icon"></div>
+      <div class="agent-fig">Fig. b</div>
       <div class="agent-name">Travel Agent</div>
       <div class="agent-desc">Optimizes arrival clustering, ground transport, and CO₂ impact scoring across participant origin points.</div>
       <div class="progress-track"><div class="progress-fill" id="prog-travel"></div></div>
-      <div class="agent-status" style="margin-top:10px">
+      <div class="agent-status" style="margin-top:12px">
         <div class="agent-dot travel-dot"></div>
         <span class="agent-status-text" id="status-travel">Standby</span>
       </div>
     </div>
 
     <div class="agent-card vendor" id="card-vendor">
-      <div class="agent-icon">🛒</div>
+      <div class="agent-icon"></div>
+      <div class="agent-fig">Fig. c</div>
       <div class="agent-name">Vendor Agent</div>
       <div class="agent-desc">Bundles catering, AV, and facilities. Negotiates package constraints against budget envelope.</div>
       <div class="progress-track"><div class="progress-fill" id="prog-vendor"></div></div>
-      <div class="agent-status" style="margin-top:10px">
+      <div class="agent-status" style="margin-top:12px">
         <div class="agent-dot vendor-dot"></div>
         <span class="agent-status-text" id="status-vendor">Standby</span>
       </div>
     </div>
 
     <div class="agent-card schedule" id="card-schedule">
-      <div class="agent-icon">🗓</div>
+      <div class="agent-icon"></div>
+      <div class="agent-fig">Fig. d</div>
       <div class="agent-name">Schedule Agent</div>
       <div class="agent-desc">Generates conflict-free agenda drafts. Integrates timezone offsets, speaker availability, and session dependencies.</div>
       <div class="progress-track"><div class="progress-fill" id="prog-schedule"></div></div>
-      <div class="agent-status" style="margin-top:10px">
+      <div class="agent-status" style="margin-top:12px">
         <div class="agent-dot schedule-dot"></div>
         <span class="agent-status-text" id="status-schedule">Standby</span>
       </div>
     </div>
 
   </div>
+  <div class="fig">Fig. 1 — The four agents (a–d). Each hue marks one agent across every plate that follows.</div>
 </section>
 
-<hr class="divider">
-
-<!-- KNOWLEDGE GRAPH -->
-<section class="section" id="graph">
-  <div class="section-label">Graph Structure</div>
-  <div class="section-title">Coordination Knowledge Graph</div>
-  <div class="section-sub">Live-rendered entity relationships. Nodes represent participants, venues, vendors, and constraints. Edges are weighted by dependency strength.</div>
-
-  <div class="graph-container">
-    <canvas id="knowledge-graph"></canvas>
-    <div id="kg-tooltip" class="kg-tooltip"></div>
-    <div id="kg-info-panel" class="kg-info-panel" style="display:none">
-      <button class="kg-info-close" onclick="deselectKGNode()">✕</button>
-      <div class="kg-info-panel-type" id="kgp-type"></div>
-      <div class="kg-info-panel-label" id="kgp-label"></div>
-      <div class="kg-info-panel-detail" id="kgp-detail"></div>
-      <div class="kg-info-panel-row"><span>Agent</span><span id="kgp-agent"></span></div>
-      <div class="kg-info-panel-row"><span>Connections</span><span id="kgp-conns"></span></div>
-    </div>
-    <div class="graph-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:var(--accent-cyan)"></div>Event Core</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--agent-venue)"></div>Venue</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--agent-travel)"></div>Travel / Lodging</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--agent-vendor)"></div>Vendor</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--agent-schedule)"></div>Schedule</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div>Participant</div>
-    </div>
+<!-- PLATE II — KNOWLEDGE GRAPH -->
+<section class="section" id="graph" data-reveal>
+  <div class="section-head">
+    <span class="section-label">Plate II</span>
+    <span class="section-rule"></span>
+    <h2 class="section-title">Coordination Knowledge Graph</h2>
   </div>
+  <p class="section-sub">
+    Live-rendered entity relationships. Nodes represent participants, venues, vendors, and constraints.
+    <span class="term" tabindex="0">Edges<span class="tip" role="tooltip">An edge is a link between two nodes. Here its weight is dependency strength: how much one part of the plan leans on the other.</span></span>
+    are weighted by dependency strength — the heavier the line, the more one decision constrains the other.
+    <b>Select any node</b> to read its record.
+  </p>
+
+  <figure style="margin:0">
+    <div class="graph-container">
+      <canvas id="knowledge-graph"></canvas>
+      <div id="kg-tooltip" class="kg-tooltip"></div>
+      <div id="kg-info-panel" class="kg-info-panel" style="display:none">
+        <button class="kg-info-close" onclick="deselectKGNode()" aria-label="Close">✕</button>
+        <div class="kg-info-panel-type" id="kgp-type"></div>
+        <div class="kg-info-panel-label" id="kgp-label"></div>
+        <div class="kg-info-panel-detail" id="kgp-detail"></div>
+        <div class="kg-info-panel-row"><span>Agent</span><span id="kgp-agent"></span></div>
+        <div class="kg-info-panel-row"><span>Connections</span><span id="kgp-conns"></span></div>
+      </div>
+      <div class="graph-legend">
+        <div class="legend-title">Key</div>
+        <div class="legend-item"><div class="legend-dot" style="color:var(--ink)"></div>Event Core</div>
+        <div class="legend-item"><div class="legend-dot" style="color:var(--agent-venue)"></div>Venue</div>
+        <div class="legend-item"><div class="legend-dot" style="color:var(--agent-travel)"></div>Travel / Lodging</div>
+        <div class="legend-item"><div class="legend-dot" style="color:var(--agent-vendor)"></div>Vendor</div>
+        <div class="legend-item"><div class="legend-dot" style="color:var(--agent-schedule)"></div>Schedule</div>
+        <div class="legend-item"><div class="legend-dot" style="color:var(--muted)"></div>Participant</div>
+      </div>
+    </div>
+    <figcaption class="fig">Fig. 2 — The coordination graph around one event. Line weight is dependency strength.</figcaption>
+  </figure>
 </section>
 
-<hr class="divider">
+<!-- PLATE III — SIMULATION -->
+<section class="section" id="simulation" data-reveal>
+  <div class="section-head">
+    <span class="section-label">Plate III</span>
+    <span class="section-rule"></span>
+    <h2 class="section-title">Live Agent Coordination Simulation</h2>
+  </div>
+  <p class="section-sub">
+    Add participants, trigger agent workflows, observe coordination in real time. <b>Inject a constraint</b> —
+    a wheelchair-access requirement, a budget cut, a speaker who can't make Day 2 — and watch which agent it lands on.
+  </p>
 
-<!-- SIMULATION -->
-<section class="section" id="simulation">
-  <div class="section-label">Interactive</div>
-  <div class="section-title">Live Agent Coordination Simulation</div>
-  <div class="section-sub">Add participants, trigger agent workflows, observe coordination in real time.</div>
+  <figure style="margin:0">
+    <div class="sim-wrapper">
 
-  <div class="sim-wrapper">
+      <div class="sim-canvas-wrap">
+        <canvas id="sim-canvas"></canvas>
+      </div>
 
-    <div class="sim-canvas-wrap">
-      <canvas id="sim-canvas"></canvas>
-    </div>
+      <div class="sim-controls">
 
-    <div class="sim-controls">
-
-      <div class="sim-panel">
-        <div class="sim-panel-title">Controls</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <button class="ctrl-btn" onclick="addParticipant()">➕ &nbsp;Add Participant</button>
-          <button class="ctrl-btn primary" onclick="runFullCoordination()">▶ &nbsp;Run Coordination</button>
-          <button class="ctrl-btn" onclick="addConstraint()">⚠️ &nbsp;Inject Constraint</button>
-          <button class="ctrl-btn" onclick="resetSim()">↺ &nbsp;Reset Simulation</button>
+        <div class="sim-panel">
+          <div class="sim-panel-title">Controls</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button class="ctrl-btn primary" onclick="runFullCoordination()"><span class="ctrl-glyph">▶</span>Run Coordination</button>
+            <button class="ctrl-btn" onclick="addParticipant()"><span class="ctrl-glyph">+</span>Add Participant</button>
+            <button class="ctrl-btn" onclick="addConstraint()"><span class="ctrl-glyph">!</span>Inject Constraint</button>
+            <button class="ctrl-btn" onclick="resetSim()"><span class="ctrl-glyph">↺</span>Reset Simulation</button>
+          </div>
         </div>
-      </div>
 
-      <div class="sim-panel" style="flex:1;min-height:0;">
-        <div class="sim-panel-title">Activity Log</div>
-        <div class="log-area" id="activity-log"></div>
+        <div class="sim-panel" style="flex:1;min-height:0;">
+          <div class="sim-panel-title">Activity Log</div>
+          <div class="log-area" id="activity-log" aria-live="polite"></div>
+        </div>
+
       </div>
 
     </div>
-
-  </div>
+    <figcaption class="fig">Fig. 3 — This one is live. Messages flow from each agent to the event core as it works; nothing is booked or sent.</figcaption>
+  </figure>
 </section>
 
-<hr class="divider">
-
-<!-- VENDOR MARKETPLACE -->
-<section class="section" id="vendors">
-  <div class="section-label">Vendor Marketplace</div>
-  <div class="section-title">Simulated Vendor Ecosystem</div>
-  <div class="section-sub">Agent-surfaced vendor options. Select to build a procurement package. Scores are AI-generated composites of price, fit, and availability.</div>
+<!-- PLATE IV — VENDOR MARKETPLACE -->
+<section class="section" id="vendors" data-reveal>
+  <div class="section-head">
+    <span class="section-label">Plate IV</span>
+    <span class="section-rule"></span>
+    <h2 class="section-title">Simulated Vendor Ecosystem</h2>
+  </div>
+  <p class="section-sub">
+    Agent-surfaced vendor options. Select to build a procurement package. Scores are AI-generated
+    <span class="term" tabindex="0">composites<span class="tip" role="tooltip">One number blended from several: price, fit to the event's constraints, and availability on the dates.</span></span>
+    of price, fit, and availability.
+  </p>
 
   <div class="vendor-grid" id="vendor-grid">
   </div>
+  <div class="fig">Fig. 4 — Nine specimens, drawn from the Venue, Travel and Vendor agents. Your selection feeds the plan on Plate V.</div>
 </section>
 
-<hr class="divider">
-
-<!-- PLANNING OUTPUT -->
-<section class="section" id="output">
-  <div class="section-label">Planning Output</div>
-  <div class="section-title">Generated Event Plan</div>
-  <div class="section-sub">Synthesized output from all four agents. Ready for human review and approval.</div>
+<!-- PLATE V — PLANNING OUTPUT -->
+<section class="section" id="output" data-reveal>
+  <div class="section-head">
+    <span class="section-label">Plate V</span>
+    <span class="section-rule"></span>
+    <h2 class="section-title">Generated Event Plan</h2>
+  </div>
+  <p class="section-sub">
+    Synthesized output from all four agents. Ready for human review and approval. Three
+    <span class="term" tabindex="0">approval gates<span class="tip" role="tooltip">Checkpoints where the system stops and waits for a person. Nothing past a gate runs until someone signs it off.</span></span>
+    stand between a draft and anything that executes — <b>a person approves, then the agents execute, never the other way round.</b>
+  </p>
 
   <div class="output-grid">
 
     <div class="output-panel">
       <div class="output-header">
-        <span class="output-header-title">📅 3-Day Agenda Draft</span>
-        <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim)">SCHEDULE AGENT</span>
+        <span class="output-header-title">3-Day Agenda Draft</span>
+        <span class="output-header-by">SCHEDULE AGENT</span>
       </div>
       <div class="output-body">
         <div class="timeline-item">
@@ -1339,8 +1514,8 @@ body::before {
 
     <div class="output-panel">
       <div class="output-header">
-        <span class="output-header-title">📊 Logistics Summary</span>
-        <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim)">ALL AGENTS</span>
+        <span class="output-header-title">Logistics Summary</span>
+        <span class="output-header-by">ALL AGENTS</span>
       </div>
       <div class="output-body">
         <div class="stat-row">
@@ -1377,7 +1552,7 @@ body::before {
         </div>
         <div class="stat-row">
           <span class="stat-key">Approval Status</span>
-          <span class="stat-val" id="stat-approval" style="color:var(--text-secondary)">Pending</span>
+          <span class="stat-val" id="stat-approval" style="color:var(--muted)">Pending</span>
         </div>
       </div>
     </div>
@@ -1386,6 +1561,7 @@ body::before {
 
   <div class="approval-bar" id="approval-bar">
     <div class="approval-text">
+      <div class="approval-kicker">Human gate</div>
       <div class="approval-title">Ready for Human Review</div>
       <div class="approval-desc">All agent outputs synthesized. 0 unresolved conflicts. Awaiting organizer decision.</div>
     </div>
@@ -1396,72 +1572,81 @@ body::before {
     </div>
   </div>
 
+  <div class="ax-pipe" aria-label="The three approval gates">
+    <div class="ax-stage">
+      <div class="ax-stage-no">1</div>
+      <div class="ax-stage-title">AGENTS PROPOSE</div>
+      <div class="ax-stage-sub">each within its own domain</div>
+    </div>
+    <div class="ax-pipe-seg"><span class="ax-pipe-dot"></span></div>
+    <div class="ax-stage">
+      <div class="ax-stage-no">2</div>
+      <div class="ax-stage-title">SYNTHESIZE</div>
+      <div class="ax-stage-sub">one human-readable plan</div>
+    </div>
+    <div class="ax-pipe-seg"><span class="ax-pipe-dot"></span></div>
+    <div class="ax-stage">
+      <div class="ax-stage-no">3</div>
+      <div class="ax-stage-title">A PERSON APPROVES</div>
+      <div class="ax-stage-sub">only then do agents execute</div>
+    </div>
+  </div>
+  <div class="fig">Fig. 5 — Draft to execution. The gate is a hard stop, not a notification.</div>
+
 </section>
 
-<!-- NEUROFLOW CASE STUDY -->
-<hr class="divider">
+<!-- PLATE VI — RELATED WORK (NEUROFLOW CASE STUDY) -->
+<section class="section" id="casestudy" data-reveal>
+  <div class="section-head">
+    <span class="section-label">Plate VI</span>
+    <span class="section-rule"></span>
+    <h2 class="section-title">NeuroFlow — AI Execution Case Study</h2>
+  </div>
+  <p class="section-sub">A documented prompt engineering collaboration: security audit, knowledge graph, and comparative LLM analysis produced through structured JSON prompting.</p>
 
-<section class="section" id="casestudy">
-  <div class="section-label">Related Work</div>
-  <div class="section-title">NeuroFlow — AI Execution Case Study</div>
-  <div class="section-sub">A documented prompt engineering collaboration: security audit, knowledge graph, and comparative LLM analysis produced through structured JSON prompting.</div>
+  <div class="related-grid">
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent-violet),var(--accent-cyan));border-radius:16px 16px 0 0;"></div>
-      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:12px;">Case Study</div>
-      <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.01em;margin-bottom:10px;">Human–AI Execution Framework</div>
-      <div style="font-size:13px;color:var(--text-secondary);line-height:1.65;margin-bottom:24px;">
+    <div class="related-main">
+      <div class="related-kicker">Related work · Case Study</div>
+      <div class="related-title">Human–AI Execution Framework</div>
+      <div class="related-desc">
         How a 4-prompt JSON-structured conversation produced a full security audit, an interactive attack surface graph, and a cloud vs. local LLM comparison for the NeuroFlow app.
       </div>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:28px;">
-        <div style="display:flex;align-items:center;gap:10px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text-secondary);">
-          <span style="color:var(--accent-violet);">→</span> AI Contract · strict-mode execution rules
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text-secondary);">
-          <span style="color:var(--accent-violet);">→</span> Conversation Journey · prompt-by-prompt breakdown
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text-secondary);">
-          <span style="color:var(--accent-violet);">→</span> Security Knowledge Graph · D3.js force-directed
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text-secondary);">
-          <span style="color:var(--accent-violet);">→</span> Cloud vs. Local LLM · comparative analysis
-        </div>
+      <div class="related-list">
+        <div><span>→</span> AI Contract · strict-mode execution rules</div>
+        <div><span>→</span> Conversation Journey · prompt-by-prompt breakdown</div>
+        <div><span>→</span> Security Knowledge Graph · D3.js force-directed</div>
+        <div><span>→</span> Cloud vs. Local LLM · comparative analysis</div>
       </div>
-      <a href="https://atharux.com/cases/work-with-ai" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;background:rgba(155,107,255,0.1);border:1px solid rgba(155,107,255,0.35);color:var(--accent-violet);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.06em;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(155,107,255,0.18)'" onmouseout="this.style.background='rgba(155,107,255,0.1)'">
-        Open Case Study ↗
-      </a>
+      <a href="https://atharux.com/cases/work-with-ai" target="_blank" class="related-cta">Open Case Study ↗</a>
     </div>
 
-    <div style="display:flex;flex-direction:column;gap:12px;">
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;flex:1;">
-        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px;">Prompt Technique</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
-            <span style="color:var(--text-secondary);">Format</span>
-            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent-violet);">JSON Array Tuples</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
-            <span style="color:var(--text-secondary);">Guard Clause</span>
-            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent-cyan);">"before you proceed"</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
-            <span style="color:var(--text-secondary);">Prompts</span>
-            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-primary);">4</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:8px 0;">
-            <span style="color:var(--text-secondary);">Key Finding</span>
-            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent-green);">Local LLM wins 7/9</span>
-          </div>
+    <div class="related-side">
+      <div class="related-panel grow">
+        <div class="related-kicker">Prompt Technique</div>
+        <div class="related-row">
+          <span class="k">Format</span>
+          <span class="v" style="color:var(--purple)">JSON Array Tuples</span>
+        </div>
+        <div class="related-row">
+          <span class="k">Guard Clause</span>
+          <span class="v" style="color:var(--teal)">"before you proceed"</span>
+        </div>
+        <div class="related-row">
+          <span class="k">Prompts</span>
+          <span class="v">4</span>
+        </div>
+        <div class="related-row">
+          <span class="k">Key Finding</span>
+          <span class="v" style="color:var(--verdigris)">Local LLM wins 7/9</span>
         </div>
       </div>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
-        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px;">Artifacts Produced</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <span style="font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;background:rgba(155,107,255,0.08);border:1px solid rgba(155,107,255,0.2);color:var(--accent-violet);">AI Contract</span>
-          <span style="font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);color:var(--accent-cyan);">Security Graph</span>
-          <span style="font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);color:var(--accent-green);">Comparison Report</span>
+      <div class="related-panel">
+        <div class="related-kicker">Artifacts Produced</div>
+        <div class="chip-row">
+          <span class="chip" style="--c:var(--purple)">AI Contract</span>
+          <span class="chip" style="--c:var(--teal)">Security Graph</span>
+          <span class="chip" style="--c:var(--verdigris)">Comparison Report</span>
         </div>
       </div>
     </div>
@@ -1469,33 +1654,59 @@ body::before {
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer style="border-top:1px solid var(--border);padding:30px 40px;">
-  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;">
-    <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)">
-      AI Coordination Infrastructure · Research Events · Speculative Design 2026
-    </div>
-    <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)">
-      Not a product. A coordination layer concept.
-    </div>
+<!-- FOOTER — COLOPHON -->
+<footer class="footer" data-reveal>
+  <div class="colophon">Colophon</div>
+  <div class="principles">
+    <div><span class="mk" style="color:var(--teal)">·</span>Domain-scoped agents — no agent operates outside its domain</div>
+    <div><span class="mk" style="color:var(--verdigris)">·</span>Coordination through one shared graph, not agent-to-agent chatter</div>
+    <div><span class="mk" style="color:var(--ink)">·</span>A person approves before anything executes</div>
+  </div>
+  <div class="footer-meta">
+    <span>AI Coordination Infrastructure · Research Events · Speculative Design 2026</span>
+    <span>Not a product. A coordination layer concept.</span>
   </div>
 </footer>
 
 
 <script>
 // ============================
+// PLATE PALETTE (mirrors :root)
+// ============================
+const INK = '#201e18';
+const PAPER = '#f6f2e7';
+const RULE = '#ddd5c2';
+const MUTED = '#8b8677';
+const DIM = '#cfc7b5';
+
+// ============================
+// CANVAS HELPER — crisp hairlines on retina
+// ============================
+function sizeCanvas(canvas, cssHeight) {
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.parentElement.clientWidth;
+  const H = canvas.clientHeight || cssHeight;
+  canvas.width = Math.round(W * dpr);
+  canvas.height = Math.round(H * dpr);
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { W, H };
+}
+
+// ============================
 // KNOWLEDGE GRAPH
 // ============================
 const kgCanvas = document.getElementById('knowledge-graph');
 const kgCtx = kgCanvas.getContext('2d');
+let kgW = 0, kgH = 0;
 
 const NODE_TYPES = {
-  event:     { color: '#00d4ff', r: 28 },
-  venue:     { color: '#4f8cff', r: 20 },
-  travel:    { color: '#00d4ff', r: 18 },
-  vendor:    { color: '#9b6bff', r: 18 },
-  schedule:  { color: '#00e5a0', r: 18 },
-  person:    { color: '#ff6b6b', r: 12 }
+  event:     { color: INK,       r: 26 },
+  venue:     { color: '#2f7d84', r: 19 },
+  travel:    { color: '#6a5aa6', r: 17 },
+  vendor:    { color: '#b5622a', r: 17 },
+  schedule:  { color: '#4d7a46', r: 17 },
+  person:    { color: MUTED,     r: 11 }
 };
 
 let kgNodes = [];
@@ -1522,28 +1733,32 @@ const KG_NODE_INFO = {
 };
 
 function initKnowledgeGraph() {
-  const W = kgCanvas.parentElement.clientWidth;
-  const H = 480;
-  kgCanvas.width = W;
-  kgCanvas.height = H;
+  const size = sizeCanvas(kgCanvas, 480);
+  kgW = size.W;
+  kgH = size.H;
+  const W = kgW;
+  const H = kgH;
 
   const cx = W / 2;
   const cy = H / 2;
+  // Scale the layout down on narrow plates so nothing falls off the edge.
+  const sx = Math.min(1, (W - 140) / 680);
+  const sy = Math.min(1, (H - 60) / 640);
 
   kgNodes = [
-    { id: 'event',    label: 'Berlin Retreat',  type: 'event',    x: cx,        y: cy,        vx: 0, vy: 0 },
-    { id: 'venue1',   label: 'AXICA Berlin',    type: 'venue',    x: cx - 220,  y: cy - 100,  vx: 0, vy: 0 },
-    { id: 'venue2',   label: 'Radialsystem',    type: 'venue',    x: cx - 240,  y: cy + 60,   vx: 0, vy: 0 },
-    { id: 'hotel1',   label: 'Adagio Hotel',    type: 'travel',   x: cx - 120,  y: cy + 200,  vx: 0, vy: 0 },
-    { id: 'flights',  label: 'Lufthansa',       type: 'travel',   x: cx + 200,  y: cy - 160,  vx: 0, vy: 0 },
-    { id: 'catering', label: 'Spice Kitchen',   type: 'vendor',   x: cx + 220,  y: cy + 80,   vx: 0, vy: 0 },
-    { id: 'av',       label: 'AVTech Berlin',   type: 'vendor',   x: cx + 80,   y: cy + 200,  vx: 0, vy: 0 },
-    { id: 'agenda',   label: 'Agenda v1',       type: 'schedule', x: cx - 60,   y: cy - 200,  vx: 0, vy: 0 },
-    { id: 'tz',       label: 'Timezone Map',    type: 'schedule', x: cx + 160,  y: cy - 60,   vx: 0, vy: 0 },
-    { id: 'p1',       label: 'Participant A',   type: 'person',   x: cx - 320,  y: cy - 30,   vx: 0, vy: 0 },
-    { id: 'p2',       label: 'Participant B',   type: 'person',   x: cx + 320,  y: cy + 40,   vx: 0, vy: 0 },
-    { id: 'p3',       label: 'Participant C',   type: 'person',   x: cx + 10,   y: cy - 300,  vx: 0, vy: 0 },
-    { id: 'p4',       label: 'Participant D',   type: 'person',   x: cx - 80,   y: cy + 300,  vx: 0, vy: 0 },
+    { id: 'event',    label: 'Berlin Retreat',  type: 'event',    x: cx,              y: cy,              vx: 0, vy: 0 },
+    { id: 'venue1',   label: 'AXICA Berlin',    type: 'venue',    x: cx - 220 * sx,   y: cy - 100 * sy,   vx: 0, vy: 0 },
+    { id: 'venue2',   label: 'Radialsystem',    type: 'venue',    x: cx - 240 * sx,   y: cy + 60 * sy,    vx: 0, vy: 0 },
+    { id: 'hotel1',   label: 'Adagio Hotel',    type: 'travel',   x: cx - 120 * sx,   y: cy + 200 * sy,   vx: 0, vy: 0 },
+    { id: 'flights',  label: 'Lufthansa',       type: 'travel',   x: cx + 200 * sx,   y: cy - 160 * sy,   vx: 0, vy: 0 },
+    { id: 'catering', label: 'Spice Kitchen',   type: 'vendor',   x: cx + 220 * sx,   y: cy + 80 * sy,    vx: 0, vy: 0 },
+    { id: 'av',       label: 'AVTech Berlin',   type: 'vendor',   x: cx + 80 * sx,    y: cy + 200 * sy,   vx: 0, vy: 0 },
+    { id: 'agenda',   label: 'Agenda v1',       type: 'schedule', x: cx - 60 * sx,    y: cy - 200 * sy,   vx: 0, vy: 0 },
+    { id: 'tz',       label: 'Timezone Map',    type: 'schedule', x: cx + 160 * sx,   y: cy - 60 * sy,    vx: 0, vy: 0 },
+    { id: 'p1',       label: 'Participant A',   type: 'person',   x: cx - 320 * sx,   y: cy - 30 * sy,    vx: 0, vy: 0 },
+    { id: 'p2',       label: 'Participant B',   type: 'person',   x: cx + 320 * sx,   y: cy + 40 * sy,    vx: 0, vy: 0 },
+    { id: 'p3',       label: 'Participant C',   type: 'person',   x: cx + 10 * sx,    y: cy - 300 * sy,   vx: 0, vy: 0 },
+    { id: 'p4',       label: 'Participant D',   type: 'person',   x: cx - 80 * sx,    y: cy + 300 * sy,   vx: 0, vy: 0 },
   ];
 
   kgEdges = [
@@ -1583,12 +1798,20 @@ function kgHitTest(mx, my) {
   return null;
 }
 
-function kgOnMouseMove(e) {
+function kgPointer(e) {
   const rect = kgCanvas.getBoundingClientRect();
-  const scaleX = kgCanvas.width / rect.width;
-  const scaleY = kgCanvas.height / rect.height;
-  const mx = (e.clientX - rect.left) * scaleX;
-  const my = (e.clientY - rect.top)  * scaleY;
+  const scaleX = kgW / rect.width;
+  const scaleY = kgH / rect.height;
+  return {
+    mx: (e.clientX - rect.left) * scaleX,
+    my: (e.clientY - rect.top) * scaleY,
+    scaleX,
+    scaleY
+  };
+}
+
+function kgOnMouseMove(e) {
+  const { mx, my, scaleX, scaleY } = kgPointer(e);
 
   const hit = kgHitTest(mx, my);
   kgHoveredNode = hit;
@@ -1596,13 +1819,10 @@ function kgOnMouseMove(e) {
 
   const tooltip = document.getElementById('kg-tooltip');
   if (hit) {
-    // Position relative to canvas element (not scaled coords)
-    const rx = (hit.x / scaleX) + (rect.left - kgCanvas.getBoundingClientRect().left);
-    const ry = (hit.y / scaleY);
     tooltip.style.left = (hit.x / scaleX + 14) + 'px';
     tooltip.style.top  = (hit.y / scaleY) + 'px';
     tooltip.textContent = hit.label;
-    tooltip.style.borderColor = NODE_TYPES[hit.type].color + '66';
+    tooltip.style.borderColor = NODE_TYPES[hit.type].color;
     tooltip.classList.add('visible');
   } else {
     tooltip.classList.remove('visible');
@@ -1616,16 +1836,13 @@ function kgOnMouseLeave() {
 }
 
 function kgOnClick(e) {
-  const rect = kgCanvas.getBoundingClientRect();
-  const scaleX = kgCanvas.width / rect.width;
-  const scaleY = kgCanvas.height / rect.height;
-  const mx = (e.clientX - rect.left) * scaleX;
-  const my = (e.clientY - rect.top)  * scaleY;
+  const { mx, my } = kgPointer(e);
 
   const hit = kgHitTest(mx, my);
   if (!hit) { deselectKGNode(); return; }
   if (kgSelectedNode && kgSelectedNode.id === hit.id) { deselectKGNode(); return; }
 
+  if (kgSelectedNode) kgSelectedNode.pinned = false;
   kgSelectedNode = hit;
   hit.pinned = true;
 
@@ -1641,7 +1858,7 @@ function kgOnClick(e) {
   document.getElementById('kgp-agent').textContent  = info.agent;
   document.getElementById('kgp-conns').textContent  = info.conns;
   panel.style.display = 'block';
-  panel.style.borderColor = color + '44';
+  panel.style.borderColor = color;
 }
 
 function deselectKGNode() {
@@ -1650,24 +1867,51 @@ function deselectKGNode() {
   document.getElementById('kg-info-panel').style.display = 'none';
 }
 
+function drawPaperGrid(ctx, W, H, step) {
+  ctx.strokeStyle = 'rgba(32,30,24,0.045)';
+  ctx.lineWidth = 1;
+  for (let x = step; x < W; x += step) {
+    ctx.beginPath(); ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, H); ctx.stroke();
+  }
+  for (let y = step; y < H; y += step) {
+    ctx.beginPath(); ctx.moveTo(0, y + 0.5); ctx.lineTo(W, y + 0.5); ctx.stroke();
+  }
+}
+
+// Specimen node: outer ring, faint inner ring, ink dot — the Orbit plate glyph.
+function drawSpecimen(ctx, x, y, r, color, opts) {
+  const o = opts || {};
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fillStyle = PAPER;
+  ctx.fill();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = o.bold ? 2 : 1.4;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(x, y, r * 0.6, 0, Math.PI * 2);
+  ctx.strokeStyle = color;
+  ctx.globalAlpha = (o.alpha == null ? 1 : o.alpha) * 0.45;
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.globalAlpha = o.alpha == null ? 1 : o.alpha;
+
+  ctx.beginPath();
+  ctx.arc(x, y, Math.max(1.8, r * 0.14), 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+}
+
 function renderKG() {
   kgT += 0.008;
-  const W = kgCanvas.width;
-  const H = kgCanvas.height;
+  const W = kgW;
+  const H = kgH;
 
   kgCtx.clearRect(0, 0, W, H);
+  drawPaperGrid(kgCtx, W, H, 60);
 
-  // Subtle grid
-  kgCtx.strokeStyle = 'rgba(255,255,255,0.02)';
-  kgCtx.lineWidth = 1;
-  for (let x = 0; x < W; x += 60) {
-    kgCtx.beginPath(); kgCtx.moveTo(x, 0); kgCtx.lineTo(x, H); kgCtx.stroke();
-  }
-  for (let y = 0; y < H; y += 60) {
-    kgCtx.beginPath(); kgCtx.moveTo(0, y); kgCtx.lineTo(W, y); kgCtx.stroke();
-  }
-
-  // Apply gentle force-directed drift (skip pinned/selected nodes)
+  // Apply gentle drift (skip pinned/selected nodes)
   kgNodes.forEach(n => {
     if (n.type === 'event') return;
     if (n.pinned) return;
@@ -1683,7 +1927,7 @@ function renderKG() {
     });
   }
 
-  // Draw edges
+  // Draw edges — ink hairlines, dashed and flowing
   kgEdges.forEach((e, i) => {
     const a = kgNodes.find(n => n.id === e.from);
     const b = kgNodes.find(n => n.id === e.to);
@@ -1692,82 +1936,60 @@ function renderKG() {
     const isHighlighted = selectedEdgeSet.has(i);
     const isDimmed = kgSelectedNode && !isHighlighted;
 
-    const pulse = (Math.sin(kgT * 3 + e.strength * 10) + 1) / 2;
-    let alpha = 0.1 + pulse * 0.12 * e.strength;
-    if (isHighlighted) alpha = 0.7;
-    if (isDimmed) alpha = 0.03;
+    let alpha = 0.18 + e.strength * 0.22;
+    if (isHighlighted) alpha = 0.85;
+    if (isDimmed) alpha = 0.07;
 
     kgCtx.beginPath();
-    kgCtx.strokeStyle = isHighlighted ? `rgba(0,212,255,${alpha})` : `rgba(120,150,255,${alpha})`;
-    kgCtx.lineWidth = isHighlighted ? 2 : e.strength * 1.5;
-    kgCtx.setLineDash([4, 6]);
+    kgCtx.strokeStyle = isHighlighted ? NODE_TYPES[kgSelectedNode.type].color : INK;
+    kgCtx.globalAlpha = alpha;
+    kgCtx.lineWidth = isHighlighted ? 1.6 : 0.6 + e.strength * 0.9;
+    kgCtx.setLineDash([3, 5]);
     kgCtx.lineDashOffset = -kgT * 8;
     kgCtx.moveTo(a.x, a.y);
     kgCtx.lineTo(b.x, b.y);
     kgCtx.stroke();
     kgCtx.setLineDash([]);
+    kgCtx.globalAlpha = 1;
   });
 
   // Draw nodes
   kgNodes.forEach(n => {
     const t = NODE_TYPES[n.type];
-    const pulse = (Math.sin(kgT * 2 + n.x * 0.01) + 1) / 2;
     const isSelected = kgSelectedNode && kgSelectedNode.id === n.id;
     const isHovered  = kgHoveredNode  && kgHoveredNode.id  === n.id;
-    const isDimmed   = kgSelectedNode && !isSelected;
+    const isDimmed   = kgSelectedNode && !isSelected && !kgEdges.some(e =>
+      (e.from === kgSelectedNode.id && e.to === n.id) || (e.to === kgSelectedNode.id && e.from === n.id));
 
-    kgCtx.globalAlpha = isDimmed ? 0.3 : 1;
+    const color = isDimmed ? DIM : t.color;
 
-    // Glow
-    const grd = kgCtx.createRadialGradient(n.x, n.y, 0, n.x, n.y, t.r * 3);
-    grd.addColorStop(0, t.color + (isSelected ? '44' : '22'));
-    grd.addColorStop(1, 'transparent');
-    kgCtx.beginPath();
-    kgCtx.arc(n.x, n.y, t.r * 3, 0, Math.PI * 2);
-    kgCtx.fillStyle = grd;
-    kgCtx.fill();
-
-    // Selection / hover outer ring
+    // Selection / hover ring — dotted, like a pencil circle on the plate
     if (isSelected) {
       kgCtx.beginPath();
-      kgCtx.arc(n.x, n.y, t.r + 7 + Math.sin(kgT * 4) * 2, 0, Math.PI * 2);
-      kgCtx.strokeStyle = t.color + 'aa';
-      kgCtx.lineWidth = 1.5;
-      kgCtx.setLineDash([3, 4]);
+      kgCtx.arc(n.x, n.y, t.r + 7 + Math.sin(kgT * 4) * 1.5, 0, Math.PI * 2);
+      kgCtx.strokeStyle = t.color;
+      kgCtx.lineWidth = 1;
+      kgCtx.setLineDash([2, 3]);
       kgCtx.stroke();
       kgCtx.setLineDash([]);
     } else if (isHovered) {
       kgCtx.beginPath();
       kgCtx.arc(n.x, n.y, t.r + 5, 0, Math.PI * 2);
-      kgCtx.strokeStyle = t.color + '55';
+      kgCtx.strokeStyle = t.color;
+      kgCtx.globalAlpha = 0.5;
       kgCtx.lineWidth = 1;
       kgCtx.stroke();
+      kgCtx.globalAlpha = 1;
     }
 
-    // Node circle
-    kgCtx.beginPath();
-    kgCtx.arc(n.x, n.y, t.r, 0, Math.PI * 2);
-    kgCtx.fillStyle = '#13151f';
-    kgCtx.fill();
-    kgCtx.strokeStyle = isSelected ? t.color : (isHovered ? t.color + 'dd' : t.color);
-    kgCtx.lineWidth = isSelected ? 2.5 : (1.5 + pulse * 0.5);
-    kgCtx.stroke();
-
-    // Inner dot
-    kgCtx.beginPath();
-    kgCtx.arc(n.x, n.y, t.r * 0.35, 0, Math.PI * 2);
-    kgCtx.fillStyle = t.color;
-    kgCtx.globalAlpha = isDimmed ? 0.3 : (0.6 + pulse * 0.4);
-    kgCtx.fill();
-    kgCtx.globalAlpha = 1;
+    drawSpecimen(kgCtx, n.x, n.y, t.r, color, { bold: isSelected });
 
     // Label
-    kgCtx.globalAlpha = isDimmed ? 0.2 : 1;
-    kgCtx.font = `${isSelected ? 'bold ' : ''}11px "DM Mono", monospace`;
-    kgCtx.fillStyle = isSelected ? 'rgba(220,225,255,1)' : 'rgba(220,225,255,0.7)';
-    kgCtx.textAlign = 'center';
-    kgCtx.fillText(n.label, n.x, n.y + t.r + 14);
     kgCtx.globalAlpha = 1;
+    kgCtx.font = `${isSelected ? '500 ' : ''}11px "DM Mono", monospace`;
+    kgCtx.fillStyle = isDimmed ? DIM : INK;
+    kgCtx.textAlign = 'center';
+    kgCtx.fillText(n.label, n.x, n.y + t.r + 15);
   });
 
   kgAnimFrame = requestAnimationFrame(renderKG);
@@ -1779,6 +2001,7 @@ function renderKG() {
 // ============================
 const simCanvas = document.getElementById('sim-canvas');
 const simCtx = simCanvas.getContext('2d');
+let simW = 0, simH = 0;
 
 let simParticipants = [];
 let simAgentParticles = [];
@@ -1788,20 +2011,20 @@ let simAnimFrame;
 let participantCount = 0;
 
 const SIM_AGENTS = [
-  { id: 'venue',    label: 'Venue',    color: '#4f8cff', x: 0, y: 0 },
-  { id: 'travel',   label: 'Travel',   color: '#00d4ff', x: 0, y: 0 },
-  { id: 'vendor',   label: 'Vendor',   color: '#9b6bff', x: 0, y: 0 },
-  { id: 'schedule', label: 'Schedule', color: '#00e5a0', x: 0, y: 0 },
+  { id: 'venue',    label: 'Venue',    color: '#2f7d84', x: 0, y: 0 },
+  { id: 'travel',   label: 'Travel',   color: '#6a5aa6', x: 0, y: 0 },
+  { id: 'vendor',   label: 'Vendor',   color: '#b5622a', x: 0, y: 0 },
+  { id: 'schedule', label: 'Schedule', color: '#4d7a46', x: 0, y: 0 },
 ];
 
 function initSim() {
-  const W = simCanvas.parentElement.clientWidth;
-  simCanvas.width = W;
-  simCanvas.height = 400;
+  const size = sizeCanvas(simCanvas, 400);
+  simW = size.W;
+  simH = size.H;
 
-  const cx = W / 2;
-  const cy = 200;
-  const r = 130;
+  const cx = simW / 2;
+  const cy = simH / 2;
+  const r = Math.min(130, simH / 2 - 50, simW / 2 - 50);
 
   SIM_AGENTS.forEach((a, i) => {
     const angle = (i / SIM_AGENTS.length) * Math.PI * 2 - Math.PI / 2;
@@ -1809,56 +2032,53 @@ function initSim() {
     a.y = cy + Math.sin(angle) * r;
   });
 
+  // Keep participants and in-flight messages aimed at the new centre after a resize.
+  simParticipants.forEach(p => {
+    p.x = Math.min(Math.max(p.x, 20), simW - 20);
+    p.y = Math.min(Math.max(p.y, 20), simH - 20);
+  });
+  simAgentParticles = [];
+
   renderSim();
 }
 
 function renderSim() {
   simT += 0.012;
-  const W = simCanvas.width;
-  const H = simCanvas.height;
+  const W = simW;
+  const H = simH;
   const cx = W / 2;
   const cy = H / 2;
 
   simCtx.clearRect(0, 0, W, H);
+  drawPaperGrid(simCtx, W, H, 50);
 
-  // BG grid
-  simCtx.strokeStyle = 'rgba(255,255,255,0.015)';
+  // Orbit ring the agents sit on
+  const ringR = Math.hypot(SIM_AGENTS[0].x - cx, SIM_AGENTS[0].y - cy);
+  simCtx.beginPath();
+  simCtx.arc(cx, cy, ringR, 0, Math.PI * 2);
+  simCtx.strokeStyle = RULE;
   simCtx.lineWidth = 1;
-  for (let x = 0; x < W; x += 50) {
-    simCtx.beginPath(); simCtx.moveTo(x,0); simCtx.lineTo(x,H); simCtx.stroke();
-  }
-  for (let y = 0; y < H; y += 50) {
-    simCtx.beginPath(); simCtx.moveTo(0,y); simCtx.lineTo(W,y); simCtx.stroke();
-  }
-
-  // Center event node
-  const eventPulse = (Math.sin(simT * 2) + 1) / 2;
-  const eventGrd = simCtx.createRadialGradient(cx, cy, 0, cx, cy, 60);
-  eventGrd.addColorStop(0, 'rgba(0,212,255,0.15)');
-  eventGrd.addColorStop(1, 'transparent');
-  simCtx.beginPath();
-  simCtx.arc(cx, cy, 60, 0, Math.PI * 2);
-  simCtx.fillStyle = eventGrd;
-  simCtx.fill();
-
-  simCtx.beginPath();
-  simCtx.arc(cx, cy, 26 + eventPulse * 3, 0, Math.PI * 2);
-  simCtx.strokeStyle = `rgba(0,212,255,${0.5 + eventPulse * 0.5})`;
-  simCtx.lineWidth = 2;
+  simCtx.setLineDash([2, 4]);
   simCtx.stroke();
-  simCtx.fillStyle = '#0e1019';
-  simCtx.fill();
+  simCtx.setLineDash([]);
 
-  simCtx.font = 'bold 11px "DM Mono", monospace';
-  simCtx.fillStyle = '#00d4ff';
-  simCtx.textAlign = 'center';
-  simCtx.fillText('EVENT', cx, cy + 4);
+  // Participant tethers (behind everything)
+  if (simRunning) {
+    simParticipants.forEach(p => {
+      simCtx.beginPath();
+      simCtx.strokeStyle = 'rgba(32,30,24,0.12)';
+      simCtx.lineWidth = 1;
+      simCtx.moveTo(p.x, p.y);
+      simCtx.lineTo(cx, cy);
+      simCtx.stroke();
+    });
+  }
 
   // Connections from agents to center
   SIM_AGENTS.forEach(a => {
-    const pulse = (Math.sin(simT * 2.5 + a.x) + 1) / 2;
     simCtx.beginPath();
-    simCtx.strokeStyle = a.color + '30';
+    simCtx.strokeStyle = INK;
+    simCtx.globalAlpha = simRunning ? 0.35 : 0.2;
     simCtx.lineWidth = 1;
     simCtx.setLineDash([3, 5]);
     simCtx.lineDashOffset = simRunning ? -simT * 12 : 0;
@@ -1866,6 +2086,7 @@ function renderSim() {
     simCtx.lineTo(cx, cy);
     simCtx.stroke();
     simCtx.setLineDash([]);
+    simCtx.globalAlpha = 1;
   });
 
   // Agent particles (flowing messages)
@@ -1877,59 +2098,76 @@ function renderSim() {
       const py = p.sy + (p.ty - p.sy) * p.t;
       const alpha = Math.sin(p.t * Math.PI);
       simCtx.beginPath();
-      simCtx.arc(px, py, 3, 0, Math.PI * 2);
+      simCtx.arc(px, py, 2.6, 0, Math.PI * 2);
       simCtx.fillStyle = p.color;
-      simCtx.globalAlpha = alpha * 0.9;
+      simCtx.globalAlpha = alpha;
       simCtx.fill();
       simCtx.globalAlpha = 1;
     });
   }
 
+  // Center event node
+  const eventPulse = (Math.sin(simT * 2) + 1) / 2;
+  simCtx.beginPath();
+  simCtx.arc(cx, cy, 34 + eventPulse * 2, 0, Math.PI * 2);
+  simCtx.strokeStyle = INK;
+  simCtx.globalAlpha = 0.3;
+  simCtx.setLineDash([2, 3]);
+  simCtx.lineWidth = 1;
+  simCtx.stroke();
+  simCtx.setLineDash([]);
+  simCtx.globalAlpha = 1;
+
+  simCtx.beginPath();
+  simCtx.arc(cx, cy, 26, 0, Math.PI * 2);
+  simCtx.fillStyle = PAPER;
+  simCtx.fill();
+  simCtx.strokeStyle = INK;
+  simCtx.lineWidth = 1.3;
+  simCtx.stroke();
+
+  simCtx.font = '500 10.5px "DM Mono", monospace';
+  simCtx.fillStyle = INK;
+  simCtx.textAlign = 'center';
+  simCtx.fillText('EVENT', cx, cy + 4);
+
   // Agent nodes
   SIM_AGENTS.forEach(a => {
     const pulse = simRunning ? (Math.sin(simT * 3 + SIM_AGENTS.indexOf(a)) + 1) / 2 : 0;
+    drawSpecimen(simCtx, a.x, a.y, 20 + pulse * 2, a.color, { bold: simRunning });
 
-    const grd = simCtx.createRadialGradient(a.x, a.y, 0, a.x, a.y, 40);
-    grd.addColorStop(0, a.color + '18');
-    grd.addColorStop(1, 'transparent');
-    simCtx.beginPath();
-    simCtx.arc(a.x, a.y, 40, 0, Math.PI * 2);
-    simCtx.fillStyle = grd;
-    simCtx.fill();
-
-    simCtx.beginPath();
-    simCtx.arc(a.x, a.y, 22 + pulse * 4, 0, Math.PI * 2);
-    simCtx.fillStyle = '#0e1019';
-    simCtx.fill();
-    simCtx.strokeStyle = a.color;
-    simCtx.lineWidth = 1.5 + pulse;
-    simCtx.stroke();
-
-    simCtx.font = '10px "DM Mono", monospace';
+    simCtx.font = '10.5px "DM Mono", monospace';
     simCtx.fillStyle = a.color;
     simCtx.textAlign = 'center';
-    simCtx.fillText(a.label, a.x, a.y + 36);
+    simCtx.fillText(a.label, a.x, a.y + 38);
   });
 
   // Participants
   simParticipants.forEach(p => {
     simCtx.beginPath();
-    simCtx.arc(p.x, p.y, 8, 0, Math.PI * 2);
-    simCtx.fillStyle = '#0e1019';
+    simCtx.arc(p.x, p.y, 6.5, 0, Math.PI * 2);
+    simCtx.fillStyle = PAPER;
     simCtx.fill();
-    simCtx.strokeStyle = '#ff6b6b';
-    simCtx.lineWidth = 1.5;
+    simCtx.strokeStyle = INK;
+    simCtx.lineWidth = 1.2;
     simCtx.stroke();
+    simCtx.beginPath();
+    simCtx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
+    simCtx.fillStyle = INK;
+    simCtx.fill();
 
-    if (simRunning) {
-      simCtx.beginPath();
-      simCtx.strokeStyle = 'rgba(255,107,107,0.15)';
-      simCtx.lineWidth = 1;
-      simCtx.moveTo(p.x, p.y);
-      simCtx.lineTo(cx, cy);
-      simCtx.stroke();
-    }
+    simCtx.font = '9.5px "DM Mono", monospace';
+    simCtx.fillStyle = MUTED;
+    simCtx.textAlign = 'center';
+    simCtx.fillText('P' + p.id, p.x, p.y - 11);
   });
+
+  if (!simRunning && simParticipants.length === 0) {
+    simCtx.font = 'italic 12px "Space Grotesk", sans-serif';
+    simCtx.fillStyle = MUTED;
+    simCtx.textAlign = 'center';
+    simCtx.fillText('Press Run Coordination to set the agents working.', cx, H - 18);
+  }
 
   simAnimFrame = requestAnimationFrame(renderSim);
 }
@@ -1937,17 +2175,15 @@ function renderSim() {
 let simParticipantCount = 0;
 
 function addParticipant() {
-  const W = simCanvas.width;
-  const H = simCanvas.height;
-  const cx = W / 2;
-  const cy = H / 2;
+  const W = simW;
+  const H = simH;
 
   const edge = Math.floor(Math.random() * 4);
   let x, y;
-  if (edge === 0) { x = Math.random() * W; y = 20; }
-  else if (edge === 1) { x = W - 20; y = Math.random() * H; }
-  else if (edge === 2) { x = Math.random() * W; y = H - 20; }
-  else { x = 20; y = Math.random() * H; }
+  if (edge === 0) { x = 20 + Math.random() * (W - 40); y = 20; }
+  else if (edge === 1) { x = W - 20; y = 20 + Math.random() * (H - 40); }
+  else if (edge === 2) { x = 20 + Math.random() * (W - 40); y = H - 20; }
+  else { x = 20; y = 20 + Math.random() * (H - 40); }
 
   simParticipantCount++;
   simParticipants.push({ x, y, id: simParticipantCount });
@@ -1956,12 +2192,12 @@ function addParticipant() {
   const base = 40 + simParticipants.length;
   document.getElementById('stat-participants').textContent = base;
 
-  addLog('human', 'Participant', `P${simParticipantCount} joined from origin node`);
+  addLog('participant', 'Participant', `P${simParticipantCount} joined from origin node`);
 }
 
 function spawnParticle(agent) {
-  const cx = simCanvas.width / 2;
-  const cy = simCanvas.height / 2;
+  const cx = simW / 2;
+  const cy = simH / 2;
   for (let i = 0; i < 3; i++) {
     simAgentParticles.push({
       sx: agent.x, sy: agent.y,
@@ -1991,8 +2227,6 @@ function runFullCoordination() {
     { delay: 4800, agent: null,       card: null, prog: null, status: null, msg: 'system', text: 'All agents complete. Awaiting human approval.' },
   ];
 
-  const progVals = { venue: [0, 100], travel: [0, 0, 0, 100], vendor: [0, 0, 0, 0, 0, 100], schedule: [0, 0, 0, 0, 0, 0, 0, 100] };
-  const progIndex = { venue: 0, travel: 0, vendor: 0, schedule: 0 };
   const progressPcts = {
     venue: [20, 100, 100, 100, 100, 100, 100, 100, 100],
     travel: [0, 20, 60, 100, 100, 100, 100, 100, 100],
@@ -2018,7 +2252,7 @@ function runFullCoordination() {
         if (agent) spawnParticle(agent);
       }
       // Log
-      addLog(step.msg.toLowerCase(), step.msg, step.text);
+      addLog(step.msg.toLowerCase(), step.msg === 'system' ? 'System' : step.msg, step.text);
 
       if (i === steps.length - 1) {
         ['venue','travel','vendor','schedule'].forEach(a => {
@@ -2038,13 +2272,13 @@ function addConstraint() {
     'Visa requirements: 3 non-EU participants',
   ];
   const c = constraints[Math.floor(Math.random() * constraints.length)];
-  addLog('system', 'Constraint', '⚠️ ' + c);
+  addLog('constraint', 'Constraint', c);
 
-  // Flash a card
+  // Mark the card the constraint lands on
   const cards = ['card-venue','card-travel','card-vendor','card-schedule'];
   const card = document.getElementById(cards[Math.floor(Math.random() * cards.length)]);
-  card.style.borderColor = 'rgba(245,166,35,0.6)';
-  setTimeout(() => card.style.borderColor = '', 1500);
+  card.classList.add('constraint-hit');
+  setTimeout(() => card.classList.remove('constraint-hit'), 1500);
 }
 
 function resetSim() {
@@ -2102,16 +2336,19 @@ function initVendors() {
   const grid = document.getElementById('vendor-grid');
   VENDORS.forEach((v, i) => {
     const card = document.createElement('div');
-    card.className = 'vendor-card';
+    card.className = 'vendor-card ' + v.tag;
     card.id = 'vendor-' + i;
     card.innerHTML = `
-      <div class="vendor-tag ${v.tag}">${v.type.toUpperCase()}</div>
+      <div class="vendor-head">
+        <div class="vendor-tag">${v.type.toUpperCase()}</div>
+        <div class="vendor-no">No. ${String(i + 1).padStart(2, '0')}</div>
+      </div>
       <div class="vendor-name">${v.name}</div>
       <div class="vendor-detail">${v.detail}</div>
       <div class="vendor-footer">
         <div>
           <div class="vendor-price">${v.price}</div>
-          <div class="vendor-score">★ ${v.score} / 100</div>
+          <div class="vendor-score"><span class="vendor-score-bar"><i style="width:${v.score}%"></i></span>${v.score} / 100</div>
         </div>
         <button class="vendor-select-btn" onclick="toggleVendor(${i})">Select</button>
       </div>
@@ -2146,7 +2383,7 @@ function approvePlan() {
   const badge = document.getElementById('approved-badge');
   badge.style.display = 'flex';
   document.getElementById('stat-approval').textContent = '✓ Approved';
-  document.getElementById('stat-approval').style.color = 'var(--accent-green)';
+  document.getElementById('stat-approval').style.color = 'var(--verdigris)';
   document.querySelector('.approval-title').textContent = 'Plan Approved — Ready for Execution';
   document.querySelector('.approval-desc').textContent = 'Human organizer confirmed. Agents preparing vendor outreach and participant comms.';
   addLog('human', 'Human', '✓ Plan approved by organizer');
@@ -2155,7 +2392,24 @@ function approvePlan() {
 function requestRevision() {
   addLog('human', 'Human', '↩ Revision requested — agents re-planning...');
   document.getElementById('stat-approval').textContent = 'In Revision';
-  document.getElementById('stat-approval').style.color = 'var(--accent-amber)';
+  document.getElementById('stat-approval').style.color = 'var(--sienna)';
+}
+
+
+// ============================
+// REVEAL ON SCROLL
+// ============================
+function initReveal() {
+  const els = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(el => el.classList.add('ax-in'));
+    return;
+  }
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('ax-in'); obs.unobserve(e.target); } }),
+    { threshold: 0.08 }
+  );
+  els.forEach(el => obs.observe(el));
 }
 
 
@@ -2163,6 +2417,7 @@ function requestRevision() {
 // INIT
 // ============================
 window.addEventListener('load', () => {
+  initReveal();
   initKnowledgeGraph();
   initSim();
   initVendors();
@@ -2173,12 +2428,16 @@ window.addEventListener('load', () => {
   setTimeout(() => addLog('system', 'System', 'All agents standing by. Awaiting coordination trigger.'), 1000);
 });
 
+let resizeTimer;
 window.addEventListener('resize', () => {
-  cancelAnimationFrame(kgAnimFrame);
-  cancelAnimationFrame(simAnimFrame);
-  deselectKGNode();
-  initKnowledgeGraph();
-  initSim();
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    cancelAnimationFrame(kgAnimFrame);
+    cancelAnimationFrame(simAnimFrame);
+    deselectKGNode();
+    initKnowledgeGraph();
+    initSim();
+  }, 120);
 });
 </script>
 
