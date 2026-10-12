@@ -1883,6 +1883,7 @@ if ('ontouchstart' in window) {
 (function() {
   const slides = document.querySelectorAll('.nf-slide');
   const dots   = document.querySelectorAll('.nf-dot');
+  if (!slides.length) return; // the carousel markup is not on this page
   let cur = 0;
   function goTo(i) {
     slides[cur].classList.remove('active');
