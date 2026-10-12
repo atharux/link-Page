@@ -1911,5 +1911,264 @@ if ('ontouchstart' in window) {
 })();
 </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"3d47dcac557b438cab3056be4ebb00c8","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<!-- ═══ MIX PLAYER ═══
+     Collapsible widget-style player for the public tracks at soundcloud.com/aguruxm16.
+     Nothing is requested from SoundCloud until the visitor opens the player. -->
+<style>
+.mixp {
+  --mixp-ink: #ffffff; --mixp-sub: rgba(255,255,255,0.72); --mixp-rail: rgba(255,255,255,0.28);
+  position: fixed; right: 20px; bottom: 20px; z-index: 90;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
+  font-family: var(--mono); color: var(--text);
+}
+body.brutalist .mixp { --mixp-ink: #000000; --mixp-sub: #333333; --mixp-rail: #cccccc; }
+.mixp button { font: inherit; cursor: pointer; }
+.mixp-art { background: linear-gradient(135deg, var(--purple), var(--teal)) center / cover no-repeat; }
+
+/* collapsed capsule */
+.mixp-cap {
+  display: flex; align-items: center; gap: 4px; padding: 5px; border-radius: 999px;
+  max-width: min(330px, calc(100vw - 40px));
+  background: var(--bg2); border: 1px solid var(--border-hi); box-shadow: var(--glow-purple);
+}
+.mixp-open {
+  display: flex; align-items: center; gap: 10px; min-width: 0; padding: 0 10px 0 0;
+  background: transparent; border: 0; border-radius: 999px; color: var(--text);
+}
+.mixp-open .mixp-art { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; }
+.mixp-lbl { font-size: 11px; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mixp-mini {
+  width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; display: none; align-items: center; justify-content: center;
+  background: var(--text); color: var(--bg); border: 0;
+}
+.mixp.ready .mixp-mini { display: flex; }
+.mixp-open:focus-visible, .mixp-mini:focus-visible, .mixp-card button:focus-visible, .mixp-list button:focus-visible {
+  outline: 2px solid var(--teal); outline-offset: 2px;
+}
+
+/* expanded panel */
+.mixp-panel { display: none; width: min(400px, calc(100vw - 40px)); }
+.mixp.open .mixp-panel { display: block; }
+.mixp-card {
+  position: relative; display: grid; grid-template-columns: 132px 1fr; min-height: 132px;
+  border-radius: 26px; overflow: hidden; isolation: isolate;
+  background: #1b1b2b; border: 1px solid var(--border); box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+}
+.mixp-card::before {
+  content: ''; position: absolute; inset: -40px; z-index: -2;
+  background: var(--mixp-img, linear-gradient(135deg, var(--purple), var(--teal))) center / cover no-repeat;
+  filter: blur(34px) saturate(1.5);
+}
+.mixp-card::after { content: ''; position: absolute; inset: 0; z-index: -1; background: rgba(10,10,22,0.50); }
+body.brutalist .mixp-card { background: #ffffff; border: 2px solid #000000; box-shadow: none; }
+body.brutalist .mixp-card::before, body.brutalist .mixp-card::after { display: none; }
+.mixp-card > .mixp-art { width: 132px; height: 100%; min-height: 132px; }
+.mixp-body { display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 14px 18px 12px; min-width: 0; text-align: center; color: var(--mixp-ink); }
+.mixp-name {
+  font-family: var(--display); font-weight: 700; font-size: 17px; line-height: 1.2;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; padding-right: 18px;
+}
+.mixp-sub { font-size: 11px; color: var(--mixp-sub); }
+.mixp-bar { height: 4px; margin-top: 4px; background: var(--mixp-rail); border-radius: 2px; cursor: pointer; }
+.mixp-fill { height: 100%; width: 0; background: var(--mixp-ink); border-radius: 2px; }
+.mixp-ctl { display: flex; align-items: center; justify-content: center; gap: 22px; margin-top: 2px; }
+.mixp-ctl button, .mixp-close {
+  background: transparent; border: 0; color: var(--mixp-ink); padding: 4px; border-radius: 8px; line-height: 0;
+}
+.mixp-ctl button:disabled { opacity: 0.35; cursor: default; }
+.mixp-ctl button:not(:disabled):hover { transform: scale(1.12); }
+.mixp-close { position: absolute; top: 8px; right: 10px; opacity: 0.8; }
+.mixp-close:hover { opacity: 1; }
+.mixp svg { width: 22px; height: 22px; fill: currentColor; display: block; }
+.mixp-ctl .play svg { width: 30px; height: 30px; }
+.mixp-mini svg { width: 16px; height: 16px; }
+.mixp-close svg { width: 16px; height: 16px; }
+
+/* queue */
+.mixp-queue {
+  margin-top: 8px; border-radius: 20px; overflow: hidden;
+  background: var(--bg2); border: 1px solid var(--border);
+}
+.mixp-list { list-style: none; max-height: min(38vh, 300px); overflow-y: auto; }
+.mixp-list button {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 8px 14px;
+  background: transparent; border: 0; border-bottom: 1px solid var(--border); color: var(--text-mid);
+  font-size: 11px; line-height: 1.4;
+}
+.mixp-list button:hover { background: var(--surface); color: var(--text); }
+.mixp-list button[aria-current="true"] { color: var(--teal); }
+.mixp-list .mixp-art { width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0; }
+.mixp-list .t { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mixp-list .d { color: var(--text-dim); }
+.mixp-foot { padding: 9px 14px; font-size: 10px; color: var(--text-dim); }
+.mixp-foot a { color: var(--text-mid); }
+.mixp-frame { position: fixed; left: -9999px; top: 0; width: 320px; height: 166px; pointer-events: none; border: 0; }
+@media (max-width: 480px) {
+  .mixp { right: 12px; bottom: 12px; }
+  .mixp-card { grid-template-columns: 104px 1fr; }
+  .mixp-card > .mixp-art { width: 104px; }
+}
+</style>
+
+<div class="mixp" id="mixp">
+  <div class="mixp-panel" id="mixp-panel" role="region" aria-label="Mix player">
+    <div class="mixp-card" id="mixp-card">
+      <div class="mixp-art" id="mixp-art" aria-hidden="true"></div>
+      <div class="mixp-body">
+        <div class="mixp-name" id="mixp-cur" aria-live="polite">Loading mixes&hellip;</div>
+        <div class="mixp-sub" id="mixp-sub">SoundCloud</div>
+        <div class="mixp-bar" id="mixp-bar" role="presentation"><div class="mixp-fill" id="mixp-fill"></div></div>
+        <div class="mixp-ctl">
+          <button id="mixp-prev" type="button" aria-label="Previous mix" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18V6l-8.5 6zm.5-6 8.5 6V6z"/></svg></button>
+          <button class="play" id="mixp-play" type="button" aria-label="Play" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+          <button id="mixp-next" type="button" aria-label="Next mix" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18l8.5-6L4 6zm9-12v12l8.5-6z"/></svg></button>
+        </div>
+      </div>
+      <button class="mixp-close" id="mixp-close" type="button" aria-label="Collapse mix player"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.4 8.6 12 13.2l4.6-4.6L18 10l-6 6-6-6z"/></svg></button>
+    </div>
+    <div class="mixp-queue">
+      <ol class="mixp-list" id="mixp-list"></ol>
+      <div class="mixp-foot"><span id="mixp-count"></span>Streams from <a href="https://soundcloud.com/aguruxm16" target="_blank" rel="noopener noreferrer">soundcloud.com/aguruxm16</a></div>
+    </div>
+  </div>
+  <div class="mixp-cap">
+    <button class="mixp-open" id="mixp-pill" type="button" aria-expanded="false" aria-controls="mixp-panel">
+      <span class="mixp-art" id="mixp-thumb" aria-hidden="true"></span>
+      <span class="mixp-lbl" id="mixp-now">MIXES</span>
+    </button>
+    <button class="mixp-mini" id="mixp-mini" type="button" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var PROFILE = 'https://soundcloud.com/aguruxm16';
+  var ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+  var ICON_PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>';
+  var root = document.getElementById('mixp');
+  if (!root) return;
+  var $ = function (id) { return document.getElementById(id); };
+  var pill = $('mixp-pill'), list = $('mixp-list'), cur = $('mixp-cur'), sub = $('mixp-sub'), now = $('mixp-now');
+  var playBtn = $('mixp-play'), miniBtn = $('mixp-mini'), prevBtn = $('mixp-prev'), nextBtn = $('mixp-next');
+  var fill = $('mixp-fill'), count = $('mixp-count'), bar = $('mixp-bar'), card = $('mixp-card');
+  var widget = null, sounds = [], index = 0, playing = false, duration = 0, position = 0, started = false, sig = '';
+
+  function fmt(ms) {
+    var s = Math.floor((ms || 0) / 1000), h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), r = s % 60;
+    return (h ? h + ':' + (m < 10 ? '0' : '') : '') + m + ':' + (r < 10 ? '0' : '') + r;
+  }
+  function label(s, i) { return (s && s.title) ? s.title : 'Mix ' + (i + 1); }
+  // Track artwork, falling back to the account avatar. Only SoundCloud's own image hosts are used.
+  function art(s, size) {
+    var u = s && (s.artwork_url || (s.user && s.user.avatar_url));
+    if (!u || !/^https:\/\/[a-z0-9-]+\.sndcdn\.com\//.test(u)) return '';
+    return 'url("' + u.replace('-large.', '-' + size + '.').replace(/["\\)]/g, '') + '")';
+  }
+  function paint(el, img) { el.style.backgroundImage = img || ''; }
+
+  function setOpen(open) {
+    root.classList.toggle('open', open);
+    pill.setAttribute('aria-expanded', String(open));
+    if (open && !started) start();
+  }
+  function setPlaying(on) {
+    playing = on;
+    [playBtn, miniBtn].forEach(function (b) { b.innerHTML = on ? ICON_PAUSE : ICON_PLAY; b.setAttribute('aria-label', on ? 'Pause' : 'Play'); });
+    showCurrent();
+  }
+  function showCurrent() {
+    var s = sounds[index], t = sounds.length ? label(s, index) : '';
+    cur.textContent = t || (started ? 'No public tracks found.' : 'Loading mixes\u2026');
+    sub.textContent = sounds.length
+      ? (playing || position ? fmt(position) + ' / ' + fmt(duration || (s && s.duration)) : (index + 1) + ' of ' + sounds.length)
+      : 'SoundCloud';
+    now.textContent = playing && t ? t : 'MIXES';
+    var big = art(s, 't300x300');
+    paint($('mixp-art'), big); paint($('mixp-thumb'), art(s, 't67x67'));
+    if (big) card.style.setProperty('--mixp-img', big); else card.style.removeProperty('--mixp-img');
+  }
+
+  function render() {
+    list.textContent = '';
+    sounds.forEach(function (s, i) {
+      var li = document.createElement('li'), b = document.createElement('button'), a = document.createElement('span');
+      b.type = 'button';
+      if (i === index) b.setAttribute('aria-current', 'true');
+      a.className = 'mixp-art'; a.setAttribute('aria-hidden', 'true'); paint(a, art(s, 't67x67')); b.appendChild(a);
+      [['t', label(s, i)], ['d', s && s.duration ? fmt(s.duration) : '']].forEach(function (p) {
+        var sp = document.createElement('span'); sp.className = p[0]; sp.textContent = p[1]; b.appendChild(sp);
+      });
+      b.addEventListener('click', function () { widget.skip(i); widget.play(); });
+      li.appendChild(b); list.appendChild(li);
+    });
+    count.textContent = sounds.length ? sounds.length + (sounds.length === 1 ? ' track. ' : ' tracks. ') : '';
+    showCurrent();
+  }
+
+  function refresh(triesLeft) {
+    widget.getSounds(function (arr) {
+      arr = arr || [];
+      // SoundCloud loads the track list and the titles in stages, so keep
+      // asking for a while and redraw only when something actually changed.
+      var next = arr.length + ':' + arr.filter(function (s) { return s && s.title; }).length + ':' + index;
+      if (next !== sig) { sig = next; sounds = arr; render(); }
+      if (triesLeft > 0) setTimeout(function () { refresh(triesLeft - 1); }, 2000);
+    });
+  }
+
+  function start() {
+    started = true;
+    var frame = document.createElement('iframe');
+    frame.className = 'mixp-frame';
+    frame.title = 'SoundCloud player';
+    frame.allow = 'autoplay';
+    frame.src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(PROFILE + '/tracks') +
+      '&auto_play=false&show_artwork=false&show_comments=false&show_user=false&visual=false';
+    root.appendChild(frame);
+    var api = document.createElement('script');
+    api.src = 'https://w.soundcloud.com/player/api.js';
+    api.onerror = function () { cur.textContent = 'Could not reach SoundCloud.'; };
+    api.onload = function () {
+      widget = window.SC.Widget(frame);
+      var E = window.SC.Widget.Events;
+      widget.bind(E.READY, function () {
+        playBtn.disabled = prevBtn.disabled = nextBtn.disabled = false;
+        root.classList.add('ready');
+        refresh(15);
+      });
+      widget.bind(E.PLAY, function () {
+        widget.getCurrentSoundIndex(function (i) {
+          if (i !== index) { position = 0; fill.style.width = '0'; }
+          index = i || 0;
+          widget.getDuration(function (d) { duration = d; setPlaying(true); refresh(0); });
+        });
+      });
+      widget.bind(E.PAUSE, function () { setPlaying(false); });
+      widget.bind(E.PLAY_PROGRESS, function (e) {
+        position = e.currentPosition;
+        fill.style.width = (e.relativePosition * 100).toFixed(2) + '%';
+        sub.textContent = fmt(position) + ' / ' + fmt(duration);
+      });
+      widget.bind(E.ERROR, function () { cur.textContent = 'This track could not be played.'; });
+    };
+    document.head.appendChild(api);
+  }
+
+  pill.addEventListener('click', function () { setOpen(!root.classList.contains('open')); });
+  $('mixp-close').addEventListener('click', function () { setOpen(false); pill.focus(); });
+  [playBtn, miniBtn].forEach(function (b) { b.addEventListener('click', function () { if (widget) widget.toggle(); }); });
+  prevBtn.addEventListener('click', function () { if (widget) widget.prev(); });
+  nextBtn.addEventListener('click', function () { if (widget) widget.next(); });
+  bar.addEventListener('click', function (e) {
+    if (!widget || !duration) return;
+    var r = bar.getBoundingClientRect();
+    widget.seekTo(duration * Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)));
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && root.classList.contains('open')) { setOpen(false); pill.focus(); }
+  });
+})();
+</script>
+
 </body>
 </html>
