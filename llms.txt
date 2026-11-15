@@ -1,0 +1,21 @@
+# Athar Hafiz
+
+> I build AI agent systems and explain them. Berlin, Germany.
+
+13+ years across UX, frontend engineering, product delivery and developer-facing work on iOS, Android and web. Former Apple App Review. Now building agentic AI systems with human-in-the-loop oversight.
+
+The full portfolio, case studies, and CV are on hire.atharux.com, which has its own index: https://hire.atharux.com/llms.txt
+
+## Pages
+
+- [Home](https://atharux.com/): career timeline from 2002 to 2026 and contact links
+- [Lab](https://atharux.com/lab): Active experiments, things I'm learning, and honest notes from making the jump from UX designer to React developer.
+- [NeuroFlow: Gamified Kanban Architecture](https://atharux.com/cases/Neuro): case study
+- [Advanced Prompting Guide](https://atharux.com/advanced-prompting-guide)
+- [CV](https://hire.atharux.com/?cv)
+
+## Contact
+
+- Email: athar@atharux.com
+- LinkedIn: https://www.linkedin.com/in/atharhafiz
+- GitHub: https://github.com/atharux
