@@ -1,0 +1,5 @@
+# Cloudflare adds its managed AI-crawler rules above this file at the edge.
+User-agent: *
+Allow: /
+
+Sitemap: https://atharux.com/sitemap.xml
